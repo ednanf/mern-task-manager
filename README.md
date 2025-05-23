@@ -15,6 +15,16 @@
 
 - TBD
 
+## REST API routes
+
+| METHOD | ROUTE             | DESCRIPTION     |
+|--------|-------------------|-----------------|
+| GET    | /api/v1/tasks     | get all tasks   |
+| POST   | /api/v1/tasks     | create task     |
+| GET    | /api/v1/tasks/:id | get single task |
+| PATCH  | /api/v1/tasks/:id | update task     |
+| DELETE | /api/v1/tasks/:id | delete task     |
+
 ## Main Technologies
 
 ### Languages
@@ -56,4 +66,4 @@
 
 - TBD
 
-MERN Task Manager - README v. 1
+MERN Task Manager - README v. 1.1
