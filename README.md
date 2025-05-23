@@ -2,7 +2,7 @@
 
 ## About me
 
-- Name: Ednan Rogério Frizzera Filho
+- Author: Ednan Rogério Frizzera Filho
 - [Github](https://github.com/ednanf) || [Linkedin](https://www.linkedin.com/in/ednanrff/)
 - Contact methods can be found in my GitHub profile!
 
