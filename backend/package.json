@@ -1,0 +1,27 @@
+{
+  "name": "mern-task-manager",
+  "version": "1.0.0",
+  "description": "Task manager using MERN stack.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "node",
+    "mongodb",
+    "mern",
+    "react",
+    "rest"
+  ],
+  "author": "Ednan Rogério Frizzera Filho",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.44.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

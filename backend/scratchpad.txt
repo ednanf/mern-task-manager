@@ -1,0 +1,6 @@
+GET api/v1/tasks
+POST api/v1/tasks
+
+GET api/v1/tasks/:id
+PATCH api/v1/tasks/:id
+DELETE api/v1/tasks/:id
