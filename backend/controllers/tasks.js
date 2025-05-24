@@ -4,7 +4,7 @@ const getTasks = async (req, res) => {
   try {
     // An empty find({}) fetches everything
     const tasks = await Task.find({});
-    // Since tasks is an array, .length can be used
+    // Since "tasks" is an array, .length can be used
     if (tasks.length < 1) {
       return res.status(404).json({
         success: false,
