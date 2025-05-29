@@ -1,0 +1,19 @@
+{
+  "name": "mern-task-manager",
+  "version": "1.0.0",
+  "description": "Task manager created using the MERN stack",
+  "keywords": [
+    "mern",
+    "node",
+    "javascript",
+    "express",
+    "mongodb"
+  ],
+  "license": "MIT",
+  "author": "Ednan Rogério Frizzera Filho",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
