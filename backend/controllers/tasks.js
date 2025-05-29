@@ -12,28 +12,33 @@ const postTask = async (req, res) => {
   res.status(201).json({ status: 'success', data: task });
 };
 
-const getTask = async (req, res) => {
+const getTask = async (req, res, next) => {
   const { id } = req.params;
   const task = await Task.findOne({ _id: id });
+  if (!task) {
+    return next(customError(404, `Task with id ${id} not found.`));
+  }
   res.status(200).json({ status: 'success', data: { task } });
 };
 
-const patchTask = async (req, res) => {
+const patchTask = async (req, res, next) => {
   const { id } = req.params;
   const contents = req.body;
-  const patchedTask = await Task.findOneAndUpdate({ _id: id }, contents, {
+  const task = await Task.findOneAndUpdate({ _id: id }, contents, {
     new: true,
     runValidators: true,
   });
-  res.status(200).json({ status: 'success', data: { patchedTask } });
+  if (!task) {
+    return next(customError(404, `Task with id ${id} not found.`));
+  }
+  res.status(200).json({ status: 'success', data: { task } });
 };
 
 const deleteTask = async (req, res, next) => {
   const { id } = req.params;
   const task = await Task.findOneAndDelete({ _id: id });
-  console.log(task);
   if (!task) {
-    return next(customError(404, 'Not found'));
+    return next(customError(404, `Task with id ${id} not found.`));
   }
   res
     .status(200)
