@@ -1,21 +1,38 @@
-const getTasks = (req, res) => {
-  res.status(200).send('getTasks');
+const Task = require('../models/Task');
+
+const getTasks = async (req, res) => {
+  const tasks = await Task.find({});
+  res.status(200).json({ status: 'success', data: tasks });
 };
 
-const postTask = (req, res) => {
-  res.status(201).send('postTask');
+const postTask = async (req, res) => {
+  const contents = req.body;
+  const task = await Task.create(contents);
+  res.status(201).json({ status: 'success', data: task });
 };
 
-const getTask = (req, res) => {
-  res.status(200).send(`getTask ${req.params.id}`);
+const getTask = async (req, res) => {
+  const { id } = req.params;
+  const task = await Task.findOne({ _id: id });
+  res.status(200).json({ status: 'success', data: { task } });
 };
 
-const patchTask = (req, res) => {
-  res.status(200).send(`patchTask ${req.params.id}`);
+const patchTask = async (req, res) => {
+  const { id } = req.params;
+  const contents = req.body;
+  const patchedTask = await Task.findOneAndUpdate({ _id: id }, contents, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({ status: 'success', data: { patchedTask } });
 };
 
-const deleteTask = (req, res) => {
-  res.status(200).send(`deleteTask ${req.params.id}`);
+const deleteTask = async (req, res) => {
+  const { id } = req.params;
+  const deleteTask = await Task.findOneAndDelete({ _id: id });
+  res
+    .status(200)
+    .json({ status: 'success', data: { message: 'Task deleted.' } });
 };
 
 module.exports = {
