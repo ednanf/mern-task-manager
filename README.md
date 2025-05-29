@@ -42,7 +42,6 @@
 ### Frontend
 
 - React
-- Axios
 
 ## Dependencies
 
@@ -50,20 +49,10 @@
 
 #### Production Dependencies
 
-| Dependency           | Version     | Purpose                                 |
-|----------------------|-------------|-----------------------------------------|
-| express              | ^5.1.0      | Web framework for Node.js               |
-| mongoose             | ^8.15.0     | MongoDB object modeling for Node.js     |
-| @dotenvx/dotenvx     | ^1.44.1     | Environment variable management         |
-
 #### Dev Dependencies
-
-| Dependency           | Version     | Purpose                                 |
-|----------------------|-------------|-----------------------------------------|
-| nodemon              | ^3.1.10     | Auto-restarts server on file changes    |
 
 ### Frontend
 
 - TBD
 
-MERN Task Manager - README v. 1.1
+MERN Task Manager - README v. 1.0
