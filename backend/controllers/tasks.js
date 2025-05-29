@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const { HttpError, customError } = require('../errors');
 
 const getTasks = async (req, res) => {
   const tasks = await Task.find({});
@@ -27,9 +28,13 @@ const patchTask = async (req, res) => {
   res.status(200).json({ status: 'success', data: { patchedTask } });
 };
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
   const { id } = req.params;
-  const deleteTask = await Task.findOneAndDelete({ _id: id });
+  const task = await Task.findOneAndDelete({ _id: id });
+  console.log(task);
+  if (!task) {
+    return next(customError(404, 'Not found'));
+  }
   res
     .status(200)
     .json({ status: 'success', data: { message: 'Task deleted.' } });
