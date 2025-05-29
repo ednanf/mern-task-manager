@@ -2,7 +2,7 @@
 const HttpError = require('../errors/HttpError');
 
 const routeNotFound = (req, res, next) => {
-  const error = new HttpError(404, 'Not found');
+  const error = new HttpError(404, 'Route not found');
   next(error);
 };
 
