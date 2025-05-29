@@ -4,10 +4,14 @@ const express = require('express');
 const app = express();
 
 const dbConnect = require('./utils/dbConnect');
+const tasksRouter = require('./routes/tasks');
 
 // Constants
 PORT = process.env.PORT;
 MONGO_URI = process.env.MONGO_URI;
+
+// Routers
+app.use('/api/v1/tasks', tasksRouter);
 
 // Server start
 const start = async (uri) => {
