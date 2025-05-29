@@ -14,7 +14,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.1",
