@@ -6,6 +6,7 @@ const app = express();
 const dbConnect = require('./utils/dbConnect');
 const tasksRouter = require('./routes/tasks');
 const routeNotFound = require('./middleware/routeNotFound');
+const errorHandler = require('./middleware/errorHandler');
 
 // Constants
 PORT = process.env.PORT;
@@ -19,6 +20,7 @@ app.use('/api/v1/tasks', tasksRouter);
 
 // Error handling
 app.use(routeNotFound);
+app.use(errorHandler);
 
 // Server start
 const start = async (uri) => {
