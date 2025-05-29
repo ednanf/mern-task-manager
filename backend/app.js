@@ -5,13 +5,20 @@ const app = express();
 
 const dbConnect = require('./utils/dbConnect');
 const tasksRouter = require('./routes/tasks');
+const routeNotFound = require('./middleware/routeNotFound');
 
 // Constants
 PORT = process.env.PORT;
 MONGO_URI = process.env.MONGO_URI;
 
+// Middleware
+app.use(express.json());
+
 // Routers
 app.use('/api/v1/tasks', tasksRouter);
+
+// Error handling
+app.use(routeNotFound);
 
 // Server start
 const start = async (uri) => {
