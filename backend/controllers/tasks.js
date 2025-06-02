@@ -17,6 +17,7 @@ const postTask = async (req, res) => {
 const getTask = async (req, res, next) => {
   const { id } = req.params;
   const task = await Task.findOne({ _id: id });
+
   if (!task) {
     return next(
       customError(StatusCodes.NOT_FOUND, `Task with id ${id} not found.`),
@@ -32,6 +33,7 @@ const patchTask = async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
   if (!task) {
     return next(
       customError(StatusCodes.NOT_FOUND, `Task with id ${id} not found.`),
@@ -43,12 +45,14 @@ const patchTask = async (req, res, next) => {
 const deleteTask = async (req, res, next) => {
   const { id } = req.params;
   const task = await Task.findOneAndDelete({ _id: id });
+
   if (!task) {
     return next(
       customError(StatusCodes.NOT_FOUND),
       `Task with id ${id} not found.`,
     );
   }
+
   res
     .status(StatusCodes.OK)
     .json({ status: 'success', data: { message: 'Task deleted.' } });

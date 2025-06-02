@@ -4,7 +4,9 @@ const express = require('express');
 const app = express();
 
 const dbConnect = require('./utils/dbConnect');
+const authRouter = require('./routes/auth');
 const tasksRouter = require('./routes/tasks');
+const authentication = require('./middleware/authentication');
 const routeNotFound = require('./middleware/routeNotFound');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -16,7 +18,8 @@ MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 
 // Routers
-app.use('/api/v1/tasks', tasksRouter);
+app.use('/api/v1/tasks', authentication, tasksRouter);
+app.use('/api/v1/auth', authRouter);
 
 // Error handling
 app.use(routeNotFound);
