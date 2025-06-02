@@ -15,15 +15,17 @@
 
 - TBD
 
-## REST API routes
+## API routes
 
-| METHOD | ROUTE             | DESCRIPTION     |
-|--------|-------------------|-----------------|
-| GET    | /api/v1/tasks     | get all tasks   |
-| POST   | /api/v1/tasks     | create task     |
-| GET    | /api/v1/tasks/:id | get single task |
-| PATCH  | /api/v1/tasks/:id | update task     |
-| DELETE | /api/v1/tasks/:id | delete task     |
+| METHOD | ROUTE                 | DESCRIPTION     |
+|--------|-----------------------|-----------------|
+| GET    | /api/v1/tasks         | get all tasks   |
+| POST   | /api/v1/tasks         | create task     |
+| GET    | /api/v1/tasks/:id     | get single task |
+| PATCH  | /api/v1/tasks/:id     | update task     |
+| DELETE | /api/v1/tasks/:id     | delete task     |
+| POST   | /api/v1/auth/register | create user     |
+| POST   | /api/v1/auth/login    | user login      |
 
 ## Main Technologies
 
@@ -38,6 +40,8 @@
 - NodeJS
 - Express
 - MongoDB
+- JWT
+- bCrypt
 
 ### Frontend
 
@@ -47,9 +51,18 @@
 
 ### Backend
 
-#### Production Dependencies
-
-#### Dev Dependencies
+```text
+mern-task-manager
+├── @dotenvx/dotenvx@^1.44.1
+├── bcryptjs@^3.0.2
+├── express@^5.1.0
+├── http-status-codes@^2.3.0
+├── jsonwebtoken@^9.0.2
+├── mongoose@^8.15.1
+├── jest@^29.7.0 (dev)
+├── node-mocks-http@^1.17.2 (dev)
+└── nodemon@^3.1.10 (dev)
+```
 
 ### Frontend
 
