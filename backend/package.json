@@ -14,7 +14,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "jest"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.1",
@@ -25,6 +26,8 @@
     "mongoose": "^8.15.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "node-mocks-http": "^1.17.2",
     "nodemon": "^3.1.10"
   }
 }
