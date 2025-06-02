@@ -1,5 +1,19 @@
 const mongoose = require('mongoose');
 
+/*
+TODO: Add a createdBy property to assing the tasks to a specific user.
+It should be something like this: 
+
+createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
+    required: [true, 'Provide an user.']
+},
+
+This way, the task will be tied to a specific user.
+NOTE: 'User' should be replaced by whatever name the user model has.
+*/
+
 const TaskSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -11,6 +25,6 @@ const TaskSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model('Task', TaskSchema);
