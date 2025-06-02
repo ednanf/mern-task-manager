@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 
 const dbConnect = require('./utils/dbConnect');
+const authRouter = require('./routes/auth');
 const tasksRouter = require('./routes/tasks');
 const routeNotFound = require('./middleware/routeNotFound');
 const errorHandler = require('./middleware/errorHandler');
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // Routers
 app.use('/api/v1/tasks', tasksRouter);
+app.use('/api/v1/auth', authRouter);
 
 // Error handling
 app.use(routeNotFound);
