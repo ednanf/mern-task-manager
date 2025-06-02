@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const hashPassword = require('../utils/hashPassword');
+const hashPassword = require('../utils/hashPasswords');
+const comparePasswords = require('../utils/comparePasswords');
 const createToken = require('../utils/jwt');
 
 const UserSchema = new mongoose.Schema({
@@ -31,9 +32,13 @@ UserSchema.pre('save', async function () {
   this.password = await hashPassword(this.password);
 });
 
-// Add a method to the User
+// Add methods to the User document
 UserSchema.methods.createJWT = function () {
   return createToken({ userId: this._id, name: this.name });
+};
+
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  return comparePasswords(candidatePassword, this.password);
 };
 
 module.exports = mongoose.model('User', UserSchema);
