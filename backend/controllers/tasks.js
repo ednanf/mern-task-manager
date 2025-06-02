@@ -9,6 +9,8 @@ const getTasks = async (req, res) => {
 };
 
 const postTask = async (req, res) => {
+  // First we create a new property in the request, attributing the value of userId (which is the current logged in user)
+  req.body.createdBy = req.user.userId;
   const contents = req.body;
   const task = await Task.create(contents);
   res.status(StatusCodes.CREATED).json({ status: 'success', data: task });

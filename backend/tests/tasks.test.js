@@ -32,14 +32,17 @@ describe('Tasks Controller', () => {
 
   describe('postTask', () => {
     it('should create a new task', async () => {
-      const req = httpMocks.createRequest({ body: { title: 'New Task' } });
+      const req = httpMocks.createRequest({ 
+        body: { title: 'New Task' },
+        user: { userId: 'test-user-id' }
+      });
       const res = httpMocks.createResponse();
-      const fakeTask = { title: 'New Task' };
+      const fakeTask = { title: 'New Task', createdBy: 'test-user-id' };
       Task.create.mockResolvedValue(fakeTask);
 
       await postTask(req, res);
 
-      expect(Task.create).toHaveBeenCalledWith({ title: 'New Task' });
+      expect(Task.create).toHaveBeenCalledWith({ title: 'New Task', createdBy: 'test-user-id' });
       expect(res.statusCode).toBe(201);
       expect(res._getJSONData().data).toEqual(fakeTask);
     });
