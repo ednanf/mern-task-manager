@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const hashPassword = require('../utils/hashPassword');
+const createToken = require('../utils/jwt');
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -22,5 +25,15 @@ const UserSchema = new mongoose.Schema({
     minlength: 7,
   },
 });
+
+// Hash the password *before* saving to the database
+UserSchema.pre('save', async function () {
+  this.password = await hashPassword(this.password);
+});
+
+// Add a method to the User
+UserSchema.methods.createJWT = function () {
+  return createToken({ userId: this._id, name: this.name });
+};
 
 module.exports = mongoose.model('User', UserSchema);
