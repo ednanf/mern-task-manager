@@ -16,7 +16,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if ((!email, !password)) {
-    throw new customError(
+    throw customError(
       StatusCodes.BAD_REQUEST,
       'Please, provide email and password',
     );
@@ -25,13 +25,13 @@ const login = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new customError(StatusCodes.BAD_REQUEST, 'Invalid credentials.');
+    throw customError(StatusCodes.BAD_REQUEST, 'Invalid credentials.');
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
-    throw new customError(StatusCodes.BAD_REQUEST, 'Invalid credentials.');
+    throw customError(StatusCodes.BAD_REQUEST, 'Invalid credentials.');
   }
 
   const token = await user.createJWT();
