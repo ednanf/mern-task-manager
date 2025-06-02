@@ -2,17 +2,33 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/User');
-const customError = require('../errors');
+const { customError } = require('../errors');
 
+/**
+ * Middleware to authenticate requests using JWT tokens.
+ *
+ * Extracts the JWT token from the Authorization header, verifies it,
+ * and attaches the user information to the request object.
+ * If authentication fails, passes an unauthorized error to the next middleware.
+ *
+ * @async
+ * @function auth
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @param {import('express').NextFunction} next - Express next middleware function.
+ * @returns {void}
+ */
 const auth = async (req, res, next) => {
   // Obtain Authorization header from the request
   const authHeader = req.headers.authorization;
 
   // Check if the header exists and starts with 'Bearer'
   if (!authHeader || !authHeader.startsWith('Bearer')) {
-    throw new customError(
-      StatusCodes.UNAUTHORIZED,
-      'Authentication failed, please try again.',
+    return next(
+      customError(
+        StatusCodes.UNAUTHORIZED,
+        'Authentication failed, please try again.',
+      ),
     );
   }
 
@@ -28,9 +44,11 @@ const auth = async (req, res, next) => {
     next();
   } catch (error) {
     // Handle invalid or expired token
-    throw new customError(
-      StatusCodes.UNAUTHORIZED,
-      'Authentication failed, please try again.',
+    return next(
+      customError(
+        StatusCodes.UNAUTHORIZED,
+        'Authentication failed, please try again.',
+      ),
     );
   }
 };
