@@ -23,7 +23,7 @@ const getTask = async (req, res, next) => {
       customError(StatusCodes.NOT_FOUND, `Task with id ${id} not found.`),
     );
   }
-  res.status(StatusCodes.CREATED).json({ status: 'success', data: { task } });
+  res.status(StatusCodes.OK).json({ status: 'success', data: { task } });
 };
 
 const patchTask = async (req, res, next) => {
@@ -48,8 +48,7 @@ const deleteTask = async (req, res, next) => {
 
   if (!task) {
     return next(
-      customError(StatusCodes.NOT_FOUND),
-      `Task with id ${id} not found.`,
+      customError(StatusCodes.NOT_FOUND, `Task with id ${id} not found.`),
     );
   }
 
