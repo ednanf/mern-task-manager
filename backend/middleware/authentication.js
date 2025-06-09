@@ -40,6 +40,7 @@ const auth = async (req, res, next) => {
 
     // Attach user information to the request object
     req.user = { userId: payload.userId, name: payload.name };
+
     // Proceed to the next middleware
     next();
   } catch (error) {
