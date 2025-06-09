@@ -53,15 +53,20 @@
 
 ```text
 mern-task-manager
-├── @dotenvx/dotenvx@^1.44.1
-├── bcryptjs@^3.0.2
-├── express@^5.1.0
-├── http-status-codes@^2.3.0
-├── jsonwebtoken@^9.0.2
-├── mongoose@^8.15.1
-├── jest@^29.7.0 (dev)
-├── node-mocks-http@^1.17.2 (dev)
-└── nodemon@^3.1.10 (dev)
+├── @dotenvx/dotenvx ^1.44.1
+├── bcryptjs ^3.0.2
+├── cors ^2.8.5
+├── express ^5.1.0
+├── express-rate-limit ^7.5.0
+├── express-xss-sanitizer ^2.0.0
+├── helmet ^8.1.0
+├── http-status-codes ^2.3.0
+├── jsonwebtoken ^9.0.2
+├── mongoose ^8.15.1
+├── jest ^29.7.0 (dev)
+├── node-mocks-http ^1.17.2 (dev)
+├── nodemon ^3.1.10 (dev)
+└── supertest ^7.1.1 (dev)
 ```
 
 ### Frontend
