@@ -5,6 +5,7 @@ const app = express();
 const { xss } = require('express-xss-sanitizer');
 const helmet = require('helmet');
 const cors = require('cors');
+const rateLimiter = require('express-rate-limit');
 
 const dbConnect = require('./utils/dbConnect');
 const authRouter = require('./routes/auth');
@@ -18,10 +19,16 @@ PORT = process.env.PORT;
 MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  }),
+);
 app.use(xss());
-app.use(express.json());
 app.use(helmet());
 app.use(cors());
+app.use(express.json());
 
 // Routers
 app.use('/api/v1/tasks', authentication, tasksRouter);
