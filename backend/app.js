@@ -42,7 +42,7 @@ const start = async (uri) => {
   try {
     await dbConnect(MONGO_URI);
     app.listen(PORT, () =>
-      console.log(`[system] listening on localhost:${PORT}...`),
+      console.log(`[system] listening on port ${PORT}...`),
     );
   } catch (error) {
     console.error('[ERROR] something went wrong... ');
