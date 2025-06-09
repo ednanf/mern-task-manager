@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const { xss } = require('express-xss-sanitizer');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const dbConnect = require('./utils/dbConnect');
 const authRouter = require('./routes/auth');
@@ -20,6 +21,7 @@ MONGO_URI = process.env.MONGO_URI;
 app.use(xss());
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 
 // Routers
 app.use('/api/v1/tasks', authentication, tasksRouter);
