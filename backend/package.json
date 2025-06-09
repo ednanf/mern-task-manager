@@ -14,11 +14,10 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "node --env-file=.env --watch app.js",
     "test": "jest"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.44.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -32,7 +31,6 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "node-mocks-http": "^1.17.2",
-    "nodemon": "^3.1.10",
     "supertest": "^7.1.1"
   }
 }

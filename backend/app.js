@@ -1,5 +1,4 @@
 // Imports
-require('@dotenvx/dotenvx').config();
 const express = require('express');
 const app = express();
 const { xss } = require('express-xss-sanitizer');
