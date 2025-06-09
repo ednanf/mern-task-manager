@@ -16,25 +16,29 @@ describe('Tasks Controller', () => {
   });
 
   describe('getTasks', () => {
-    it('should return all tasks', async () => {
-      const req = httpMocks.createRequest();
+    it('should return all tasks for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
+        user: { userId: 'test-user-id' },
+      });
       const res = httpMocks.createResponse();
       const fakeTasks = [{ title: 'Task 1' }, { title: 'Task 2' }];
-      Task.find.mockResolvedValue(fakeTasks);
+      Task.find.mockReturnValue({
+        sort: jest.fn().mockResolvedValue(fakeTasks),
+      });
 
       await getTasks(req, res);
 
-      expect(Task.find).toHaveBeenCalledWith({});
+      expect(Task.find).toHaveBeenCalledWith({ createdBy: 'test-user-id' });
       expect(res.statusCode).toBe(200);
       expect(res._getJSONData().data).toEqual(fakeTasks);
     });
   });
 
   describe('postTask', () => {
-    it('should create a new task', async () => {
-      const req = httpMocks.createRequest({ 
+    it('should create a new task for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
         body: { title: 'New Task' },
-        user: { userId: 'test-user-id' }
+        user: { userId: 'test-user-id' },
       });
       const res = httpMocks.createResponse();
       const fakeTask = { title: 'New Task', createdBy: 'test-user-id' };
@@ -42,15 +46,21 @@ describe('Tasks Controller', () => {
 
       await postTask(req, res);
 
-      expect(Task.create).toHaveBeenCalledWith({ title: 'New Task', createdBy: 'test-user-id' });
+      expect(Task.create).toHaveBeenCalledWith({
+        title: 'New Task',
+        createdBy: 'test-user-id',
+      });
       expect(res.statusCode).toBe(201);
       expect(res._getJSONData().data).toEqual(fakeTask);
     });
   });
 
   describe('getTask', () => {
-    it('should return a task by id', async () => {
-      const req = httpMocks.createRequest({ params: { id: '123' } });
+    it('should return a task by id for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
+        params: { id: '123' },
+        user: { userId: 'test-user-id' },
+      });
       const res = httpMocks.createResponse();
       const next = jest.fn();
       const fakeTask = { _id: '123', title: 'Task' };
@@ -58,29 +68,40 @@ describe('Tasks Controller', () => {
 
       await getTask(req, res, next);
 
-      expect(Task.findOne).toHaveBeenCalledWith({ _id: '123' });
+      expect(Task.findOne).toHaveBeenCalledWith({
+        _id: '123',
+        createdBy: 'test-user-id',
+      });
       expect(res.statusCode).toBe(200);
       expect(res._getJSONData().data.task).toEqual(fakeTask);
       expect(next).not.toHaveBeenCalled();
     });
 
-    it('should call next with error if task not found', async () => {
-      const req = httpMocks.createRequest({ params: { id: 'notfound' } });
+    it('should call next with error if task not found for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
+        params: { id: 'notfound' },
+        user: { userId: 'test-user-id' },
+      });
       const res = httpMocks.createResponse();
       const next = jest.fn();
       Task.findOne.mockResolvedValue(null);
 
       await getTask(req, res, next);
 
+      expect(Task.findOne).toHaveBeenCalledWith({
+        _id: 'notfound',
+        createdBy: 'test-user-id',
+      });
       expect(next).toHaveBeenCalledWith(expect.any(Error));
     });
   });
 
   describe('patchTask', () => {
-    it('should update a task', async () => {
+    it('should update a task for the authenticated user', async () => {
       const req = httpMocks.createRequest({
         params: { id: '123' },
         body: { title: 'Updated' },
+        user: { userId: 'test-user-id' },
       });
       const res = httpMocks.createResponse();
       const next = jest.fn();
@@ -90,7 +111,7 @@ describe('Tasks Controller', () => {
       await patchTask(req, res, next);
 
       expect(Task.findOneAndUpdate).toHaveBeenCalledWith(
-        { _id: '123' },
+        { _id: '123', createdBy: 'test-user-id' },
         { title: 'Updated' },
         { new: true, runValidators: true },
       );
@@ -99,10 +120,11 @@ describe('Tasks Controller', () => {
       expect(next).not.toHaveBeenCalled();
     });
 
-    it('should call next with error if task not found', async () => {
+    it('should call next with error if task not found for the authenticated user', async () => {
       const req = httpMocks.createRequest({
         params: { id: 'notfound' },
         body: { title: 'Updated' },
+        user: { userId: 'test-user-id' },
       });
       const res = httpMocks.createResponse();
       const next = jest.fn();
@@ -110,13 +132,21 @@ describe('Tasks Controller', () => {
 
       await patchTask(req, res, next);
 
+      expect(Task.findOneAndUpdate).toHaveBeenCalledWith(
+        { _id: 'notfound', createdBy: 'test-user-id' },
+        { title: 'Updated' },
+        { new: true, runValidators: true },
+      );
       expect(next).toHaveBeenCalledWith(expect.any(Error));
     });
   });
 
   describe('deleteTask', () => {
-    it('should delete a task', async () => {
-      const req = httpMocks.createRequest({ params: { id: '123' } });
+    it('should delete a task for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
+        params: { id: '123' },
+        user: { userId: 'test-user-id' },
+      });
       const res = httpMocks.createResponse();
       const next = jest.fn();
       const fakeTask = { _id: '123', title: 'Task' };
@@ -124,20 +154,30 @@ describe('Tasks Controller', () => {
 
       await deleteTask(req, res, next);
 
-      expect(Task.findOneAndDelete).toHaveBeenCalledWith({ _id: '123' });
+      expect(Task.findOneAndDelete).toHaveBeenCalledWith({
+        _id: '123',
+        createdBy: 'test-user-id',
+      });
       expect(res.statusCode).toBe(200);
       expect(res._getJSONData().data.message).toBe('Task deleted.');
       expect(next).not.toHaveBeenCalled();
     });
 
-    it('should call next with error if task not found', async () => {
-      const req = httpMocks.createRequest({ params: { id: 'notfound' } });
+    it('should call next with error if task not found for the authenticated user', async () => {
+      const req = httpMocks.createRequest({
+        params: { id: 'notfound' },
+        user: { userId: 'test-user-id' },
+      });
       const res = httpMocks.createResponse();
       const next = jest.fn();
       Task.findOneAndDelete.mockResolvedValue(null);
 
       await deleteTask(req, res, next);
 
+      expect(Task.findOneAndDelete).toHaveBeenCalledWith({
+        _id: 'notfound',
+        createdBy: 'test-user-id',
+      });
       expect(next).toHaveBeenCalledWith(expect.any(Error));
     });
   });
