@@ -2,6 +2,7 @@
 require('@dotenvx/dotenvx').config();
 const express = require('express');
 const app = express();
+const { xss } = require('express-xss-sanitizer');
 
 const dbConnect = require('./utils/dbConnect');
 const authRouter = require('./routes/auth');
@@ -15,6 +16,7 @@ PORT = process.env.PORT;
 MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
+app.use(xss());
 app.use(express.json());
 
 // Routers

@@ -1,3 +1,6 @@
+const express = require('express');
+const request = require('supertest');
+const tasksRouter = require('../routes/tasks');
 const {
   getTasks,
   postTask,
@@ -9,6 +12,117 @@ const Task = require('../models/Task');
 const httpMocks = require('node-mocks-http');
 
 jest.mock('../models/Task');
+
+// Integration tests for XSS sanitization
+describe('Tasks XSS Middleware (Integration)', () => {
+  const app = express();
+  app.use(express.json());
+  // Mock authentication middleware to inject user
+  app.use((req, res, next) => {
+    req.user = { userId: 'test-user-id' };
+    next();
+  });
+  app.use('/api/tasks', tasksRouter);
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should sanitize malicious input in postTask', async () => {
+    const maliciousTitle = `<script>alert('xss')</script>`;
+    const sanitizedTitle = ``; // express-xss-sanitizer strips tags by default
+
+    Task.create.mockResolvedValue({
+      title: sanitizedTitle,
+      createdBy: 'test-user-id',
+    });
+
+    await request(app).post('/api/tasks').send({ title: maliciousTitle });
+
+    expect(Task.create).toHaveBeenCalledWith({
+      title: sanitizedTitle,
+      createdBy: 'test-user-id',
+    });
+  });
+
+  it('should sanitize malicious input in patchTask', async () => {
+    const maliciousTitle = `<img src=x onerror=alert(1)>`;
+    const sanitizedTitle = ``;
+
+    Task.findOneAndUpdate.mockResolvedValue({
+      _id: '123',
+      title: sanitizedTitle,
+      createdBy: 'test-user-id',
+    });
+
+    await request(app).patch('/api/tasks/123').send({ title: maliciousTitle });
+
+    expect(Task.findOneAndUpdate).toHaveBeenCalledWith(
+      { _id: '123', createdBy: 'test-user-id' },
+      { title: sanitizedTitle },
+      { new: true, runValidators: true },
+    );
+  });
+
+  // These tests now encode the maliciousId so Express matches the route,
+  // and expect the sanitized value (empty string) since your middleware sanitizes req.params
+  it('should sanitize malicious input in getTask (id param)', async () => {
+    const maliciousId = `<script>alert('xss')</script>`;
+    const encodedId = encodeURIComponent(maliciousId);
+
+    Task.findOne.mockResolvedValue({
+      _id: '',
+      title: 'Task',
+      createdBy: 'test-user-id',
+    });
+
+    await request(app).get(`/api/tasks/${encodedId}`);
+
+    expect(Task.findOne).toHaveBeenCalledWith({
+      _id: '',
+      createdBy: 'test-user-id',
+    });
+  });
+
+  it('should sanitize malicious input in patchTask (id param)', async () => {
+    const maliciousId = `<svg/onload=alert(1)>`;
+    const encodedId = encodeURIComponent(maliciousId);
+
+    Task.findOneAndUpdate.mockResolvedValue({
+      _id: '',
+      title: 'Updated',
+      createdBy: 'test-user-id',
+    });
+
+    await request(app)
+      .patch(`/api/tasks/${encodedId}`)
+      .send({ title: 'Updated' });
+
+    expect(Task.findOneAndUpdate).toHaveBeenCalledWith(
+      { _id: '', createdBy: 'test-user-id' },
+      { title: 'Updated' },
+      { new: true, runValidators: true },
+    );
+  });
+
+  it('should sanitize malicious input in deleteTask (id param)', async () => {
+    const maliciousId = `<iframe src="javascript:alert(1)"></iframe>`;
+    const encodedId = encodeURIComponent(maliciousId);
+
+    Task.findOneAndDelete.mockResolvedValue({
+      _id: '',
+      title: 'Task',
+      createdBy: 'test-user-id',
+    });
+
+    await request(app).delete(`/api/tasks/${encodedId}`);
+
+    expect(Task.findOneAndDelete).toHaveBeenCalledWith({
+      _id: '',
+      createdBy: 'test-user-id',
+    });
+  });
+});
 
 describe('Tasks Controller', () => {
   afterEach(() => {

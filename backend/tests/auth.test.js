@@ -1,11 +1,49 @@
-const { register, login } = require('../controllers/auth');
-const { StatusCodes } = require('http-status-codes');
-const User = require('../models/User');
+const express = require('express');
+const request = require('supertest');
 const httpMocks = require('node-mocks-http');
+const { StatusCodes } = require('http-status-codes');
+const authRouter = require('../routes/auth');
+const { register, login } = require('../controllers/auth');
+const User = require('../models/User');
 
 jest.mock('../models/User');
 
-describe('Auth Controller', () => {
+// Setup Express app for integration tests
+const app = express();
+app.use(express.json());
+app.use('/api/auth', authRouter);
+
+describe('Auth XSS Middleware (Integration)', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should sanitize malicious input in register', async () => {
+    const maliciousName = `<script>alert('xss')</script>`;
+    const sanitizedName = ``; // The sanitizer strips the script tag and its content
+
+    User.create.mockResolvedValue({
+      name: sanitizedName,
+      email: 'xss@example.com',
+      password: 'pass',
+      createJWT: () => 'token',
+    });
+
+    await request(app).post('/api/auth/register').send({
+      name: maliciousName,
+      email: 'xss@example.com',
+      password: 'pass',
+    });
+
+    expect(User.create).toHaveBeenCalledWith({
+      name: sanitizedName,
+      email: 'xss@example.com',
+      password: 'pass',
+    });
+  });
+});
+
+describe('Auth Controller (Unit)', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

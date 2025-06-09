@@ -1,4 +1,5 @@
 const express = require('express');
+const { xss } = require('express-xss-sanitizer');
 
 const {
   getTasks,
@@ -11,7 +12,11 @@ const {
 const router = express.Router();
 
 // Routes
-router.route('/').get(getTasks).post(postTask);
-router.route('/:id').get(getTask).patch(patchTask).delete(deleteTask);
+router.route('/').get(xss(), getTasks).post(xss(), postTask);
+router
+  .route('/:id')
+  .get(xss(), getTask)
+  .patch(xss(), patchTask)
+  .delete(xss(), deleteTask);
 
 module.exports = router;
