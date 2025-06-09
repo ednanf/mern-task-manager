@@ -3,6 +3,10 @@ const { StatusCodes } = require('http-status-codes');
 const Task = require('../models/Task');
 const { HttpError, customError } = require('../errors');
 
+// TODO:implement the things from the video classes, such as
+// req.body.createdBy = req.user.userId; to ensure only tasks associated with
+// a certain user will be shown
+
 const getTasks = async (req, res) => {
   const tasks = await Task.find({});
   res.status(StatusCodes.OK).json({ status: 'success', data: tasks });
