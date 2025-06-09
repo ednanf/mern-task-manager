@@ -2,8 +2,9 @@ const express = require('express');
 const request = require('supertest');
 const httpMocks = require('node-mocks-http');
 const { StatusCodes } = require('http-status-codes');
-const authRouter = require('../routes/auth');
+
 const { register, login } = require('../controllers/auth');
+const authRouter = require('../routes/auth');
 const User = require('../models/User');
 
 jest.mock('../models/User');

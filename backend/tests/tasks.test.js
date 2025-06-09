@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('supertest');
-const tasksRouter = require('../routes/tasks');
+const httpMocks = require('node-mocks-http');
+
 const {
   getTasks,
   postTask,
@@ -9,7 +10,7 @@ const {
   deleteTask,
 } = require('../controllers/tasks');
 const Task = require('../models/Task');
-const httpMocks = require('node-mocks-http');
+const tasksRouter = require('../routes/tasks');
 
 jest.mock('../models/Task');
 
