@@ -1,50 +1,39 @@
 # MERN Task Manager
 
-## About me
+## About Me
 
-- Author: Ednan Rogério Frizzera Filho
-- [Github](https://github.com/ednanf) || [Linkedin](https://www.linkedin.com/in/ednanrff/)
-- Contact methods can be found in my GitHub profile!
+- **Author**: Ednan Rogério Frizzera Filho  
+- [GitHub](https://github.com/ednanf) • [LinkedIn](https://www.linkedin.com/in/ednanrff/)  
+- Contact methods available on my GitHub profile!
 
 ## Objective
 
-- This project aims to deliver a full-stack application utilizing the MERN stack and adhering to REST API best practices.  
-- The frontend is designed as a straightforward interface for interacting with the backend, with a focus on simplicity and usability.
+- This project delivers a full-stack application using the MERN stack, following REST API best practices.  
+- The frontend provides a clean, straightforward interface for interacting with the backend, prioritizing simplicity and usability.
 
-## Instalation instructions
+## Installation Instructions
 
 - TBD
 
-## API routes
+## API Documentation
 
-| METHOD | ROUTE                 | DESCRIPTION     |
-|--------|-----------------------|-----------------|
-| GET    | /api/v1/tasks         | get all tasks   |
-| POST   | /api/v1/tasks         | create task     |
-| GET    | /api/v1/tasks/:id     | get single task |
-| PATCH  | /api/v1/tasks/:id     | update task     |
-| DELETE | /api/v1/tasks/:id     | delete task     |
-| POST   | /api/v1/auth/register | create user     |
-| POST   | /api/v1/auth/login    | user login      |
+[Access it here.](https://mern-task-manager.apidocumentation.com/reference)
 
 ## Main Technologies
 
 ### Languages
-
-- JavaScript
-- HTML
-- CSS
+- JavaScript  
+- HTML  
+- CSS  
 
 ### Backend
-
-- NodeJS
-- Express
-- MongoDB
-- JWT
-- bCrypt
+- Node.js  
+- Express  
+- MongoDB  
+- JWT  
+- bcrypt  
 
 ### Frontend
-
 - React
 
 ## Dependencies
@@ -67,10 +56,3 @@ mern-task-manager
 ├── node-mocks-http ^1.17.2 (dev)
 ├── nodemon ^3.1.10 (dev)
 └── supertest ^7.1.1 (dev)
-```
-
-### Frontend
-
-- TBD
-
-MERN Task Manager - README v. 1.0
