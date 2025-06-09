@@ -8,8 +8,8 @@
 
 ## Objective
 
-- This project aims to deliver a fullstack application utilizing the MERN stack and REST API best practices.
-- The frontend is designed as a straightforward interface to interact with the backend, focusing on simplicity and usability.
+- This project aims to deliver a full-stack application utilizing the MERN stack and adhering to REST API best practices.  
+- The frontend is designed as a straightforward interface for interacting with the backend, with a focus on simplicity and usability.
 
 ## Instalation instructions
 
