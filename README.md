@@ -22,11 +22,13 @@
 ## Main Technologies
 
 ### Languages
+
 - JavaScript  
 - HTML  
 - CSS  
 
 ### Backend
+
 - Node.js  
 - Express  
 - MongoDB  
@@ -34,7 +36,9 @@
 - bcrypt  
 
 ### Frontend
+
 - React
+- Axios
 
 ## Dependencies
 
@@ -54,5 +58,4 @@ mern-task-manager
 ├── mongoose ^8.15.1
 ├── jest ^29.7.0 (dev)
 ├── node-mocks-http ^1.17.2 (dev)
-├── nodemon ^3.1.10 (dev)
 └── supertest ^7.1.1 (dev)
