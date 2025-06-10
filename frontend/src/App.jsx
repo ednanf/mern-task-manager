@@ -13,7 +13,7 @@ function App() {
           'https://mern-task-manager-syry.onrender.com/api/v1/tasks',
           { withCredentials: true },
         );
-        setTasks(res.data.tasks || []);
+        setTasks(res.data.data || []);
       } catch (err) {
         setError('Failed to fetch tasks');
       } finally {
