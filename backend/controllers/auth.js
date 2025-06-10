@@ -31,7 +31,8 @@ const register = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .cookie('token', token, {
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'none',
+        secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         secure: process.env.NODE_ENV === 'production',
       })
@@ -89,7 +90,8 @@ const login = async (req, res) => {
     .status(StatusCodes.OK)
     .cookie('token', token, {
       httpOnly: true,
-      sameSite: 'strict',
+      sameSite: 'none',
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
       secure: process.env.NODE_ENV === 'production',
     })
