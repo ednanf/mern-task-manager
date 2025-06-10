@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
-
-const User = require('../models/User');
 const { customError } = require('../errors');
 
 /**
@@ -19,11 +17,10 @@ const { customError } = require('../errors');
  * @returns {void}
  */
 const auth = async (req, res, next) => {
-  // Obtain Authorization header from the request
-  const authHeader = req.headers.authorization;
+  // Read the token from the cookie
+  const token = req.cookies.token;
 
-  // Check if the header exists and starts with 'Bearer'
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
+  if (!token) {
     return next(
       customError(
         StatusCodes.UNAUTHORIZED,
@@ -32,19 +29,11 @@ const auth = async (req, res, next) => {
     );
   }
 
-  // Extract the token from the header
-  const token = authHeader.split(' ')[1];
   try {
-    // Verify the token using the JWT secret
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Attach user information to the request object
     req.user = { userId: payload.userId, name: payload.name };
-
-    // Proceed to the next middleware
     next();
   } catch (error) {
-    // Handle invalid or expired token
     return next(
       customError(
         StatusCodes.UNAUTHORIZED,
