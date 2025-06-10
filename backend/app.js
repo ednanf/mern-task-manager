@@ -14,8 +14,9 @@ const routeNotFound = require('./middleware/routeNotFound');
 const errorHandler = require('./middleware/errorHandler');
 
 // Constants
-PORT = process.env.PORT;
-MONGO_URI = process.env.MONGO_URI;
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
+const allowedOrigins = ['http://localhost:5173'];
 
 // Middleware
 app.use(
@@ -26,7 +27,7 @@ app.use(
 );
 app.use(xss());
 app.use(helmet());
-app.use(cors());
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
 // Routers

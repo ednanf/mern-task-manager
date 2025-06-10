@@ -19,10 +19,22 @@ const register = async (req, res) => {
 
     res
       .status(StatusCodes.CREATED)
-      .json({ status: 'success', data: { user: user.name, token } });
+      .cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === 'production',
+      })
+      .json({ status: 'success', data: { user: user.name } });
   } catch (error) {
     res
       .status(StatusCodes.BAD_REQUEST)
+      .cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === 'production',
+      })
       .json({ msg: error.message || 'Registration failed' });
   }
 };
@@ -75,7 +87,13 @@ const login = async (req, res) => {
   // Send a success response with the user's name and JWT token
   res
     .status(StatusCodes.OK)
-    .json({ status: 'success', data: { user: user.name, token } });
+    .cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === 'production',
+    })
+    .json({ status: 'success', data: { user: user.name } });
 };
 
 module.exports = { register, login };
