@@ -1,0 +1,38 @@
+.nav {
+    position: fixed;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 700px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+
+    border-radius: 999px; /* pill shape */
+    z-index: 20;
+    padding: 0 2rem;
+}
+
+/* Optional: style links inside the navbar */
+.nav a {
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav a:hover {
+    background: rgba(107, 33, 168, 0.12);
+    color: #6b21a8;
+}
