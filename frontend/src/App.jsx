@@ -2,7 +2,10 @@ import styles from './App.module.css'
 
 function App() {
   return (
-   <h1>Hello, World!</h1> 
+  <div className={styles.appContainer}>
+    <div className={styles.backgroundLayer} />
+    <div className={styles.foregroundLayer}></div>
+  </div>
   )
 }
 
