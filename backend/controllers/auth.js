@@ -29,13 +29,6 @@ const register = async (req, res) => {
   } catch (error) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .cookie('token', token, {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        secure: process.env.NODE_ENV === 'production',
-      })
       .json({ msg: error.message || 'Registration failed' });
   }
 };
