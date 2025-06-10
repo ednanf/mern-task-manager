@@ -1,14 +1,12 @@
 import { useState } from 'react';
-
-import { Link, Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styles from './Auth.module.css';
 
 const Auth = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,21 +14,17 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setError('');
-    setSuccess('');
-
     try {
-      const res = await axios.post(
+      await axios.post(
         'https://mern-task-manager-syry.onrender.com/api/v1/auth/register',
         form,
       );
-      setSuccess('Registration successful!');
+      toast.success('Registration successful!');
       setTimeout(() => {
         navigate('/');
       }, 1500);
-    } catch (error) {
-      setError(
+    } catch (err) {
+      toast.error(
         err.response?.data?.msg ||
           err.response?.data?.error ||
           'Registration failed',
@@ -80,8 +74,6 @@ const Auth = () => {
         </div>
         <button type='submit'>Register</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
       <h4>Already have one?</h4>
       <Link to='login'>Login</Link>
       <Outlet />

@@ -13,12 +13,18 @@ const { customError } = require('../errors');
  * @returns {Promise<void>} Sends a JSON response with the registered user's name and JWT token.
  */
 const register = async (req, res) => {
-  const user = await User.create({ ...req.body });
-  const token = user.createJWT();
+  try {
+    const user = await User.create({ ...req.body });
+    const token = user.createJWT();
 
-  res
-    .status(StatusCodes.CREATED)
-    .json({ status: 'success', data: { user: user.name, token } });
+    res
+      .status(StatusCodes.CREATED)
+      .json({ status: 'success', data: { user: user.name, token } });
+  } catch (error) {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ msg: error.message || 'Registration failed' });
+  }
 };
 
 /**

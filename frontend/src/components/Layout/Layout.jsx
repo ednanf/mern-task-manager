@@ -1,4 +1,6 @@
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from '../NavBar/Navbar';
 
@@ -8,6 +10,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
+      <ToastContainer position='top-center' autoClose={2000} />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
         <div className={styles.foregroundLayer}>
