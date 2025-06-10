@@ -16,7 +16,7 @@ const errorHandler = require('./middleware/errorHandler');
 // Constants
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'https://localhost:5173'];
 
 // Middleware
 app.use(
