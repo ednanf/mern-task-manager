@@ -11,7 +11,6 @@ function App() {
       try {
         const res = await axios.get(
           'https://mern-task-manager-syry.onrender.com/api/v1/tasks',
-          form,
           { withCredentials: true },
         );
         setTasks(res.data.tasks || []);

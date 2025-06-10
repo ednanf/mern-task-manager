@@ -5,6 +5,7 @@ const { xss } = require('express-xss-sanitizer');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimiter = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 
 const dbConnect = require('./utils/dbConnect');
 const authRouter = require('./routes/auth');
@@ -28,6 +29,7 @@ app.use(
 app.use(xss());
 app.use(helmet());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
 
 // Routers

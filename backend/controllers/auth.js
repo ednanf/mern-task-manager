@@ -21,9 +21,9 @@ const register = async (req, res) => {
       .status(StatusCodes.CREATED)
       .cookie('token', token, {
         httpOnly: true,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({ status: 'success', data: { user: user.name } });
   } catch (error) {
@@ -83,10 +83,9 @@ const login = async (req, res) => {
     .status(StatusCodes.OK)
     .cookie('token', token, {
       httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
     .json({ status: 'success', data: { user: user.name } });
 };
