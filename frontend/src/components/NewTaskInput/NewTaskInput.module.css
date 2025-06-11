@@ -40,21 +40,14 @@ form {
     flex-shrink: 0;
     transition: 0.3s;
     border-radius: 50%;
-    background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+    background: var(--button-bg);
+    box-shadow: var(--button-shadow);
     margin-left: 10px;
+    color: var(--button-text);
 }
-
-/* .submitButton:hover,
-.submitButton:focus {
-    transition: 0.3s;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    box-shadow: 13px 13px 26px #bebebe, -13px -13px 26px #ffffff;
-} */
 
 .submitButton:active {
     border-radius: 50%;
-    background: linear-gradient(145deg, #cacaca, #f0f0f0);
-    box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+    background: var(--button-bg-active);
+    box-shadow: var(--button-shadow-active);
 }

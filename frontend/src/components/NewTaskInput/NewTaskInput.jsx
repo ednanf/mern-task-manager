@@ -30,6 +30,15 @@ const NewTaskInput = ({ onTaskAdded }) => {
     }
   };
 
+  /*
+  TODO: Add an extra step to buttons
+  1. Natural state - distance 15px and convex
+  2. Hovering - distance 10px and convex
+  3. Pressed - distance 5px and concave
+*/
+
+  // TODO: Add neumorphism to the input field
+
   return (
     <div>
       <form onSubmit={handleSubmit} className={styles.form}>

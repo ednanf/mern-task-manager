@@ -10,7 +10,7 @@
 }
 
 .backgroundLayer {
-    background: #e0e0e0;
+    background: var(--background);
     background-size: 400% 400%;
     animation: waterFlow 15s ease infinite;
     height: 100vh;
@@ -31,8 +31,35 @@
     max-width: 480px;
     height: 600px;
     border-radius: 34px;
-    background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
+    background: var(--foreground);
+    box-shadow: var(--box-shadow);
     overflow: hidden;
     z-index: 1;
+}
+
+.themeToggle {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    z-index: 30;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    background: var(--button-bg);
+    box-shadow: var(--button-shadow);
+    color: var(--text);
+    transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+}
+
+.themeToggle:hover,
+.themeToggle:focus {
+    box-shadow: 0 0 12px 2px #80d8ff, 0 2px 8px rgba(128, 216, 255, 0.15);
+    outline: none;
 }

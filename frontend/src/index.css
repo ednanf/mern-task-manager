@@ -6,3 +6,31 @@
     font-family: 'Roboto', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+:root {
+    --background: #e0e0e0;
+    --foreground: linear-gradient(145deg, #f0f0f0, #cacaca);
+    --box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
+    --text: #222;
+    --input-bg: rgba(255, 255, 255, 0.6);
+    --input-border: rgba(255, 255, 255, 0.4);
+    --button-bg: linear-gradient(145deg, #f0f0f0, #cacaca);
+    --button-shadow: 15px 15px 20px #bebebe, -15px -15px 20px #ffffff;
+    --button-bg-active: linear-gradient(145deg, #cacaca, #f0f0f0);
+    --button-shadow-active: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+    --button-text: #9d9d9d;
+}
+
+body.dark {
+    --background: #595959;
+    --foreground: linear-gradient(145deg, #5f5f5f, #505050);
+    --box-shadow: 19px 19px 38px #4c4c4c, -19px -19px 38px #666666;
+    --text: #e0e6ed;
+    --input-bg: rgba(40, 44, 52, 0.7);
+    --input-border: rgba(128, 216, 255, 0.2);
+    --button-bg: linear-gradient(145deg, #5f5f5f, #505050);
+    --button-shadow: 15px 15px 20px #4c4c4c, -15px -15px 20px #666666;
+    --button-bg-active: linear-gradient(145deg, #505050, #5f5f5f);
+    --button-shadow-active: 5px 5px 10px #4c4c4c, -5px -5px 10px #666666;
+    --button-text: #9d9d9d;
+}
