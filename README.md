@@ -1,3 +1,5 @@
+![favicon copy-modified](https://github.com/user-attachments/assets/f03745ee-d253-4733-97af-26494467f854)
+
 # MERN Task Manager
 
 ## About Me
