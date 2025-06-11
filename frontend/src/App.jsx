@@ -4,6 +4,8 @@ import axios from 'axios';
 import NewTaskInput from './components/NewTaskInput/NewTaskInput';
 import Task from './components/Task/Task';
 
+import styles from './App.module.css';
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ function App() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div>
+    <div className={styles.appBody}>
       <h1>MERN Task Manager</h1>
       <NewTaskInput onTaskAdded={fetchTasks} />
       <ul>
