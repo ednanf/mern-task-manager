@@ -1,23 +1,23 @@
 .nav {
-    position: fixed;
-    top: 32px;
+    position: absolute;
+    top: 24px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
-    max-width: 700px;
+    width: 100%;
+    max-width: 480px; /* Match .foregroundLayer */
     height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2rem;
 
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.12); /* Match .foregroundLayer */
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
 
     border-radius: 999px; /* pill shape */
-    z-index: 20;
+    z-index: 21; /* Above background, below modals */
     padding: 0 2rem;
 }
 

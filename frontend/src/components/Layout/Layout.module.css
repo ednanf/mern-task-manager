@@ -10,10 +10,37 @@
 }
 
 .backgroundLayer {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom right, #6b21a8, #1e3a8a);
+    background: linear-gradient(
+        135deg,
+        #a8edea 0%,
+        #a6c2f9 25%,
+        #80d8ff 50%,
+        #91a7ff 75%,
+        #6dd5ed 100%
+    );
+    background-size: 400% 400%;
+    animation: waterFlow 15s ease infinite;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     z-index: 0;
+    inset: 0;
+    position: absolute;
+}
+
+@keyframes waterFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .foregroundLayer {
