@@ -1,22 +1,52 @@
-.nav {
-    position: fixed;
-    top: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 700px;
-    height: 56px;
+form {
+    width: 100%;
     display: flex;
     align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-top: 30px;
+}
+
+.formRow {
+    width: 95%; /* This makes the row 95% of the foregroundLayer */
+    display: flex;
     justify-content: center;
-    gap: 2rem;
+    align-items: center;
+    margin: 0 auto;
+}
 
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+.inputField {
+    flex: 1; /* Take all available space */
+    min-width: 0;
+    padding: 0.75rem 1.2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px);
+    font-size: 1rem;
+    color: #222;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    margin-right: 0.5rem;
+}
 
-    border-radius: 999px; /* pill shape */
-    z-index: 20;
-    padding: 0 2rem;
+.inputField:focus {
+    border: 1.5px solid #80d8ff;
+    box-shadow: 0 4px 16px rgba(128, 216, 255, 0.15);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.submitButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #80d8ff 0%, #91a7ff 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(128, 216, 255, 0.15);
+    transition: background 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
 }

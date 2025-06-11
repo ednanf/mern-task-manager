@@ -32,15 +32,22 @@ const NewTaskInput = ({ onTaskAdded }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          id='createTask'
-          type='text'
-          name='title'
-          value={newTask.title}
-          onChange={handleChange}
-        />
-        <button type='submit'>+</button>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formRow}>
+          <input
+            id='createTask'
+            type='text'
+            name='title'
+            value={newTask.title}
+            onChange={handleChange}
+            className={styles.inputField}
+            placeholder='Add a new task...'
+            autoComplete='off'
+          />
+          <button type='submit' className={styles.submitButton}>
+            +
+          </button>
+        </div>
       </form>
     </div>
   );
