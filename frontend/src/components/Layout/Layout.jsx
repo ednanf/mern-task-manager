@@ -21,6 +21,7 @@ const Layout = () => {
     }
   }, [dark]);
 
+  // TODO: style toasts if possible
   // FIXME: theme toggle button doesn't behave like the add button
   // BUG: theme toggle button doesn't lose the glow around it
 

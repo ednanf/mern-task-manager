@@ -31,7 +31,8 @@ function App() {
     fetchTasks();
   }, []);
 
-  console.log(tasks);
+  // FIXME: "Loading tasks..." is not centered, add class maybe?
+  //TODO: Add spinner in center above "loading tasks"
 
   if (loading) return <p>Loading tasks...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
