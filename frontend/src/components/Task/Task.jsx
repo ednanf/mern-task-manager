@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import styles from './Task.module.css';
+import '../../common.css';
 
 const Task = ({ _id, title, completed, onTaskChanged }) => {
   const [isCompleted, setIsCompleted] = useState(completed);
@@ -103,20 +104,20 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             onChange={handleEditTitleChange}
             className={styles.taskTitle}
           />
-          <button onClick={handleSaveClick} disabled={isLoading}>
+          <button className='' onClick={handleSaveClick} disabled={isLoading}>
             Save{' '}
             {loadingAction === 'save' && (
               <span className={styles.spinner}></span>
             )}
           </button>
-          <button onClick={handleCancelClick} disabled={isLoading}>
+          <button className='' onClick={handleCancelClick} disabled={isLoading}>
             Cancel
           </button>
         </>
       ) : (
         <>
           <p className={styles.taskTitle}>{editTitle}</p>
-          <button onClick={handleEditClick} disabled={isLoading}>
+          <button className='' onClick={handleEditClick} disabled={isLoading}>
             Edit{' '}
             {loadingAction === 'edit' && (
               <span className={styles.spinner}></span>
@@ -124,7 +125,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
           </button>
         </>
       )}
-      <button onClick={handleDeleteClick} disabled={isLoading}>
+      <button className='' onClick={handleDeleteClick} disabled={isLoading}>
         Delete{' '}
         {loadingAction === 'delete' && <span className={styles.spinner}></span>}
       </button>
