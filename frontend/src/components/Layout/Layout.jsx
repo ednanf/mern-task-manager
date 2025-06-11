@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <ToastContainer position='top-center' autoClose={2000} />
+      <ToastContainer position='top-right' autoClose={2000} />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
         <div className={styles.foregroundLayer}>
