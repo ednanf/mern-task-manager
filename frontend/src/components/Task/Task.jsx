@@ -9,10 +9,12 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState(null); // 'save', 'delete', etc.
 
   const handleCheckboxChange = async (e) => {
     const newCompleted = e.target.checked;
     setIsCompleted(newCompleted);
+    setLoadingAction('checkbox');
     setIsLoading(true);
     try {
       await axios.patch(
@@ -26,6 +28,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.error('Failed to update task.');
     } finally {
       setIsLoading(false);
+      setLoadingAction(null);
     }
   };
 
@@ -38,6 +41,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   };
 
   const handleSaveClick = async () => {
+    setLoadingAction('save');
     setIsLoading(true);
     try {
       await axios.patch(
@@ -51,6 +55,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.error('Failed to update title.');
     } finally {
       setIsLoading(false);
+      setLoadingAction(null);
     }
   };
 
@@ -60,6 +65,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   };
 
   const handleDeleteClick = async () => {
+    setLoadingAction('delete');
     setIsLoading(true);
     try {
       await axios.delete(
@@ -72,6 +78,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.error('Failed to delete task.');
     } finally {
       setIsLoading(false);
+      setLoadingAction(null);
     }
   };
 
@@ -85,6 +92,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
         onChange={handleCheckboxChange}
         disabled={isLoading}
       />
+      {loadingAction === 'checkbox' && <span className={styles.spinner}></span>}
       {isEditing ? (
         <>
           <input
@@ -96,7 +104,10 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             className={styles.taskTitle}
           />
           <button onClick={handleSaveClick} disabled={isLoading}>
-            Save
+            Save{' '}
+            {loadingAction === 'save' && (
+              <span className={styles.spinner}></span>
+            )}
           </button>
           <button onClick={handleCancelClick} disabled={isLoading}>
             Cancel
@@ -106,12 +117,16 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
         <>
           <p className={styles.taskTitle}>{editTitle}</p>
           <button onClick={handleEditClick} disabled={isLoading}>
-            Edit
+            Edit{' '}
+            {loadingAction === 'edit' && (
+              <span className={styles.spinner}></span>
+            )}
           </button>
         </>
       )}
       <button onClick={handleDeleteClick} disabled={isLoading}>
-        Delete
+        Delete{' '}
+        {loadingAction === 'delete' && <span className={styles.spinner}></span>}
       </button>
     </div>
   );
