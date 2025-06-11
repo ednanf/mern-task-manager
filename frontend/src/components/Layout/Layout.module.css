@@ -10,14 +10,7 @@
 }
 
 .backgroundLayer {
-    background: linear-gradient(
-        135deg,
-        #a8edea 0%,
-        #a6c2f9 25%,
-        #80d8ff 50%,
-        #91a7ff 75%,
-        #6dd5ed 100%
-    );
+    background: #e0e0e0;
     background-size: 400% 400%;
     animation: waterFlow 15s ease infinite;
     height: 100vh;
@@ -31,29 +24,15 @@
     position: absolute;
 }
 
-@keyframes waterFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 .foregroundLayer {
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 480px;
     height: 600px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 34px;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 41px 41px 82px #bebebe, -41px -41px 82px #ffffff;
     overflow: hidden;
     z-index: 1;
 }

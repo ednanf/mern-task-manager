@@ -3,12 +3,12 @@ form {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     padding-top: 30px;
 }
 
 .formRow {
-    width: 95%; /* This makes the row 95% of the foregroundLayer */
+    width: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,14 +16,10 @@ form {
 }
 
 .inputField {
-    flex: 1; /* Take all available space */
+    flex: 1;
     min-width: 0;
     padding: 0.75rem 1.2rem;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(12px);
     font-size: 1rem;
     color: #222;
     outline: none;
@@ -33,20 +29,32 @@ form {
 
 .inputField:focus {
     border: 1.5px solid #80d8ff;
-    box-shadow: 0 4px 16px rgba(128, 216, 255, 0.15);
-    background: rgba(255, 255, 255, 0.8);
 }
 
 .submitButton {
-    padding: 0.75rem 1.5rem;
-    border-radius: 16px;
-    border: none;
-    background: linear-gradient(135deg, #80d8ff 0%, #91a7ff 100%);
-    color: #fff;
+    width: 48px;
+    height: 48px;
     font-weight: 600;
     font-size: 1.2rem;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(128, 216, 255, 0.15);
-    transition: background 0.2s, box-shadow 0.2s;
     flex-shrink: 0;
+    transition: 0.3s;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+    margin-left: 10px;
+}
+
+/* .submitButton:hover,
+.submitButton:focus {
+    transition: 0.3s;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 13px 13px 26px #bebebe, -13px -13px 26px #ffffff;
+} */
+
+.submitButton:active {
+    border-radius: 50%;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
 }

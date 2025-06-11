@@ -3,4 +3,6 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
