@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NewTaskInput from './components/NewTaskInput/NewTaskInput';
+import Task from './components/Task/Task';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -28,6 +29,8 @@ function App() {
     fetchTasks();
   }, []);
 
+  console.log(tasks);
+
   if (loading) return <p>Loading tasks...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
@@ -36,9 +39,15 @@ function App() {
       <h1>MERN Task Manager</h1>
       <NewTaskInput onTaskAdded={fetchTasks} />
       <ul>
-        {tasks.length === 0 && <li>No tasks found.</li>}
+        {tasks.length === 0 && <li>Your task list is empty.</li>}
         {tasks.map((task) => (
-          <li key={task._id || task.id}>{task.title || task.name}</li>
+          <li key={task._id}>
+            <Task
+              title={task.title}
+              _id={task._id}
+              completed={task.completed}
+            />
+          </li>
         ))}
       </ul>
     </div>
