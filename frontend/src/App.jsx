@@ -46,6 +46,7 @@ function App() {
               title={task.title}
               _id={task._id}
               completed={task.completed}
+              onTaskChanged={fetchTasks}
             />
           </li>
         ))}
