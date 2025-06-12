@@ -91,7 +91,9 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   // TODO: convert colors into variables in index.css
 
   return (
-    <div className={styles.taskCard}>
+    <div
+      className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}
+    >
       <div className={styles.taskBody}>
         <div className={styles.taskContent}>
           <TaskCheckbox

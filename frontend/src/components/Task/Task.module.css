@@ -49,3 +49,8 @@
     opacity: 1;
     visibility: visible;
 }
+
+.editing .taskButtonsRight {
+    opacity: 1;
+    visibility: visible;
+}
