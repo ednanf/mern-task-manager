@@ -42,19 +42,17 @@ function App() {
       <h1>MERN Task Manager</h1>
       <div className=''>
         <NewTaskInput onTaskAdded={fetchTasks} />
-        <ul>
+        <div className={styles.taskListWrapper}>
           {tasks.length === 0 && <li>Your task list is empty.</li>}
           {tasks.map((task) => (
-            <li key={task._id}>
-              <Task
-                title={task.title}
-                _id={task._id}
-                completed={task.completed}
-                onTaskChanged={fetchTasks}
-              />
-            </li>
+            <Task
+              title={task.title}
+              _id={task._id}
+              completed={task.completed}
+              onTaskChanged={fetchTasks}
+            />
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

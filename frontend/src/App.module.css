@@ -9,6 +9,16 @@
     margin-top: 1rem;
 }
 
+.taskListWrapper {
+    width: 95%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 20px;
+}
+
 li {
     list-style: none;
 }
