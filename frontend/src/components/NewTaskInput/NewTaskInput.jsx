@@ -37,8 +37,6 @@ const NewTaskInput = ({ onTaskAdded }) => {
   3. Pressed - distance 5px and concave
 */
 
-  // TODO: Add neumorphism to the input field
-
   return (
     <div>
       <form onSubmit={handleSubmit} className={styles.form}>
