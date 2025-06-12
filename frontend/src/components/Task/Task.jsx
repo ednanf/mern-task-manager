@@ -98,9 +98,6 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
           onChange={handleCheckboxChange}
           disabled={isLoading}
         />
-        {loadingAction === 'checkbox' && (
-          <span className={styles.spinner}></span>
-        )}
         {isEditing ? (
           <>
             <input
@@ -116,11 +113,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               onClick={handleSaveClick}
               disabled={isLoading}
             >
-              {loadingAction === 'save' ? (
-                <span className={styles.spinner}></span>
-              ) : (
-                'Save'
-              )}
+              Save
             </TaskButton>
             <TaskButton
               className=''
@@ -138,11 +131,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               onClick={handleEditClick}
               disabled={isLoading}
             >
-              {loadingAction === 'edit' ? (
-                <span className={styles.spinner}></span>
-              ) : (
-                'Edit'
-              )}
+              Edit
             </TaskButton>
           </>
         )}
@@ -151,12 +140,9 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
           onClick={handleDeleteClick}
           disabled={isLoading}
         >
-          {loadingAction === 'delete' ? (
-            <span className={styles.spinner}></span>
-          ) : (
-            'Delete'
-          )}
+          Delete
         </TaskButton>
+        {isLoading && <span className={styles.spinner}></span>}
       </div>
     </div>
   );
