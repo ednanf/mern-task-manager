@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 import Button from '../RoundButton/RoundButton';
+import { FiPlus } from 'react-icons/fi';
 
 import styles from './NewTaskInput.module.css';
 
@@ -54,7 +55,7 @@ const NewTaskInput = ({ onTaskAdded }) => {
             autoComplete='off'
           />
           <Button type='submit' ariaLabel='add text'>
-            +
+            <FiPlus />
           </Button>
         </div>
       </form>
