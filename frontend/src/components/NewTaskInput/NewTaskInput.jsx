@@ -40,6 +40,8 @@ const NewTaskInput = ({ onTaskAdded }) => {
   3. Pressed - distance 5px and concave
 */
 
+  // FIXME: the bar isn't perfectly centered
+
   return (
     <div>
       <form onSubmit={handleSubmit} className={styles.form}>
