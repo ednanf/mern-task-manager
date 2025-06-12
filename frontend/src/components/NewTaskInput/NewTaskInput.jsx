@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
+import Button from '../RoundButton/RoundButton';
+
 import styles from './NewTaskInput.module.css';
 
 const NewTaskInput = ({ onTaskAdded }) => {
@@ -51,9 +53,9 @@ const NewTaskInput = ({ onTaskAdded }) => {
             placeholder='Add a new task...'
             autoComplete='off'
           />
-          <button type='submit' className={styles.submitButton}>
+          <Button type='submit' ariaLabel='add text'>
             +
-          </button>
+          </Button>
         </div>
       </form>
     </div>
