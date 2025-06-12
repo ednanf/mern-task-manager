@@ -21,13 +21,13 @@ form {
     outline: none;
     border-radius: 100px;
     padding: 1em;
-    background-color: var(--input-bg);
-    box-shadow: var(--input-box-shadow);
+    background-color: var(--new-task-input-bg);
+    box-shadow: var(--new-task-input-box-shadow);
     transition: 300ms ease-in-out;
 }
 
 .inputField:focus {
-    background-color: var(--input-bg-focus);
+    background-color: var(--new-task-input-bg-focus);
     transform: scale(1.05);
-    box-shadow: var(--input-box-shadow-focus);
+    box-shadow: var(--new-task-input-box-shadow-focus);
 }
