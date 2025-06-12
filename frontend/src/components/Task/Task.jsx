@@ -2,6 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { FiEdit3, FiDelete, FiSave } from 'react-icons/fi';
+import { TbArrowBack } from 'react-icons/tb';
+
 import TaskButton from '../TaskButton/TaskButton';
 import TaskCheckbox from '../TaskCheckbox/TaskCheckbox';
 import TaskSpinner from '../TaskSpinner/TaskSpinner';
@@ -125,15 +128,17 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     className=''
                     onClick={handleSaveClick}
                     disabled={isLoading}
+                    ariaLabel='save'
                   >
-                    Save
+                    <FiSave />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleCancelClick}
                     disabled={isLoading}
+                    ariaLabel='cancel'
                   >
-                    Cancel
+                    <TbArrowBack />
                   </TaskButton>
                 </div>
               )}
@@ -147,15 +152,17 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     className=''
                     onClick={handleEditClick}
                     disabled={isLoading}
+                    ariaLabel='edit'
                   >
-                    Edit
+                    <FiEdit3 />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleDeleteClick}
                     disabled={isLoading}
+                    ariaLabel='delete'
                   >
-                    Delete
+                    <FiDelete />
                   </TaskButton>
                 </div>
               )}
