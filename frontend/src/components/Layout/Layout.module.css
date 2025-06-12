@@ -10,7 +10,7 @@
 }
 
 .backgroundLayer {
-    background: var(--background);
+    background: var(--backgroundLayer-background);
     background-size: 400% 400%;
     animation: waterFlow 15s ease infinite;
     height: 100vh;
@@ -31,8 +31,8 @@
     max-width: 480px;
     height: 600px;
     border-radius: 34px;
-    background: var(--foreground);
-    box-shadow: var(--box-shadow);
+    background: var(--foregroundLayer-background);
+    box-shadow: var(--foregroundLayer-box-shadow);
     overflow: hidden;
     z-index: 1;
 }
@@ -54,7 +54,7 @@
     border-radius: 50%;
     background: var(--button-bg);
     box-shadow: var(--button-shadow);
-    color: var(--text);
+    color: #222;
     transition: box-shadow 0.2s, background 0.2s, color 0.2s;
 }
 
