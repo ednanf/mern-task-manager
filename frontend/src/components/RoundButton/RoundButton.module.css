@@ -7,14 +7,10 @@
     outline: none;
     cursor: pointer;
     border-radius: 50%;
-    background: rgb(228, 232, 236);
-    background: linear-gradient(
-        45deg,
-        rgb(228, 232, 236) 0%,
-        rgb(234 234 234) 100%
-    );
+    background: var(--button-bg);
+    background: var(--button-bg-grad);
     color: var(--button-text);
-    box-shadow: -2px -7px 10px #f1f1f1, 4px 6px 10px #d4d7da;
+    box-shadow: var(--button-shadow);
     transition: all 0.3s;
     display: flex;
     justify-content: center;
@@ -22,28 +18,26 @@
 }
 
 .roundButton:active {
-    background: rgb(218, 221, 224);
-    background: linear-gradient(
-        45deg,
-        rgb(218, 221, 224) 0%,
-        rgb(241, 241, 241) 100%
-    );
-    box-shadow: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1,
-        inset -2px -7px 10px #f1f1f1, inset 4px 6px 10px #d4d7da;
+    background: var(--button-bg-active);
+    background: var(--button-bg-active-grad);
+    box-shadow: var(--button-shadow-active);
     transition: all 0.3s;
     transform: scale(0.95);
 }
 
-.roundButton i {
+.i {
     font-size: 20px;
     background: linear-gradient(-45deg, gray 0%, lightgray 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.roundButton:active i {
+.i:active {
     transform: scale(0.9);
     transition: all 0.3s;
 }

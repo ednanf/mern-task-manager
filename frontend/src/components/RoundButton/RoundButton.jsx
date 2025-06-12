@@ -9,7 +9,7 @@ const Button = ({ type, onClick, children, ariaLabel, ...rest }) => {
       className={styles.roundButton}
       {...rest}
     >
-      <span className={styles.icon}>{children}</span>
+      <span className={styles.i}>{children}</span>
     </button>
   );
 };
