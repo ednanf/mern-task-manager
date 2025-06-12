@@ -1,5 +1,7 @@
 import styles from './TaskButton.module.css';
 
+// TODO: style button
+
 const TaskButton = ({
   type,
   disabled,
