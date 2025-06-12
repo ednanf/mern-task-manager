@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex: 1;
 }
 
 .taskCard {
@@ -25,4 +26,26 @@
 .taskCard:hover {
     box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
     transform: translateY(-2px);
+}
+
+.taskButtons {
+    opacity: 0;
+    visibility: hidden;
+    gap: 0.5rem;
+    display: flex;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.taskButtonsRight {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.taskCard:hover .taskButtonsRight {
+    opacity: 1;
+    visibility: visible;
 }
