@@ -17,6 +17,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
     setIsCompleted(newCompleted);
     setLoadingAction('checkbox');
     setIsLoading(true);
+
     try {
       await axios.patch(
         `https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`,
@@ -105,9 +106,10 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             className={styles.taskTitle}
           />
           <button className='' onClick={handleSaveClick} disabled={isLoading}>
-            Save{' '}
-            {loadingAction === 'save' && (
+            {loadingAction === 'save' ? (
               <span className={styles.spinner}></span>
+            ) : (
+              'Save'
             )}
           </button>
           <button className='' onClick={handleCancelClick} disabled={isLoading}>
@@ -118,16 +120,20 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
         <>
           <p className={styles.taskTitle}>{editTitle}</p>
           <button className='' onClick={handleEditClick} disabled={isLoading}>
-            Edit{' '}
-            {loadingAction === 'edit' && (
+            {loadingAction === 'edit' ? (
               <span className={styles.spinner}></span>
+            ) : (
+              'Edit'
             )}
           </button>
         </>
       )}
       <button className='' onClick={handleDeleteClick} disabled={isLoading}>
-        Delete{' '}
-        {loadingAction === 'delete' && <span className={styles.spinner}></span>}
+        {loadingAction === 'delete' ? (
+          <span className={styles.spinner}></span>
+        ) : (
+          'Delete'
+        )}
       </button>
     </div>
   );
