@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import TaskButton from '../TaskButton/TaskButton';
+import TaskCheckbox from '../TaskCheckbox/TaskCheckbox';
 
 import styles from './Task.module.css';
 import '../../common.css';
@@ -88,7 +89,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
 
   return (
     <div className={styles.taskBody}>
-      <input
+      <TaskCheckbox
         type='checkbox'
         id={`completed-${_id}`}
         name='completed'
