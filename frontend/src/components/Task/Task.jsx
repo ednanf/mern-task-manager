@@ -93,58 +93,60 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   return (
     <div className={styles.taskCard}>
       <div className={styles.taskBody}>
-        <TaskCheckbox
-          type='checkbox'
-          id={`completed-${_id}`}
-          name='completed'
-          checked={isCompleted}
-          onChange={handleCheckboxChange}
-          disabled={isLoading}
-        />
-        {isEditing ? (
-          <>
-            <input
-              type='text'
-              name='editTitle'
-              id={`editTitle-${_id}`}
-              value={editTitle}
-              onChange={handleEditTitleChange}
-              className={styles.taskTitle}
-            />
-            <TaskButton
-              className=''
-              onClick={handleSaveClick}
-              disabled={isLoading}
-            >
-              Save
-            </TaskButton>
-            <TaskButton
-              className=''
-              onClick={handleCancelClick}
-              disabled={isLoading}
-            >
-              Cancel
-            </TaskButton>
-          </>
-        ) : (
-          <>
-            <p className={styles.taskTitle}>{editTitle}</p>
-            <TaskButton
-              className=''
-              onClick={handleEditClick}
-              disabled={isLoading}
-            >
-              Edit
-            </TaskButton>
-          </>
-        )}
-        <TaskButton
-          className=''
-          onClick={handleDeleteClick}
-          disabled={isLoading}
-        >
-          Delete
-        </TaskButton>
+        <div className={styles.taskContent}>
+          <TaskCheckbox
+            type='checkbox'
+            id={`completed-${_id}`}
+            name='completed'
+            checked={isCompleted}
+            onChange={handleCheckboxChange}
+            disabled={isLoading}
+          />
+          {isEditing ? (
+            <>
+              <input
+                type='text'
+                name='editTitle'
+                id={`editTitle-${_id}`}
+                value={editTitle}
+                onChange={handleEditTitleChange}
+                className={styles.taskTitle}
+              />
+              <TaskButton
+                className=''
+                onClick={handleSaveClick}
+                disabled={isLoading}
+              >
+                Save
+              </TaskButton>
+              <TaskButton
+                className=''
+                onClick={handleCancelClick}
+                disabled={isLoading}
+              >
+                Cancel
+              </TaskButton>
+            </>
+          ) : (
+            <>
+              <p className={styles.taskTitle}>{editTitle}</p>
+              <TaskButton
+                className=''
+                onClick={handleEditClick}
+                disabled={isLoading}
+              >
+                Edit
+              </TaskButton>
+            </>
+          )}
+          <TaskButton
+            className=''
+            onClick={handleDeleteClick}
+            disabled={isLoading}
+          >
+            Delete
+          </TaskButton>
+        </div>
         {isLoading && <TaskSpinner />}
       </div>
     </div>

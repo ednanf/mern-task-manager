@@ -1,11 +1,20 @@
 .taskBody {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.taskContent {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .taskCard {
-    background: #e0e0e0; /* Light background for neumorphism */
+    background: var(--taskCard-bg);
     border-radius: 20px;
-    box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff;
+    box-shadow: var(--taskCard-box-shadow);
     padding: 1.5rem;
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     display: flex;
@@ -16,53 +25,4 @@
 .taskCard:hover {
     box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
     transform: translateY(-2px);
-}
-
-.loading {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.d1 {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--app-h1-color);
-    border-left-color: transparent;
-    border-radius: 50%;
-    position: absolute;
-    animation: load161 1s linear infinite;
-}
-
-.d2 {
-    width: 12px;
-    height: 12px;
-    border: 2px solid var(--app-h1-color);
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: load2812 1.5s linear infinite;
-}
-
-@keyframes load161 {
-    0% {
-        transform: rotate(0);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes load2812 {
-    0% {
-        transform: rotate(0);
-    }
-
-    100% {
-        transform: rotate(-360deg);
-    }
 }
