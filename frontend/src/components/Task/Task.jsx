@@ -119,42 +119,46 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                 }}
                 className={styles.taskTitle}
               />
-              <div className={styles.taskButtonsRight}>
-                <TaskButton
-                  className=''
-                  onClick={handleSaveClick}
-                  disabled={isLoading}
-                >
-                  Save
-                </TaskButton>
-                <TaskButton
-                  className=''
-                  onClick={handleCancelClick}
-                  disabled={isLoading}
-                >
-                  Cancel
-                </TaskButton>
-              </div>
+              {!isLoading && (
+                <div className={styles.taskButtonsRight}>
+                  <TaskButton
+                    className=''
+                    onClick={handleSaveClick}
+                    disabled={isLoading}
+                  >
+                    Save
+                  </TaskButton>
+                  <TaskButton
+                    className=''
+                    onClick={handleCancelClick}
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </TaskButton>
+                </div>
+              )}
             </>
           ) : (
             <>
               <p className={styles.taskTitle}>{editTitle}</p>
-              <div className={styles.taskButtonsRight}>
-                <TaskButton
-                  className=''
-                  onClick={handleEditClick}
-                  disabled={isLoading}
-                >
-                  Edit
-                </TaskButton>
-                <TaskButton
-                  className=''
-                  onClick={handleDeleteClick}
-                  disabled={isLoading}
-                >
-                  Delete
-                </TaskButton>
-              </div>
+              {!isLoading && (
+                <div className={styles.taskButtonsRight}>
+                  <TaskButton
+                    className=''
+                    onClick={handleEditClick}
+                    disabled={isLoading}
+                  >
+                    Edit
+                  </TaskButton>
+                  <TaskButton
+                    className=''
+                    onClick={handleDeleteClick}
+                    disabled={isLoading}
+                  >
+                    Delete
+                  </TaskButton>
+                </div>
+              )}
             </>
           )}
         </div>
