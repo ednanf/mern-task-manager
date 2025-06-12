@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import TaskButton from '../TaskButton/TaskButton';
+
 import styles from './Task.module.css';
 import '../../common.css';
 
@@ -105,36 +107,48 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             onChange={handleEditTitleChange}
             className={styles.taskTitle}
           />
-          <button className='' onClick={handleSaveClick} disabled={isLoading}>
+          <TaskButton
+            className=''
+            onClick={handleSaveClick}
+            disabled={isLoading}
+          >
             {loadingAction === 'save' ? (
               <span className={styles.spinner}></span>
             ) : (
               'Save'
             )}
-          </button>
-          <button className='' onClick={handleCancelClick} disabled={isLoading}>
+          </TaskButton>
+          <TaskButton
+            className=''
+            onClick={handleCancelClick}
+            disabled={isLoading}
+          >
             Cancel
-          </button>
+          </TaskButton>
         </>
       ) : (
         <>
           <p className={styles.taskTitle}>{editTitle}</p>
-          <button className='' onClick={handleEditClick} disabled={isLoading}>
+          <TaskButton
+            className=''
+            onClick={handleEditClick}
+            disabled={isLoading}
+          >
             {loadingAction === 'edit' ? (
               <span className={styles.spinner}></span>
             ) : (
               'Edit'
             )}
-          </button>
+          </TaskButton>
         </>
       )}
-      <button className='' onClick={handleDeleteClick} disabled={isLoading}>
+      <TaskButton className='' onClick={handleDeleteClick} disabled={isLoading}>
         {loadingAction === 'delete' ? (
           <span className={styles.spinner}></span>
         ) : (
           'Delete'
         )}
-      </button>
+      </TaskButton>
     </div>
   );
 };
