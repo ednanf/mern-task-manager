@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import TaskButton from '../TaskButton/TaskButton';
 import TaskCheckbox from '../TaskCheckbox/TaskCheckbox';
+import TaskSpinner from '../TaskSpinner/TaskSpinner';
 
 import styles from './Task.module.css';
 import '../../common.css';
@@ -87,6 +88,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
     }
   };
 
+  // TODO: convert colors into variables in index.css
+
   return (
     <div className={styles.taskCard}>
       <div className={styles.taskBody}>
@@ -142,7 +145,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
         >
           Delete
         </TaskButton>
-        {isLoading && <span className={styles.spinner}></span>}
+        {isLoading && <TaskSpinner />}
       </div>
     </div>
   );

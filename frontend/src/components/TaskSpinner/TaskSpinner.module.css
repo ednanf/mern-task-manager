@@ -1,23 +1,3 @@
-.taskBody {
-    display: flex;
-}
-
-.taskCard {
-    background: #e0e0e0; /* Light background for neumorphism */
-    border-radius: 20px;
-    box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff;
-    padding: 1.5rem;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.taskCard:hover {
-    box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
-    transform: translateY(-2px);
-}
-
 .loading {
     width: 20px;
     height: 20px;
