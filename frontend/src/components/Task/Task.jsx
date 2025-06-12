@@ -93,6 +93,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
 
   // TODO: convert colors into variables in index.css
 
+  // TODO: add styling to the input field when editing - maybe convert into a component
+
   return (
     <div
       className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}
