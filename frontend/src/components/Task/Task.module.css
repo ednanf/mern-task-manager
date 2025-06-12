@@ -39,6 +39,8 @@
 .taskButtonsRight {
     margin-left: auto;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 0.5rem;
     opacity: 0;
     visibility: hidden;
@@ -53,4 +55,11 @@
 .editing .taskButtonsRight {
     opacity: 1;
     visibility: visible;
+}
+
+.taskButtonsRight,
+.taskButtonsRight > button {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }

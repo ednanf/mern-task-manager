@@ -130,7 +130,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     disabled={isLoading}
                     ariaLabel='save'
                   >
-                    <FiSave />
+                    <FiSave size={22} color='#9d9d9d' />
                   </TaskButton>
                   <TaskButton
                     className=''
@@ -138,7 +138,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     disabled={isLoading}
                     ariaLabel='cancel'
                   >
-                    <TbArrowBack />
+                    <TbArrowBack size={22} color='#9d9d9d' />
                   </TaskButton>
                 </div>
               )}
@@ -154,7 +154,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     disabled={isLoading}
                     ariaLabel='edit'
                   >
-                    <FiEdit3 />
+                    <FiEdit3 size={22} color='#9d9d9d' />
                   </TaskButton>
                   <TaskButton
                     className=''
@@ -162,7 +162,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     disabled={isLoading}
                     ariaLabel='delete'
                   >
-                    <FiDelete />
+                    <FiDelete size={22} color='#9d9d9d' />
                   </TaskButton>
                 </div>
               )}
