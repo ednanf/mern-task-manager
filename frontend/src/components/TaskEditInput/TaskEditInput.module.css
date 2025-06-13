@@ -1,19 +1,23 @@
 .input {
-    width: 95%;
+    width: 100%;
     max-width: 100%;
     min-height: 30px;
-    padding: 6px 7px;
+    padding: 0 10px;
     outline: none;
     background: #e8e8e8;
-    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2), inset -2px -2px 5px rgba(255, 255, 255, 0.7);
     border: none;
     border-radius: 10px;
-    transition: all 0.5s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transform: translateY(2px);
     box-sizing: border-box;
     color: var(--app-color);
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* .input:focus {
-    background: #e8e8e8;
-    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
-} */
+.input.editing {
+    transform: translateY(0);
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3), inset -5px -5px 10px rgba(255, 255, 255, 0.7);
+}

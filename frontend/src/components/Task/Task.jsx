@@ -14,10 +14,10 @@ import styles from './Task.module.css';
 import '../../common.css';
 
 const Task = ({ _id, title, completed, onTaskChanged }) => {
-  const [isCompleted, setIsCompleted] = useState(completed);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editTitle, setEditTitle] = useState(title);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(completed); // Initialize with the original completed state
+  const [isEditing, setIsEditing] = useState(false); // Track if the task is being edited
+  const [editTitle, setEditTitle] = useState(title); // Initialize with the original title
+  const [isLoading, setIsLoading] = useState(false); // Track loading state for actions
   const [loadingAction, setLoadingAction] = useState(null); // 'save', 'delete', etc.
 
   const handleCheckboxChange = async (e) => {
@@ -132,7 +132,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             </>
           ) : (
             <>
-              <p className={styles.taskTitle}>{editTitle}</p>
+              <p className={`${styles.taskTitle} ${isCompleted ? styles.completed : ''}`}>{editTitle}</p>
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
                   <TaskButton className='' onClick={handleEditClick} disabled={isLoading} ariaLabel='edit'>
