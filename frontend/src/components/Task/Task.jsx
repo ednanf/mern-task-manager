@@ -7,6 +7,7 @@ import { TbArrowBack } from 'react-icons/tb';
 
 import TaskButton from '../TaskButton/TaskButton';
 import TaskCheckbox from '../TaskCheckbox/TaskCheckbox';
+import TaskEditInput from '../TaskEditInput/TaskEditInput';
 import TaskSpinner from '../TaskSpinner/TaskSpinner';
 
 import styles from './Task.module.css';
@@ -104,9 +105,7 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
           />
           {isEditing ? (
             <>
-              <input
-                type='text'
-                name='editTitle'
+              <TaskEditInput
                 id={`editTitle-${_id}`}
                 value={editTitle}
                 onChange={handleEditTitleChange}
@@ -115,7 +114,6 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
                     handleSaveClick();
                   }
                 }}
-                className={styles.taskTitle}
               />
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
