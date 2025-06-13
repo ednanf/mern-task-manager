@@ -39,7 +39,11 @@ function App() {
       <div className=''>
         <NewTaskInput onTaskAdded={fetchTasks} />
         <div className={styles.taskListWrapper}>
-          {tasks.length === 0 && <p>Your task list is empty.</p>}
+          {tasks.length === 0 && (
+            <div className={styles.emptyMessage}>
+              <p>Your task list is empty.</p>
+            </div>
+          )}
           {tasks.map((task) => (
             <Task title={task.title} _id={task._id} completed={task.completed} onTaskChanged={fetchTasks} />
           ))}

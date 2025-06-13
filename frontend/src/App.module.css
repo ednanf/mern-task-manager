@@ -27,3 +27,14 @@ h1 {
     font-family: 'Text Me One', sans-serif;
     color: var(--app-h1-color);
 }
+
+.emptyMessage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px; /* Adjust as needed for vertical centering */
+    width: 100%;
+    font-size: 1.2rem;
+    color: var(--app-h1-color);
+    text-align: center;
+}

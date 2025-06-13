@@ -6,7 +6,6 @@
     border: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
-    color: #444;
 }
 
 :root {
@@ -15,6 +14,7 @@
     --foregroundLayer-background: linear-gradient(145deg, #f0f0f0, #cacaca);
     --foregroundLayer-box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
     --app-h1-color: #9d9d9d;
+    --app-color: #444;
     /* New task input field */
     --new-task-input-bg: #e1e2e3;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
