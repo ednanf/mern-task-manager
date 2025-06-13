@@ -1,0 +1,18 @@
+.input {
+    width: 100%;
+    max-width: 100%;
+    min-height: 30px;
+    padding: 6px 7px;
+    outline: none;
+    background: #e8e8e8;
+    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.5s;
+    box-sizing: border-box;
+}
+
+/* .input:focus {
+    background: #e8e8e8;
+    box-shadow: inset 5px 5px 17px #c8c8c8, inset -5px -5px 17px #ffffff;
+} */
