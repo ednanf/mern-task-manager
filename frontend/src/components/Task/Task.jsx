@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { FiEdit3, FiDelete, FiSave } from 'react-icons/fi';
+import { FiEdit3, FiDelete, FiSave, FiTrash } from 'react-icons/fi';
 import { TbArrowBack } from 'react-icons/tb';
 
 import TaskButton from '../TaskButton/TaskButton';
@@ -118,14 +118,14 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
                   <TaskButton className='' onClick={handleSaveClick} disabled={isLoading} ariaLabel='save'>
-                    <FiSave size={22} color='#9d9d9d' />
+                    <FiSave size={22} />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleCancelClick}
                     disabled={isLoading}
                     ariaLabel='cancel'>
-                    <TbArrowBack size={22} color='#9d9d9d' />
+                    <TbArrowBack size={22} />
                   </TaskButton>
                 </div>
               )}
@@ -136,14 +136,14 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
                   <TaskButton className='' onClick={handleEditClick} disabled={isLoading} ariaLabel='edit'>
-                    <FiEdit3 size={22} color='#9d9d9d' />
+                    <FiEdit3 size={22} />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleDeleteClick}
                     disabled={isLoading}
                     ariaLabel='delete'>
-                    <FiDelete size={22} color='#9d9d9d' />
+                    <FiTrash size={22} />
                   </TaskButton>
                 </div>
               )}
