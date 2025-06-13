@@ -77,10 +77,9 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
     setLoadingAction('delete');
     setIsLoading(true);
     try {
-      await axios.delete(
-        `https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`,
-        { withCredentials: true },
-      );
+      await axios.delete(`https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`, {
+        withCredentials: true,
+      });
       toast.success('Task deleted!');
       if (onTaskChanged) onTaskChanged();
     } catch (err) {
@@ -91,14 +90,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
     }
   };
 
-  // TODO: convert colors into variables in index.css
-
-  // TODO: add styling to the input field when editing - maybe convert into a component
-
   return (
-    <div
-      className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}
-    >
+    <div className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}>
       <div className={styles.taskBody}>
         <div className={styles.taskContent}>
           <TaskCheckbox
@@ -126,20 +119,14 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               />
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
-                  <TaskButton
-                    className=''
-                    onClick={handleSaveClick}
-                    disabled={isLoading}
-                    ariaLabel='save'
-                  >
+                  <TaskButton className='' onClick={handleSaveClick} disabled={isLoading} ariaLabel='save'>
                     <FiSave size={22} color='#9d9d9d' />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleCancelClick}
                     disabled={isLoading}
-                    ariaLabel='cancel'
-                  >
+                    ariaLabel='cancel'>
                     <TbArrowBack size={22} color='#9d9d9d' />
                   </TaskButton>
                 </div>
@@ -150,20 +137,14 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               <p className={styles.taskTitle}>{editTitle}</p>
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
-                  <TaskButton
-                    className=''
-                    onClick={handleEditClick}
-                    disabled={isLoading}
-                    ariaLabel='edit'
-                  >
+                  <TaskButton className='' onClick={handleEditClick} disabled={isLoading} ariaLabel='edit'>
                     <FiEdit3 size={22} color='#9d9d9d' />
                   </TaskButton>
                   <TaskButton
                     className=''
                     onClick={handleDeleteClick}
                     disabled={isLoading}
-                    ariaLabel='delete'
-                  >
+                    ariaLabel='delete'>
                     <FiDelete size={22} color='#9d9d9d' />
                   </TaskButton>
                 </div>

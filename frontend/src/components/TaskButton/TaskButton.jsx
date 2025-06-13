@@ -1,15 +1,6 @@
 import styles from './TaskButton.module.css';
 
-// TODO: style button
-
-const TaskButton = ({
-  type,
-  disabled,
-  onClick,
-  ariaLabel,
-  children,
-  ...rest
-}) => {
+const TaskButton = ({ type, disabled, onClick, ariaLabel, children, ...rest }) => {
   return (
     <button
       type={type}
@@ -17,8 +8,7 @@ const TaskButton = ({
       onClick={onClick}
       aria-label={ariaLabel}
       className={styles.roundButton}
-      {...rest}
-    >
+      {...rest}>
       <span className={styles.i}>{children}</span>
     </button>
   );

@@ -17,30 +17,15 @@ const NewTaskInput = ({ onTaskAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        'https://mern-task-manager-syry.onrender.com/api/v1/tasks',
-        newTask,
-        { withCredentials: true },
-      );
+      await axios.post('https://mern-task-manager-syry.onrender.com/api/v1/tasks', newTask, {
+        withCredentials: true,
+      });
       setNewTask({ title: '', completed: false });
       if (onTaskAdded) onTaskAdded(); // Refresh the list
     } catch (err) {
-      toast.error(
-        err.response?.data?.msg ||
-          err.response?.data?.error ||
-          'Task creation failed',
-      );
+      toast.error(err.response?.data?.msg || err.response?.data?.error || 'Task creation failed');
     }
   };
-
-  /*
-  TODO: Add an extra step to buttons
-  1. Natural state - distance 15px and convex
-  2. Hovering - distance 10px and convex
-  3. Pressed - distance 5px and concave
-*/
-
-  // FIXME: the bar isn't perfectly centered
 
   return (
     <div>

@@ -21,18 +21,10 @@ const Layout = () => {
     }
   }, [dark]);
 
-  // TODO: style toasts if possible
-  // FIXME: theme toggle button doesn't behave like the add button
-  // BUG: theme toggle button doesn't lose the glow around it
-
   return (
     <>
       <Navbar />
-      <button
-        className={styles.themeToggle}
-        onClick={() => setDark((d) => !d)}
-        aria-label='Toggle dark mode'
-      >
+      <button className={styles.themeToggle} onClick={() => setDark((d) => !d)} aria-label='Toggle dark mode'>
         {dark ? '🌙' : '☀️'}
       </button>
       <ToastContainer position='top-right' autoClose={2000} />

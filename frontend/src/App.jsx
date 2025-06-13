@@ -14,10 +14,9 @@ function App() {
   const fetchTasks = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        'https://mern-task-manager-syry.onrender.com/api/v1/tasks',
-        { withCredentials: true },
-      );
+      const res = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/tasks', {
+        withCredentials: true,
+      });
       setTasks(res.data.data || []);
       setError('');
     } catch (err) {
@@ -31,9 +30,6 @@ function App() {
     fetchTasks();
   }, []);
 
-  // FIXME: "Loading tasks..." is not centered, add class maybe?
-  //TODO: Add spinner in center above "loading tasks"
-
   if (loading) return <p>Loading tasks...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
@@ -45,12 +41,7 @@ function App() {
         <div className={styles.taskListWrapper}>
           {tasks.length === 0 && <p>Your task list is empty.</p>}
           {tasks.map((task) => (
-            <Task
-              title={task.title}
-              _id={task._id}
-              completed={task.completed}
-              onTaskChanged={fetchTasks}
-            />
+            <Task title={task.title} _id={task._id} completed={task.completed} onTaskChanged={fetchTasks} />
           ))}
         </div>
       </div>
