@@ -10,7 +10,10 @@
     align-items: center;
     gap: 1rem;
     flex: 1;
+    color: var(--app-color);
 }
+
+/* Task card */
 
 .taskCard {
     background: var(--taskCard-bg);
@@ -27,6 +30,8 @@
     box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
     transform: translateY(-2px);
 }
+
+/* Task management buttons */
 
 .taskButtons {
     opacity: 0;

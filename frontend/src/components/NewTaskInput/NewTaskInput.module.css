@@ -5,6 +5,7 @@ form {
     gap: 1rem;
     margin-bottom: 1rem;
     padding-top: 30px;
+    color: var(--app-color);
 }
 
 .formRow {
