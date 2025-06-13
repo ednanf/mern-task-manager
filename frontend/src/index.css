@@ -1,45 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Text+Me+One&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     border: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Inter', sans-serif;
+    color: #444;
 }
 
 :root {
     /* App body */
     --backgroundLayer-background: #e0e0e0;
     --foregroundLayer-background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    --foregroundLayer-box-shadow: 19px 19px 38px #bebebe,
-        -19px -19px 38px #ffffff;
+    --foregroundLayer-box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
     --app-h1-color: #9d9d9d;
     /* New task input field */
     --new-task-input-bg: #e1e2e3;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
     --new-task-input-bg-focus: #ffffff;
-    --new-task-input-box-shadow-focus: 13px 13px 100px #969696,
-        -13px -13px 100px #ffffff;
+    --new-task-input-box-shadow-focus: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
     --new-task-transition: 300ms ease-in-out;
     /* Task card */
     --taskCard-bg: #e0e0e0;
     --taskCard-box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff;
     /* Button */
     --button-bg: #e0e0e0;
-    --button-bg-grad: linear-gradient(
-        45deg,
-        rgb(228, 232, 236) 0%,
-        rgb(234 234 234) 100%
-    );
+    --button-bg-grad: linear-gradient(45deg, rgb(228, 232, 236) 0%, rgb(234 234 234) 100%);
     --button-shadow: -2px -7px 10px #f1f1f1, 4px 6px 10px #d4d7da;
     --button-bg-active: rgb(218, 221, 224);
-    --button-bg-active-grad: linear-gradient(
-        45deg,
-        rgb(218, 221, 224) 0%,
-        rgb(241, 241, 241) 100%
-    );
-    --button-shadow-active: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1,
-        inset -2px -7px 10px #f1f1f1, inset 4px 6px 10px #d4d7da;
+    --button-bg-active-grad: linear-gradient(45deg, rgb(218, 221, 224) 0%, rgb(241, 241, 241) 100%);
+    --button-shadow-active: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1, inset -2px -7px 10px #f1f1f1,
+        inset 4px 6px 10px #d4d7da;
     --button-text: #9d9d9d;
 }
 
