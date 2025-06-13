@@ -9,7 +9,7 @@ form {
 }
 
 .formRow {
-    width: 95%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,6 +17,7 @@ form {
 }
 
 .inputField {
+    margin-left: 3%;
     width: 85%;
     border: none;
     outline: none;
