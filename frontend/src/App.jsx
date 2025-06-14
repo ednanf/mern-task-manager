@@ -20,6 +20,7 @@ function App() {
       setTasks(res.data.data || []);
       setError('');
     } catch (err) {
+      console.error(err);
       setError('Failed to fetch tasks');
     } finally {
       setLoading(false);
@@ -27,7 +28,9 @@ function App() {
   };
 
   useEffect(() => {
-    fetchTasks();
+    fetchTasks().catch((err) => {
+      console.error('Unexpected error in fetchTasks:', err);
+    });
   }, []);
 
   if (loading) return <p>Loading tasks...</p>;
