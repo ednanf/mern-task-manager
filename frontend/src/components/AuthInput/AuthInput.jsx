@@ -1,9 +1,11 @@
 import styles from './AuthInput.module.css';
 
+import capitalize from '../../utils/capitalize';
+
 const AuthInput = ({ id, type, name, value, onChange }) => {
   return (
     <div className={styles.authInput}>
-      <label htmlFor={id}>{name}</label>
+      <label htmlFor={id}>{capitalize(name)}</label>
       <input
         id={id}
         type={type}
