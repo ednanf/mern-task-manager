@@ -110,12 +110,17 @@ const check = async (req, res) => {
  *
  * @async
  * @function logout
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @returns {void}
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<void>} Sends a JSON response indicating success.
  */
 const logout = async (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/', // Make sure this matches the path used when setting the cookie
+  });
   res.status(StatusCodes.OK).json({ success: true });
 };
 
