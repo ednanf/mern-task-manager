@@ -71,7 +71,7 @@ const Auth = () => {
           <AuthButton>Register</AuthButton>
         </form>
         <div className={styles.authFooter}>
-          <h4>Already have one?</h4>
+          <h4>Already have an account?</h4>
           <Link to='login'>Login</Link>
         </div>
         <Outlet />
