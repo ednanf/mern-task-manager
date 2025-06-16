@@ -1,7 +1,9 @@
 const { StatusCodes } = require('http-status-codes');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { customError } = require('../errors');
+const { isTokenValid, extractUserInfo } = require('../utils/cookieCheck');
 
 /**
  * Registers a new user, creates a JWT token, and sends a response with the user's name and token.
@@ -27,9 +29,7 @@ const register = async (req, res) => {
       })
       .json({ status: 'success', data: { user: user.name } });
   } catch (error) {
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ msg: error.message || 'Registration failed' });
+    res.status(StatusCodes.BAD_REQUEST).json({ msg: error.message || 'Registration failed' });
   }
 };
 
@@ -53,10 +53,7 @@ const login = async (req, res) => {
 
   // Check if email or password is missing
   if ((!email, !password)) {
-    throw customError(
-      StatusCodes.BAD_REQUEST,
-      'Please, provide email and password',
-    );
+    throw customError(StatusCodes.BAD_REQUEST, 'Please, provide email and password');
   }
 
   // Find the user by email in the database
@@ -90,4 +87,19 @@ const login = async (req, res) => {
     .json({ status: 'success', data: { user: user.name } });
 };
 
-module.exports = { register, login };
+const check = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token || !isTokenValid(token)) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({ loggedIn: false });
+  }
+
+  res.status(StatusCodes.OK).json({ loggedIn: true, user: extractUserInfo(token) });
+};
+
+const logout = async (req, res) => {
+  res.clearCookie('token');
+  res.status(StatusCodes.OK).json({ success: true });
+};
+
+module.exports = { register, login, check, logout };
