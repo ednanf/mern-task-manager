@@ -87,6 +87,14 @@ const login = async (req, res) => {
     .json({ status: 'success', data: { user: user.name } });
 };
 
+/**
+ * Checks if the user is authenticated based on the presence and validity of a token in cookies.
+ *
+ * @async
+ * @param {import('express').Request} req - Express request object.
+ * @param {import('express').Response} res - Express response object.
+ * @returns {Promise<void>} Sends a JSON response indicating authentication status and user info if authenticated.
+ */
 const check = async (req, res) => {
   const token = req.cookies.token;
 
@@ -97,6 +105,15 @@ const check = async (req, res) => {
   res.status(StatusCodes.OK).json({ loggedIn: true, user: extractUserInfo(token) });
 };
 
+/**
+ * Logs out the user by clearing the authentication token cookie.
+ *
+ * @async
+ * @function logout
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
 const logout = async (req, res) => {
   res.clearCookie('token');
   res.status(StatusCodes.OK).json({ success: true });
