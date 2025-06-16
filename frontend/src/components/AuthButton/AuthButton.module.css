@@ -1,0 +1,51 @@
+.authButton {
+    width: 100px;
+    height: 45px;
+    margin: 0 15px;
+    transform: scale(1);
+    border-style: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 999px;
+    background: var(--button-bg);
+    background: var(--button-bg-grad);
+    color: var(--button-text);
+    box-shadow: var(--button-shadow);
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authButton:active {
+    background: var(--button-bg-active);
+    background: var(--button-bg-active-grad);
+    box-shadow: var(--button-shadow-active);
+    transition: all 0.3s;
+    transform: scale(0.95);
+}
+
+.i {
+    font-size: 20px;
+    background: linear-gradient(-45deg, gray 0%, lightgray 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.i:active {
+    transform: scale(0.9);
+    transition: all 0.3s;
+}
+
+.svg {
+    width: 25px;
+    height: 60px;
+    border-style: none;
+    align-items: center;
+    vertical-align: middle;
+}

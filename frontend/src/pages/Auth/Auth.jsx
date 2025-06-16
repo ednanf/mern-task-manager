@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import AuthInput from '../../components/AuthInput/AuthInput';
+import AuthButton from '../../components/AuthButton/AuthButton';
 
 import styles from './Auth.module.css';
 
@@ -67,7 +68,7 @@ const Auth = () => {
               autoComplete='new-password'
             />
           </div>
-          <button type='submit'>Register</button>
+          <AuthButton>Register</AuthButton>
         </form>
         <div className={styles.authFooter}>
           <h4>Already have one?</h4>
