@@ -23,6 +23,7 @@ const Login = () => {
       await axios.post('https://mern-task-manager-syry.onrender.com/api/v1/auth/login', form, {
         withCredentials: true,
       });
+      window.dispatchEvent(new Event('authChanged'));
       toast.success('Login successful!');
       setTimeout(() => {
         navigate('/');

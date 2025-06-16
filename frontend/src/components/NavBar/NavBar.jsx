@@ -8,19 +8,23 @@ import styles from './NavBar.module.css';
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const checkLoginStatus = async () => {
+    try {
+      const response = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/check', {
+        withCredentials: true,
+      });
+      setIsLoggedIn(response.data.loggedIn);
+    } catch (error) {
+      setIsLoggedIn(false);
+      console.error('Error checking login status:', error);
+    }
+  };
+
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const response = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/check', {
-          withCredentials: true,
-        });
-        setIsLoggedIn(response.data.loggedIn);
-      } catch (error) {
-        setIsLoggedIn(false);
-        console.error('Error checking login status:', error);
-      }
-    };
     checkLoginStatus();
+    const handler = () => checkLoginStatus();
+    window.addEventListener('authChanged', handler);
+    return () => window.removeEventListener('authChanged', handler);
   }, []);
 
   const handleLogout = async () => {
@@ -28,7 +32,8 @@ const Navbar = () => {
       await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/logout', {
         withCredentials: true,
       });
-      window.location.href = '/';
+      window.dispatchEvent(new Event('authChanged'));
+      window.location.reload();
     } catch (error) {
       console.error('Logout failed:', error);
     }
