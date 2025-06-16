@@ -55,7 +55,13 @@ function App() {
             </div>
           )}
           {tasks.map((task) => (
-            <Task title={task.title} _id={task._id} completed={task.completed} onTaskChanged={fetchTasks} />
+            <Task
+              key={task._id}
+              title={task.title}
+              _id={task._id}
+              completed={task.completed}
+              onTaskChanged={fetchTasks}
+            />
           ))}
         </div>
       </div>
