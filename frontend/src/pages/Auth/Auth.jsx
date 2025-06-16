@@ -34,7 +34,7 @@ const Auth = () => {
       <div className={styles.authWrapper}>
         <h2 className={styles.authHeader}>Create an account</h2>
         <form className={styles.authForm} onSubmit={handleSubmit}>
-          <div>
+          <div style={{ width: '100%' }}>
             <AuthInput
               id='name'
               type='text'
@@ -45,7 +45,7 @@ const Auth = () => {
               autoComplete='name'
             />
           </div>
-          <div>
+          <div style={{ width: '100%' }}>
             <AuthInput
               id='email'
               type='email'
@@ -56,7 +56,7 @@ const Auth = () => {
               autoComplete='email'
             />
           </div>
-          <div>
+          <div style={{ width: '100%' }}>
             <AuthInput
               id='password'
               type='password'

@@ -1,0 +1,26 @@
+.authInput {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+    height: 100%;
+}
+
+.inputField {
+    margin-left: 3%;
+    width: 85%;
+    border: none;
+    outline: none;
+    border-radius: 100px;
+    padding: 1em;
+    background-color: var(--new-task-input-bg);
+    box-shadow: var(--new-task-input-box-shadow);
+    transition: 300ms ease-in-out;
+}
+
+.inputField:focus {
+    background-color: var(--new-task-input-bg-focus);
+    transform: scale(1.05);
+    box-shadow: var(--new-task-input-box-shadow-focus);
+}
