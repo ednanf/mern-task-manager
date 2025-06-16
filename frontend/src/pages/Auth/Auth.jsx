@@ -4,6 +4,8 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
+import AuthInput from '../../components/AuthInput/AuthInput';
+
 import styles from './Auth.module.css';
 
 const Auth = () => {
@@ -33,8 +35,7 @@ const Auth = () => {
         <h2 className={styles.authHeader}>Create an account</h2>
         <form className={styles.authForm} onSubmit={handleSubmit}>
           <div>
-            <label htmlFor='name'>Name:</label>
-            <input
+            <AuthInput
               id='name'
               type='text'
               name='name'
@@ -45,8 +46,7 @@ const Auth = () => {
             />
           </div>
           <div>
-            <label htmlFor='email'>Email:</label>
-            <input
+            <AuthInput
               id='email'
               type='email'
               name='email'
@@ -57,8 +57,7 @@ const Auth = () => {
             />
           </div>
           <div>
-            <label htmlFor='password'>Password:</label>
-            <input
+            <AuthInput
               id='password'
               type='password'
               name='password'
