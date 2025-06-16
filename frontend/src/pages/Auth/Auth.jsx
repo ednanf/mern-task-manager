@@ -72,7 +72,9 @@ const Auth = () => {
         </form>
         <div className={styles.authFooter}>
           <h4>Already have an account?</h4>
-          <Link to='login'>Login</Link>
+          <Link to='login' className={styles.authLink}>
+            Login
+          </Link>
         </div>
         <Outlet />
       </div>
