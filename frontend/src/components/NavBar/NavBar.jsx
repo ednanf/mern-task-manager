@@ -33,7 +33,7 @@ const Navbar = () => {
         withCredentials: true,
       });
       window.dispatchEvent(new Event('authChanged'));
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       console.error('Logout failed:', error);
     }

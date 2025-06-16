@@ -11,6 +11,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -28,10 +29,28 @@ function App() {
     }
   };
 
+  const checkLoginStatus = async () => {
+    try {
+      const response = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/check', {
+        withCredentials: true,
+      });
+      setIsLoggedIn(response.data.loggedIn);
+    } catch (error) {
+      setIsLoggedIn(false);
+    }
+  };
+
   useEffect(() => {
     fetchTasks().catch((err) => {
       console.error('Unexpected error in fetchTasks:', err);
     });
+    checkLoginStatus();
+    const handleAuthChanged = () => {
+      setTasks([]);
+      checkLoginStatus();
+    };
+    window.addEventListener('authChanged', handleAuthChanged);
+    return () => window.removeEventListener('authChanged', handleAuthChanged);
   }, []);
 
   if (loading) {
@@ -47,7 +66,7 @@ function App() {
     <div className={styles.appBody}>
       <h1>MERN Task Manager</h1>
       <div className=''>
-        <NewTaskInput onTaskAdded={fetchTasks} />
+        {isLoggedIn && <NewTaskInput onTaskAdded={fetchTasks} />}
         <div className={styles.taskListWrapper}>
           {tasks.length === 0 && (
             <div className={styles.emptyMessage}>
