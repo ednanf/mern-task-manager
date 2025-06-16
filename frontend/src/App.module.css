@@ -38,3 +38,11 @@ h1 {
     color: var(--app-h1-color);
     text-align: center;
 }
+
+.spinnerWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}

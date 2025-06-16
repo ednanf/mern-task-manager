@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import NewTaskInput from './components/NewTaskInput/NewTaskInput';
 import Task from './components/Task/Task';
+import NewTaskInput from './components/NewTaskInput/NewTaskInput';
+import FetchTasksSpinner from './components/FetchTasksSpinner/FetchTasksSpinner';
 
 import styles from './App.module.css';
 
@@ -33,7 +34,13 @@ function App() {
     });
   }, []);
 
-  if (loading) return <p>Loading tasks...</p>;
+  if (loading) {
+    return (
+      <div className={styles.spinnerWrapper}>
+        <FetchTasksSpinner />
+      </div>
+    );
+  }
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (

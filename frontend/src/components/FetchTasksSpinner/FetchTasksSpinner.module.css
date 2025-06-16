@@ -11,20 +11,20 @@
 }
 
 .loader .item1 {
-    --size: 90px;
-    animation: size1_1 2.5s infinite alternate;
+    --size: 180px;
+    animation: size1_1 1.5s infinite alternate;
     z-index: 1;
 }
 
 .loader .item2 {
-    --size: 60px;
-    animation: size1_2 2.5s infinite alternate;
+    --size: 150px;
+    animation: size1_2 1.5s infinite alternate;
     z-index: 2;
 }
 
 .loader .item3 {
-    --size: 30px;
-    animation: size1_3 2.5s infinite alternate;
+    --size: 120px;
+    animation: size1_3 1.5s infinite alternate;
     z-index: 3;
 }
 
