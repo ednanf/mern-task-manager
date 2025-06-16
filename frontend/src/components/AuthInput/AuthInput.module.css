@@ -7,6 +7,16 @@
     height: 100%;
 }
 
+.authInput label {
+    font-family: 'Text Me One', sans-serif;
+    color: var(--app-h1-color);
+    text-align: left;
+    margin-top: 1rem;
+    align-self: flex-start;
+    margin-left: 10%;
+    margin-bottom: 5px;
+}
+
 .inputField {
     margin-left: 3%;
     width: 85%;
