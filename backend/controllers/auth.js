@@ -119,7 +119,7 @@ const logout = async (req, res) => {
     httpOnly: true,
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     secure: process.env.NODE_ENV === 'production',
-    path: '/', // Make sure this matches the path used when setting the cookie
+    path: '/',
   });
   res.status(StatusCodes.OK).json({ success: true });
 };
