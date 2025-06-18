@@ -15,6 +15,11 @@
     --foregroundLayer-box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
     --app-h1-color: #9d9d9d;
     --app-color: #444;
+    --link-hover-color: #3fd0ff;
+    --link-hover-glow: drop-shadow(0 0 1px #3fd0ff);
+    /* PAGES ============================================================================================== */
+    /* Auth */
+    /* COMPONENTS ========================================================================================= */
     /* AuthButton */
     --auth-button-image-bg: linear-gradient(-45deg, gray 0%, lightgray 100%);
     /* Fetch spinner */

@@ -49,6 +49,6 @@
 
 .authLink:hover,
 .authLink:focus {
-    color: #3fd0ff; /* Light blue */
-    /* filter: drop-shadow(0 0 1px #3fd0ff); */
+    color: var(--link-hover-color);
+    filter: var(--link-hover-glow);
 }

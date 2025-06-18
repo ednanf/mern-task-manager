@@ -34,6 +34,8 @@
     cursor: pointer;
 }
 
-.link:hover {
-    color: #3fd0ff;
+.link:hover,
+.link:focus {
+    color: var(--link-hover-color);
+    filter: var(--link-hover-glow);
 }
