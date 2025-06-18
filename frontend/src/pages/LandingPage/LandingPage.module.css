@@ -1,0 +1,39 @@
+.container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 18px;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 2.5rem 2rem;
+}
+
+.title {
+    font-family: 'Text Me One', sans-serif;
+    color: var(--app-h1-color);
+    font-size: 1.75rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+}
+
+.description {
+    color: var(--app-color);
+    font-size: 1.15rem;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.link {
+    color: var(--app-color);
+    text-decoration: none;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: #3fd0ff;
+}
