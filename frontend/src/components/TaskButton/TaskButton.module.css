@@ -6,12 +6,12 @@
     height: 32px;
     border-radius: 50%;
     cursor: pointer;
-    color: #9d9d9d; /* Default icon color */
+    color: var(--task-card-button-icon-color);
     transition: color 0.2s, filter 0.2s;
 }
 
 .i:hover,
 .i:focus {
-    color: #3fd0ff; /* Light blue */
-    filter: drop-shadow(0 0 1px #3fd0ff);
+    color: var(--task-card-button-color);
+    filter: var(--task-card-button-filter);
 }

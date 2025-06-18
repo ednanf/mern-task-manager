@@ -27,7 +27,7 @@
 
 .i {
     font-size: 20px;
-    background: linear-gradient(-45deg, gray 0%, lightgray 100%);
+    background: var(--roundbutton-image-background);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

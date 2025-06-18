@@ -15,7 +15,34 @@
     --foregroundLayer-box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
     --app-h1-color: #9d9d9d;
     --app-color: #444;
-    /* New task input field */
+    /* AuthButton */
+    --auth-button-image-bg: linear-gradient(-45deg, gray 0%, lightgray 100%);
+    /* Fetch spinner */
+    --fetchspinner-animation-box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+    /* Layout theme toggle button */
+    /* INSERT TOGGLE VARS HERE ============================== */
+    /* Navbar */
+    --navbar-link: #9d9d9d;
+    --navbar-link-hover-bg: rgba(136, 136, 136, 0.12);
+    --navbar-link-hover-color: #ffffff;
+    /* Round button */
+    --roundbutton-image-background: linear-gradient(-45deg, gray 0%, lightgray 100%);
+    /* Task card buttons */
+    --task-card-button-icon-color: #9d9d9d;
+    --task-card-button-color: #3fd0ff;
+    --task-card-button-filter: drop-shadow(0 0 1px #3fd0ff);
+    /* Task card checkbox */
+    --checkmark-bg-color: #ccc;
+    --checkmark-bg: #e8e8e8;
+    --checkmark-box-shadow: 3px 3px 5px #c5c5c5, -3px -3px 5px #ffffff;
+    --checkmark-container-box-shadow: inset 3px 3px 5px #c5c5c5, inset -3px -3px 5px #ffffff;
+    --checkmark-container-border-after: solid darkgray;
+    /* Task edit input field */
+    --task-edit-input-box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+        inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+    --task-edit-input-box-shadow-editing: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
+        inset -5px -5px 10px rgba(255, 255, 255, 0.7);
+    /* New task input field & auth input*/
     --new-task-input-bg: #e1e2e3;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
     --new-task-input-bg-focus: #ffffff;
@@ -24,7 +51,8 @@
     /* Task card */
     --taskCard-bg: #e0e0e0;
     --taskCard-box-shadow: 8px 8px 15px #bebebe, -8px -8px 15px #ffffff;
-    /* Button */
+    --taskCard-hover-box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
+    /* Button & round button */
     --button-bg: #e0e0e0;
     --button-bg-grad: linear-gradient(45deg, rgb(228, 232, 236) 0%, rgb(234 234 234) 100%);
     --button-shadow: -2px -7px 10px #f1f1f1, 4px 6px 10px #d4d7da;

@@ -28,7 +28,7 @@
 }
 
 .taskCard:hover {
-    box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
+    box-shadow: var(--taskCard-hover-box-shadow);
     transform: translateY(-2px);
 }
 
