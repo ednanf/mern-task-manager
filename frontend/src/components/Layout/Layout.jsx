@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Navbar from '../NavBar/Navbar';
+import NavBar from '../NavBar/NavBar';
 import styles from './Layout.module.css';
 
 const Layout = () => {
@@ -23,7 +23,7 @@ const Layout = () => {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
       <button className={styles.themeToggle} onClick={() => setDark((d) => !d)} aria-label='Toggle dark mode'>
         {dark ? '🌙' : '☀️'}
       </button>
