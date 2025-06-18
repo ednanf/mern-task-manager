@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import LandingPage from './pages/LandingPage/LandingPage.jsx'
 import Task from './components/Task/Task';
 import NewTaskInput from './components/NewTaskInput/NewTaskInput';
 import FetchTasksSpinner from './components/FetchTasksSpinner/FetchTasksSpinner';
@@ -60,6 +61,7 @@ function App() {
       </div>
     );
   }
+  if (!isLoggedIn) return <LandingPage />;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
