@@ -63,3 +63,17 @@
     box-shadow: 0 0 12px 2px #80d8ff, 0 2px 8px rgba(128, 216, 255, 0.15);
     outline: none;
 }
+
+.toggleFloat {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+}

@@ -1,15 +1,19 @@
 import styles from './Toggle.module.css';
 
-const Toggle = () => {
+const Toggle = ({ checked, onChange }) => {
   return (
-    <>
-      <label class='label'>
-        <div class='toggle'>
-          <input class='toggle-state' type='checkbox' name='check' value='check'></input>
-          <div class='indicator'></div>
-        </div>
-      </label>
-    </>
+    <label className={styles.label}>
+      <div className={styles.toggle}>
+        <input
+          className={styles['toggle-state']}
+          type='checkbox'
+          name='theme-toggle'
+          checked={checked}
+          onChange={onChange}
+        />
+        <div className={styles.indicator}></div>
+      </div>
+    </label>
   );
 };
 

@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import NavBar from '../NavBar/NavBar';
+import Toggle from '../Toggle/Toggle';
 import styles from './Layout.module.css';
 
 const Layout = () => {
@@ -21,12 +22,17 @@ const Layout = () => {
     }
   }, [dark]);
 
+  // Handler for the custom toggle
+  const handleToggle = (e) => {
+    setDark(e.target.checked);
+  };
+
   return (
     <>
       <NavBar />
-      <button className={styles.themeToggle} onClick={() => setDark((d) => !d)} aria-label='Toggle dark mode'>
-        {dark ? '🌙' : '☀️'}
-      </button>
+      <div className={styles.toggleFloat}>
+        <Toggle checked={dark} onChange={handleToggle} />
+      </div>
       <ToastContainer position='top-right' autoClose={2000} />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
