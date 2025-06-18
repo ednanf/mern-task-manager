@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import NavBar from '../NavBar/NavBar';
 import Toggle from '../Toggle/Toggle';
+
 import styles from './Layout.module.css';
 
 const Layout = () => {

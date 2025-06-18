@@ -1,3 +1,4 @@
+import { FiSun, FiMoon } from 'react-icons/fi';
 import styles from './Toggle.module.css';
 
 const Toggle = ({ checked, onChange }) => {
@@ -11,7 +12,10 @@ const Toggle = ({ checked, onChange }) => {
           checked={checked}
           onChange={onChange}
         />
-        <div className={styles.indicator}></div>
+        <div className={styles.indicator}>
+          <FiSun className={styles.sunIcon} />
+          <FiMoon className={styles.moonIcon} />
+        </div>
       </div>
     </label>
   );
