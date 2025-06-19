@@ -9,7 +9,7 @@
 
 .authInput label {
     font-family: 'Text Me One', sans-serif;
-    color: var(--app-h1-color);
+    color: var(--new-task-input-label-color);
     text-align: left;
     margin-top: 1rem;
     align-self: flex-start;
@@ -27,10 +27,12 @@
     background-color: var(--new-task-input-bg);
     box-shadow: var(--new-task-input-box-shadow);
     transition: 300ms ease-in-out;
+    color: var(--new-task-input-color);
 }
 
 .inputField:focus {
     background-color: var(--new-task-input-bg-focus);
     transform: scale(1.05);
     box-shadow: var(--new-task-input-box-shadow-focus);
+    color: var(--new-task-input-color);
 }

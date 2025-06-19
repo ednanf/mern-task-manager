@@ -50,6 +50,8 @@
     --task-edit-input-box-shadow-editing: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
         inset -5px -5px 10px rgba(255, 255, 255, 0.7);
     /* New task input field & auth input*/
+    --new-task-input-label-color: #9d9d9d;
+    --new-task-input-color: #444;
     --new-task-input-bg: #e1e2e3;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
     --new-task-input-bg-focus: #ffffff;
@@ -106,6 +108,14 @@ body.dark {
         inset -2px -2px 5px rgba(255, 255, 255, 0.2);
     --task-edit-input-box-shadow-editing: inset 5px 5px 10px rgba(0, 0, 0, 0.7),
         inset -5px -5px 10px rgba(255, 255, 255, 0.2);
+    /* New task input field & auth input*/
+    --new-task-input-color: #e0e0e0;
+    --new-task-input-label-color: #b0b0b0;
+    --new-task-input-bg: #4d4d4d;
+    --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.5);
+    --new-task-input-bg-focus: #3d3d3d;
+    --new-task-input-box-shadow-focus: 13px 13px 100px #3c3c3c, -13px -13px 100px #5e5e5e;
+    --new-task-transition: 300ms ease-in-out;
     /* Task card */
     --taskCard-bg: #4d4d4d;
     --taskCard-box-shadow: 8px 8px 15px #3c3c3c, -8px -8px 15px #5e5e5e;

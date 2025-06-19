@@ -5,7 +5,7 @@ form {
     gap: 1rem;
     margin-bottom: 1rem;
     padding-top: 30px;
-    color: var(--app-color);
+    color: var(--new-task-input-color);
 }
 
 .formRow {
@@ -26,10 +26,12 @@ form {
     background-color: var(--new-task-input-bg);
     box-shadow: var(--new-task-input-box-shadow);
     transition: 300ms ease-in-out;
+    color: var(--new-task-input-color);
 }
 
 .inputField:focus {
     background-color: var(--new-task-input-bg-focus);
     transform: scale(1.05);
     box-shadow: var(--new-task-input-box-shadow-focus);
+    color: var(--new-task-input-color);
 }
