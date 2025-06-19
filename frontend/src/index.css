@@ -80,6 +80,7 @@
 }
 
 body.dark {
+    /* App body */
     --backgroundLayer-background: #4d4d4d;
     --foregroundLayer-background: linear-gradient(145deg, #5d5d5d, #3d3d3d);
     --foregroundLayer-box-shadow: 19px 19px 38px #3c3c3c, -19px -19px 38px #5e5e5e;
@@ -87,21 +88,31 @@ body.dark {
     --app-color: #e0e0e0;
     --link-hover-color: #6fcfff;
     --link-hover-glow: drop-shadow(0 0 1px #6fcfff);
+    /* PAGES ============================================================================================== */
+    /* LandingPage */
     --landing-page-p-color: #e0e0e0;
+    /* COMPONENTS ========================================================================================= */
+    /* AuthButton */
     --auth-button-image-bg: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
+    /* Fetch spinner */
     --fetchspinner-animation-box-shadow: 8px 8px 14px #3c3c3c, -8px -8px 14px #5e5e5e;
+    /* Navbar */
     --navbar-link: #b0b0b0;
     --navbar-link-hover-bg: rgba(80, 80, 80, 0.12);
     --navbar-link-hover-color: #e0e0e0;
+    /* Round button */
     --roundbutton-image-background: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
+    /* Task card buttons */
     --task-card-button-icon-color: #b0b0b0;
     --task-card-button-color: #6fcfff;
     --task-card-button-filter: drop-shadow(0 0 1px #6fcfff);
+    /* Task card checkbox */
     --checkmark-bg-color: #5c5c5c;
     --checkmark-bg: #4d4d4d;
     --checkmark-box-shadow: 3px 3px 5px #3c3c3c, -3px -3px 5px #5e5e5e;
     --checkmark-container-box-shadow: inset 3px 3px 5px #3c3c3c, inset -3px -3px 5px #5e5e5e;
     --checkmark-container-border-after: solid #6d6d6d;
+    /* Task edit input field */
     --task-edit-input-bg: #4d4d4d;
     --task-edit-input-color: #e0e0e0;
     --task-edit-input-box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
