@@ -98,7 +98,7 @@ body.dark {
     --fetchspinner-animation-box-shadow: 8px 8px 14px #3c3c3c, -8px -8px 14px #5e5e5e;
     /* Navbar */
     --navbar-link: #b0b0b0;
-    --navbar-link-hover-bg: rgba(80, 80, 80, 0.12);
+    --navbar-link-hover-bg: rgba(136, 136, 136, 0.12); /* Match light mode background highlight */
     --navbar-link-hover-color: #e0e0e0;
     /* Round button */
     --roundbutton-image-background: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
