@@ -43,6 +43,8 @@
     --checkmark-container-box-shadow: inset 3px 3px 5px #c5c5c5, inset -3px -3px 5px #ffffff;
     --checkmark-container-border-after: solid darkgray;
     /* Task edit input field */
+    --task-edit-input-bg: #e8e8e8;
+    -task-edit-input-color: #444;
     --task-edit-input-box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2),
         inset -2px -2px 5px rgba(255, 255, 255, 0.7);
     --task-edit-input-box-shadow-editing: inset 5px 5px 10px rgba(0, 0, 0, 0.3),
@@ -98,6 +100,8 @@ body.dark {
     --checkmark-box-shadow: 3px 3px 5px #3c3c3c, -3px -3px 5px #5e5e5e;
     --checkmark-container-box-shadow: inset 3px 3px 5px #3c3c3c, inset -3px -3px 5px #5e5e5e;
     --checkmark-container-border-after: solid #6d6d6d;
+    --task-edit-input-bg: #4d4d4d;
+    --task-edit-input-color: #e0e0e0;
     --task-edit-input-box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5),
         inset -2px -2px 5px rgba(255, 255, 255, 0.2);
     --task-edit-input-box-shadow-editing: inset 5px 5px 10px rgba(0, 0, 0, 0.7),

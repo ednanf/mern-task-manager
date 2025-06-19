@@ -4,14 +4,14 @@
     min-height: 30px;
     padding: 0 10px;
     outline: none;
-    background: #e8e8e8;
+    background: var(--task-edit-input-bg);
     box-shadow: var(--task-edit-input-box-shadow);
     border: none;
     border-radius: 10px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     transform: translateY(2px);
     box-sizing: border-box;
-    color: var(--app-color);
+    color: var(--task-edit-input-color);
     font-size: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
