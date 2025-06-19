@@ -119,8 +119,8 @@ body.dark {
     --toggle-label-text-color: #394a56;
     --toggle-sun-icon-color: #ffa500;
     --toggle-moon-icon-color: #4a5568;
-    --toggle-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e, 4px 4px 4px 0px #5e5e5e inset,
-        -4px -4px 4px 0px #3c3c3c inset;
+    --toggle-box-shadow: -8px -4px 8px 0px #5e5e5e, 8px 4px 12px 0px #3c3c3c, 4px 4px 4px 0px #3c3c3c inset,
+        -4px -4px 4px 0px #5e5e5e inset;
     --toggle-indicator-bg: #4d4d4d;
     --toggle-indicator-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e;
 }
