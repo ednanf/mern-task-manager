@@ -2,7 +2,7 @@
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    color: #394a56;
+    color: var(--toggle-label-text-color);
 }
 
 .label-text {
@@ -16,8 +16,7 @@
     width: 60px;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6, 4px 4px 4px 0px #d1d9e6 inset,
-        -4px -4px 4px 0px #ffffff inset;
+    box-shadow: var(--toggle-box-shadow);
 }
 
 .toggle-state {
@@ -27,11 +26,11 @@
 .indicator {
     height: 100%;
     width: 200%;
-    background: #ecf0f3;
+    background: var(--toggle-indicator-bg);
     border-radius: 15px;
     transform: translate3d(-75%, 0, 0);
     transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
-    box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6;
+    box-shadow: var(--toggle-indicator-box-shadow);
     position: relative;
 }
 
@@ -41,7 +40,7 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
-    color: #ffa500;
+    color: var(--toggle-sun-icon-color);
 }
 
 .moonIcon {
@@ -50,7 +49,7 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
-    color: #4a5568;
+    color: var(--toggle-moon-icon-color);
 }
 
 .toggle-state:checked ~ .indicator {

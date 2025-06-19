@@ -66,6 +66,14 @@
     --button-shadow-active: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1, inset -2px -7px 10px #f1f1f1,
         inset 4px 6px 10px #d4d7da;
     --button-text: #9d9d9d;
+    /* Dark mode toggle */
+    --toggle-label-text-color: #394a56;
+    --toggle-sun-icon-color: #ffa500;
+    --toggle-moon-icon-color: #4a5568;
+    --toggle-box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6, 4px 4px 4px 0px #d1d9e6 inset,
+        -4px -4px 4px 0px #ffffff inset;
+    --toggle-indicator-bg: #ecf0f3;
+    --toggle-indicator-box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6;
 }
 
 body.dark {
@@ -107,4 +115,12 @@ body.dark {
     --button-shadow: -2px -7px 10px #5e5e5e, 4px 6px 10px #3c3c3c, inset -2px -7px 10px #3c3c3c,
         inset 4px 6px 10px #5e5e5e;
     --button-text: #b0b0b0;
+    /* Dark mode toggle */
+    --toggle-label-text-color: #394a56;
+    --toggle-sun-icon-color: #ffa500;
+    --toggle-moon-icon-color: #4a5568;
+    --toggle-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e, 4px 4px 4px 0px #5e5e5e inset,
+        -4px -4px 4px 0px #3c3c3c inset;
+    --toggle-indicator-bg: #4d4d4d;
+    --toggle-indicator-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e;
 }
