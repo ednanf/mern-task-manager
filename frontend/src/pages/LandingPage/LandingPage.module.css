@@ -1,10 +1,13 @@
+p {
+    color: var(--landing-page-p-color);
+}
+
 .container {
     min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     border-radius: 18px;
     max-width: 600px;
     margin: 40px auto;

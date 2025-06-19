@@ -18,14 +18,13 @@
     --link-hover-color: #3fd0ff;
     --link-hover-glow: drop-shadow(0 0 1px #3fd0ff);
     /* PAGES ============================================================================================== */
-    /* Auth */
+    /* LandingPage */
+    --landing-page-p-color: #444;
     /* COMPONENTS ========================================================================================= */
     /* AuthButton */
     --auth-button-image-bg: linear-gradient(-45deg, gray 0%, lightgray 100%);
     /* Fetch spinner */
     --fetchspinner-animation-box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
-    /* Layout theme toggle button */
-    /* INSERT TOGGLE VARS HERE ============================== */
     /* Navbar */
     --navbar-link: #9d9d9d;
     --navbar-link-hover-bg: rgba(136, 136, 136, 0.12);
@@ -88,6 +87,7 @@ body.dark {
     --app-color: #e0e0e0;
     --link-hover-color: #6fcfff;
     --link-hover-glow: drop-shadow(0 0 1px #6fcfff);
+    --landing-page-p-color: #e0e0e0;
     --auth-button-image-bg: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
     --fetchspinner-animation-box-shadow: 8px 8px 14px #3c3c3c, -8px -8px 14px #5e5e5e;
     --navbar-link: #b0b0b0;
