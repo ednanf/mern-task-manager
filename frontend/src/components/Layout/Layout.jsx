@@ -23,7 +23,6 @@ const Layout = () => {
     }
   }, [dark]);
 
-  // Handler for the custom toggle
   const handleToggle = (e) => {
     setDark(e.target.checked);
   };
