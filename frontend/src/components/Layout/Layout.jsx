@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../../toastify-neumorphism.css';
 
 import NavBar from '../NavBar/NavBar';
 import Toggle from '../Toggle/Toggle';
 
 import styles from './Layout.module.css';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../toastify-neumorphism.css';
 
 const Layout = () => {
   const [dark, setDark] = useState(() => {
