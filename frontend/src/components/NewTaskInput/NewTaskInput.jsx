@@ -23,7 +23,8 @@ const NewTaskInput = ({ onTaskAdded }) => {
       setNewTask({ title: '', completed: false });
       if (onTaskAdded) onTaskAdded(); // Refresh the list
     } catch (err) {
-      const errorMessage = err.response?.data?.data?.message || 'Task creation failed';
+      const errorMessage =
+        err.response?.data?.data?.message || err.response?.data?.msg || 'Task creation failed';
       toast.error(errorMessage);
     }
   };

@@ -26,7 +26,8 @@ const Auth = () => {
         navigate('/');
       }, 1500);
     } catch (err) {
-      const errorMessage = err.response?.data?.data?.message || 'Registration failed';
+      const errorMessage =
+        err.response?.data?.msg || err.response?.data?.data?.message || 'Registration failed';
       toast.error(errorMessage);
     }
   };
