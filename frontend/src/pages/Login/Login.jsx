@@ -29,7 +29,9 @@ const Login = () => {
         navigate('/');
       }, 1500);
     } catch (err) {
-      const errorMessage = err.response?.data?.msg || err.response?.data?.data?.message || 'Login failed';
+      const rawMessage = err.response?.data?.msg || err.response?.data?.data?.message || 'Login failed';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     }
   };

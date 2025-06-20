@@ -26,8 +26,10 @@ const Auth = () => {
         navigate('/');
       }, 1500);
     } catch (err) {
-      const errorMessage =
+      const rawMessage =
         err.response?.data?.msg || err.response?.data?.data?.message || 'Registration failed';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     }
   };

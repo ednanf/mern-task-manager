@@ -23,8 +23,10 @@ const NewTaskInput = ({ onTaskAdded }) => {
       setNewTask({ title: '', completed: false });
       if (onTaskAdded) onTaskAdded(); // Refresh the list
     } catch (err) {
-      const errorMessage =
+      const rawMessage =
         err.response?.data?.data?.message || err.response?.data?.msg || 'Task creation failed';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     }
   };

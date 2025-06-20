@@ -35,8 +35,10 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.success('Task updated!');
     } catch (err) {
       setIsCompleted(!newCompleted); // revert if error
-      const errorMessage =
+      const rawMessage =
         err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to update task.';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -64,8 +66,10 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       setIsEditing(false);
       toast.success('Title updated!');
     } catch (err) {
-      const errorMessage =
+      const rawMessage =
         err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to update title.';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -88,8 +92,10 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.success('Task deleted!');
       if (onTaskChanged) onTaskChanged();
     } catch (err) {
-      const errorMessage =
+      const rawMessage =
         err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to delete task.';
+      // Extract only the core error message by taking the last part after the final colon
+      const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
