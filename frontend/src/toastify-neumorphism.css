@@ -1,0 +1,58 @@
+/* Neumorphic Toastify Styles */
+
+.Toastify__toast {
+    background: var(--toast-bg, #e0e0e0);
+    color: var(--toast-color, #222);
+    box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
+    border-radius: 18px;
+    border: none;
+    padding: 1.2rem 1.5rem;
+    font-size: 1rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+body.dark .Toastify__toast {
+    background: var(--toast-bg-dark, #23272f);
+    color: var(--toast-color-dark, #f1f1f1);
+    box-shadow: 8px 8px 16px #181a20, -8px -8px 16px #2c313a;
+}
+
+.Toastify__toast--success {
+    box-shadow: 8px 8px 16px #b6e6c9, -8px -8px 16px #e0ffe8;
+}
+body.dark .Toastify__toast--success {
+    box-shadow: 8px 8px 16px #1e3a2f, -8px -8px 16px #2e4d3a;
+}
+
+.Toastify__toast--error {
+    box-shadow: 8px 8px 16px #e6b6b6, -8px -8px 16px #ffe0e0;
+}
+body.dark .Toastify__toast--error {
+    box-shadow: 8px 8px 16px #3a1e1e, -8px -8px 16px #4d2e2e;
+}
+
+.Toastify__progress-bar {
+    background: linear-gradient(90deg, #b8c6db 0%, #f5f7fa 100%);
+    border-radius: 8px;
+    height: 6px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}
+body.dark .Toastify__progress-bar {
+    background: linear-gradient(90deg, #23272f 0%, #3a3f47 100%);
+}
+
+.Toastify__close-button {
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.Toastify__close-button:hover {
+    opacity: 1;
+}

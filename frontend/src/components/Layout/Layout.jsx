@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../../toastify-neumorphism.css';
 
 import NavBar from '../NavBar/NavBar';
 import Toggle from '../Toggle/Toggle';
@@ -33,7 +34,7 @@ const Layout = () => {
       <div className={styles.toggleFloat}>
         <Toggle checked={dark} onChange={handleToggle} />
       </div>
-      <ToastContainer position='top-right' autoClose={2000} />
+      <ToastContainer position='top-right' autoClose={2000} theme={dark ? 'dark' : 'light'} closeButton />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
         <div className={styles.foregroundLayer}>
