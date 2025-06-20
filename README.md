@@ -15,10 +15,6 @@
 - This project delivers a full-stack application using the MERN stack, following REST API best practices.  
 - The frontend provides a clean, straightforward interface for interacting with the backend, prioritizing simplicity and usability.
 
-## Installation Instructions
-
-- TBD
-
 ## API Documentation
 
 [Access it here.](https://mern-task-manager.apidocumentation.com/reference)
@@ -44,14 +40,19 @@
 - React
 - Axios
 
+### Hosting
+
+- Backend: [Render](https://render.com/)
+- Frontend: [Vercel](https://vercel.com)
+
 ## Dependencies
 
 ### Backend
 
 ```text
 mern-task-manager
-├── @dotenvx/dotenvx ^1.44.1
 ├── bcryptjs ^3.0.2
+├── cookie-parser ^1.4.7
 ├── cors ^2.8.5
 ├── express ^5.1.0
 ├── express-rate-limit ^7.5.0
@@ -63,3 +64,24 @@ mern-task-manager
 ├── jest ^29.7.0 (dev)
 ├── node-mocks-http ^1.17.2 (dev)
 └── supertest ^7.1.1 (dev)
+```
+
+### Frontend
+
+```text
+mern-task-manager-frontend
+├── axios ^1.9.0
+├── react ^19.1.0
+├── react-dom ^19.1.0
+├── react-icons ^5.5.0
+├── react-router-dom ^7.6.2
+├── react-toastify ^11.0.5
+├── @eslint/js ^9.25.0 (dev)
+├── @types/react ^19.1.2 (dev)
+├── @types/react-dom ^19.1.2 (dev)
+├── @vitejs/plugin-react ^4.4.1 (dev)
+├── eslint ^9.25.0 (dev)
+├── eslint-plugin-react-hooks ^5.2.0 (dev)
+├── eslint-plugin-react-refresh ^0.4.19 (dev)
+├── globals ^16.0.0 (dev)
+└── vite ^6.3.5 (dev)
