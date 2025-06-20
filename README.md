@@ -2,6 +2,8 @@
 
 # MERN Task Manager
 
+**Note:** The backend is hosted on Render and may take a few moments to start up if it has been inactive. Please allow some time for the server to respond on your first request.
+
 ## About Me
 
 - **Author**: Ednan Rogério Frizzera Filho  
