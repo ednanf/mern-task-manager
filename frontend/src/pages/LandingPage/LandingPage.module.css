@@ -1,5 +1,7 @@
 p {
-    color: var(--landing-page-p-color);
+    color: var(--app-h1-color);
+    font-family: 'Text Me One', sans-serif;
+    font-size: 1.3rem;
 }
 
 .container {
@@ -12,12 +14,13 @@ p {
     max-width: 600px;
     margin: 40px auto;
     padding: 2.5rem 2rem;
+    position: relative;
 }
 
 .title {
     font-family: 'Text Me One', sans-serif;
     color: var(--app-h1-color);
-    font-size: 1.75rem;
+    font-size: 1.8rem;
     margin-bottom: 1.2rem;
     text-align: center;
 }
@@ -31,7 +34,8 @@ p {
 }
 
 .link {
-    color: var(--app-color);
+    color: var(--app-h1-color);
+    font-family: 'Text Me One', sans-serif;
     text-decoration: none;
     font-weight: 800;
     cursor: pointer;
@@ -41,6 +45,25 @@ p {
 .link:focus {
     color: var(--link-hover-color);
     filter: var(--link-hover-glow);
+}
+
+.footer {
+    font-family: 'Inter', sans-serif;
+    position: absolute;
+    bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.footer a {
+    color: var(--footer-link-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer a:hover,
+.footer a:focus {
+    color: var(--footer-link-hover-color);
+    text-decoration: underline;
 }
 
 /* Mobile responsive design */
