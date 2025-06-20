@@ -1,4 +1,4 @@
-p {
+.landingText {
     color: var(--app-h1-color);
     font-family: 'Text Me One', sans-serif;
     font-size: 1.3rem;

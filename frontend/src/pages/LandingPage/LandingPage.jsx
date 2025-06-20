@@ -6,7 +6,7 @@ const LandingPage = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Welcome to MERN Task Manager</h2>
-      <p>
+      <p className={styles.landingText}>
         <Link to='auth' className={styles.link}>
           Sign up
         </Link>{' '}
