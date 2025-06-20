@@ -15,9 +15,13 @@
 - This project delivers a full-stack application using the MERN stack, following REST API best practices.  
 - The frontend provides a clean, straightforward interface for interacting with the backend, prioritizing simplicity and usability.
 
+## Application
+
+[Access it here](https://mern-task-manager-eight.vercel.app/)
+
 ## API Documentation
 
-[Access it here.](https://mern-task-manager.apidocumentation.com/reference)
+[Access it here](https://mern-task-manager.apidocumentation.com/reference)
 
 ## Main Technologies
 
