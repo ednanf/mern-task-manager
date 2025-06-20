@@ -110,3 +110,55 @@
     box-shadow: none !important;
     border: none !important;
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .taskCard {
+        padding: 1rem;
+        border-radius: 16px;
+        gap: 0.8rem;
+    }
+
+    .taskContent {
+        gap: 0.8rem;
+    }
+
+    /* Always show task buttons on mobile (no hover) */
+    .taskButtonsRight {
+        opacity: 1;
+        visibility: visible;
+        position: relative;
+    }
+
+    .taskCard:hover .taskButtonsRight {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@media (max-width: 480px) {
+    .taskCard {
+        padding: 0.8rem;
+        border-radius: 14px;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .taskBody {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .taskContent {
+        gap: 0.6rem;
+        flex: none;
+        width: 100%;
+    }
+
+    .taskButtonsRight {
+        margin-left: 0;
+        justify-content: flex-end;
+        width: 100%;
+    }
+}

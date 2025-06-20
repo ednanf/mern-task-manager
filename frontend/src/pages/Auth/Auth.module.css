@@ -52,3 +52,56 @@
     color: var(--link-hover-color);
     filter: var(--link-hover-glow);
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .authHeader {
+        margin-top: 0.8rem;
+        font-size: 1.5rem;
+    }
+
+    .authWrapper {
+        width: 98%;
+        margin: 15px auto;
+    }
+
+    .authForm {
+        gap: 0.8rem;
+    }
+
+    .authFooter {
+        gap: 0.2rem;
+        margin-top: 0.4rem;
+    }
+
+    .authFooter h4 {
+        margin-top: 3%;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .authHeader {
+        margin-top: 0.6rem;
+        font-size: 1.3rem;
+    }
+
+    .authWrapper {
+        width: 100%;
+        margin: 10px auto;
+        padding: 0 0.5rem;
+    }
+
+    .authForm {
+        gap: 0.6rem;
+    }
+
+    .authFooter h4 {
+        margin-top: 2%;
+        font-size: 0.85rem;
+    }
+
+    .authLink {
+        font-size: 0.9rem;
+    }
+}

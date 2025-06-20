@@ -9,6 +9,7 @@
     flex-shrink: 0;
     padding: 1rem 0;
     text-align: center;
+    padding-top: 4rem; /* Add space for navbar */
 }
 
 .fixedHeader h1 {
@@ -81,4 +82,44 @@ h1 {
     justify-content: center;
     height: 100vh;
     width: 100%;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .scrollableTaskList {
+        padding: 1rem 0.8rem;
+        gap: 1rem;
+    }
+
+    .fixedHeader {
+        padding: 0.8rem 0;
+        padding-top: 3.5rem; /* Maintain space for navbar on mobile */
+    }
+
+    .fixedHeader h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .taskListWrapper {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .scrollableTaskList {
+        padding: 0.8rem 0.5rem;
+        gap: 0.8rem;
+    }
+
+    .fixedHeader {
+        padding: 0.6rem 0;
+        padding-top: 3rem; /* Maintain space for navbar on small mobile */
+    }
+
+    .fixedHeader h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.6rem;
+    }
 }

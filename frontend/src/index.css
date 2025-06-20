@@ -149,3 +149,36 @@ body.dark {
     --toggle-indicator-bg: #4d4d4d;
     --toggle-indicator-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e;
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px; /* Reduce base font size for mobile */
+    }
+
+    body {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    html {
+        font-size: 13px;
+    }
+
+    body {
+        font-size: 0.85rem;
+    }
+}
+
+/* Ensure no horizontal scrolling on mobile */
+@media (max-width: 768px) {
+    * {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+}

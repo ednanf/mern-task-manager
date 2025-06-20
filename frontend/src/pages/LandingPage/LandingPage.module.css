@@ -42,3 +42,40 @@ p {
     color: var(--link-hover-color);
     filter: var(--link-hover-glow);
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .description {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px auto;
+        padding: 1.5rem 1rem;
+        max-width: 95%;
+    }
+
+    .title {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+}

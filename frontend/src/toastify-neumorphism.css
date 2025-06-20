@@ -55,3 +55,27 @@ body.dark .Toastify__progress-bar {
 .Toastify__close-button:hover {
     opacity: 1 !important;
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .Toastify__toast {
+        padding: 1rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        border-radius: 16px !important;
+        margin: 0.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .Toastify__toast {
+        padding: 0.8rem 1rem !important;
+        font-size: 0.85rem !important;
+        border-radius: 14px !important;
+        margin: 0.25rem !important;
+    }
+
+    .Toastify__toast-container {
+        width: calc(100vw - 0.5rem) !important;
+        top: 4rem !important; /* Account for navbar on mobile */
+    }
+}

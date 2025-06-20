@@ -35,3 +35,34 @@ form {
     box-shadow: var(--new-task-input-box-shadow-focus);
     color: var(--new-task-input-color);
 }
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    form {
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+        padding-top: 20px;
+    }
+
+    .inputField {
+        margin-left: 2%;
+        width: 88%;
+        padding: 0.8em;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    form {
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+        padding-top: 15px;
+    }
+
+    .inputField {
+        margin-left: 1%;
+        width: 90%;
+        padding: 0.7em;
+        font-size: 0.85rem;
+    }
+}
