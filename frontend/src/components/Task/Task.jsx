@@ -35,7 +35,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.success('Task updated!');
     } catch (err) {
       setIsCompleted(!newCompleted); // revert if error
-      toast.error('Failed to update task.');
+      const errorMessage = err.response?.data?.data?.message || 'Failed to update task.';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
       setLoadingAction(null);
@@ -62,7 +63,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       setIsEditing(false);
       toast.success('Title updated!');
     } catch (err) {
-      toast.error('Failed to update title.');
+      const errorMessage = err.response?.data?.data?.message || 'Failed to update title.';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
       setLoadingAction(null);
@@ -84,7 +86,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       toast.success('Task deleted!');
       if (onTaskChanged) onTaskChanged();
     } catch (err) {
-      toast.error('Failed to delete task.');
+      const errorMessage = err.response?.data?.data?.message || 'Failed to delete task.';
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
       setLoadingAction(null);

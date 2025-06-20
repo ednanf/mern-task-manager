@@ -29,7 +29,8 @@ const Login = () => {
         navigate('/');
       }, 1500);
     } catch (err) {
-      toast.error(err.response?.data?.msg || err.response?.data?.error || 'Login failed');
+      const errorMessage = err.response?.data?.data?.message || 'Login failed';
+      toast.error(errorMessage);
     }
   };
 
