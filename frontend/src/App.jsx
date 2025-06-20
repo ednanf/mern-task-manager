@@ -66,25 +66,25 @@ function App() {
 
   return (
     <div className={styles.appBody}>
-      <h1>MERN Task Manager</h1>
-      <div className=''>
+      <div className={styles.fixedHeader}>
+        <h1>MERN Task Manager</h1>
         {isLoggedIn && <NewTaskInput onTaskAdded={fetchTasks} />}
-        <div className={styles.taskListWrapper}>
-          {tasks.length === 0 && (
-            <div className={styles.emptyMessage}>
-              <p>Your task list is empty.</p>
-            </div>
-          )}
-          {tasks.map((task) => (
-            <Task
-              key={task._id}
-              title={task.title}
-              _id={task._id}
-              completed={task.completed}
-              onTaskChanged={fetchTasks}
-            />
-          ))}
-        </div>
+      </div>
+      <div className={styles.scrollableTaskList}>
+        {tasks.length === 0 && (
+          <div className={styles.emptyMessage}>
+            <p>Your task list is empty.</p>
+          </div>
+        )}
+        {tasks.map((task) => (
+          <Task
+            key={task._id}
+            title={task.title}
+            _id={task._id}
+            completed={task.completed}
+            onTaskChanged={fetchTasks}
+          />
+        ))}
       </div>
     </div>
   );

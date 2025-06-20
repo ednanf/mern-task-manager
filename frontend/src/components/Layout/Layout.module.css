@@ -37,6 +37,30 @@
     z-index: 1;
 }
 
+/* Add scrollable content area for tasks */
+.scrollableContent {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1rem 1rem 1rem;
+}
+
+/* Custom scrollbar styling */
+.scrollableContent::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollableContent::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollableContent::-webkit-scrollbar-thumb {
+    background: var(--app-h1-color);
+    border-radius: 3px;
+    opacity: 0.5;
+}
+.scrollableContent::-webkit-scrollbar-thumb:hover {
+    background: var(--link-hover-color);
+}
+
 .themeToggle {
     position: absolute;
     top: 24px;
