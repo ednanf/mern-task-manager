@@ -22,7 +22,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const allowedOrigins = [
   'http://localhost:5173',
   'https://localhost:5173',
-  'https://mern-task-manager-eight.vercel.app/',
+  'https://mern-task-manager-eight.vercel.app',
 ];
 
 // Middleware
