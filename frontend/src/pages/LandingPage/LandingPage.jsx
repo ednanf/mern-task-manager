@@ -17,7 +17,7 @@ const LandingPage = () => {
         to get started.
       </p>
       <p className={styles.footer}>
-        Created by Ednan - <a href='https://github.com/ednanf'>GitHub</a>
+        Developed by Ednan - <a href='https://github.com/ednanf'>GitHub</a>
       </p>
     </div>
   );
