@@ -56,7 +56,7 @@
 }
 
 .moonIcon {
-    color: var(--toggle-moon-icon-color, #ffd700);
+    color: var(--toggle-moon-icon-color, #4a5568);
 }
 
 /* Mobile responsive design */
