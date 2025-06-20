@@ -19,7 +19,11 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
 // TODO: add frontend URL to this list
-const allowedOrigins = ['http://localhost:5173', 'https://localhost:5173'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://localhost:5173',
+  'https://mern-task-manager-eight.vercel.app/',
+];
 
 // Middleware
 app.use(
