@@ -34,7 +34,7 @@ const Layout = () => {
       <div className={styles.toggleFloat}>
         <Toggle checked={dark} onChange={handleToggle} />
       </div>
-      <ToastContainer position='top-right' autoClose={2000} theme={dark ? 'dark' : 'light'} closeButton />
+      <ToastContainer autoClose={2000} position='top-right' theme={dark ? 'dark' : 'light'} />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
         <div className={styles.foregroundLayer}>
