@@ -12,11 +12,9 @@ const Toggle = ({ checked, onChange }) => {
           checked={checked}
           onChange={onChange}
         />
-        <div className={styles.indicator}>
-          {!checked && <FiSun className={styles.sunIcon} />}
-          {checked && <FiMoon className={styles.moonIcon} />}
+        <div className={styles.knob}>
+          {checked ? <FiMoon className={styles.moonIcon} /> : <FiSun className={styles.sunIcon} />}
         </div>
-        <div className={styles.knob}></div>
       </div>
     </label>
   );

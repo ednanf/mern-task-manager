@@ -10,48 +10,106 @@
 }
 
 .toggle {
-    isolation: isolate;
     position: relative;
     height: 30px;
     width: 60px;
     border-radius: 15px;
-    overflow: hidden;
+    background: var(--toggle-indicator-bg);
     box-shadow: var(--toggle-box-shadow);
+    overflow: hidden;
 }
 
 .toggle-state {
     display: none;
 }
 
-.indicator {
-    height: 100%;
-    width: 200%;
-    background: var(--toggle-indicator-bg);
-    border-radius: 15px;
-    transform: translate3d(-75%, 0, 0);
-    transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+.knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    background: #fff;
     box-shadow: var(--toggle-indicator-box-shadow);
-    position: relative;
+    transition: transform 0.4s cubic-bezier(0.85, 0.05, 0.18, 1.35);
+    transform: translateX(0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-state:checked ~ .knob {
+    transform: translateX(30px);
+}
+
+.sunIcon,
+.moonIcon {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sunIcon {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
     color: var(--toggle-sun-icon-color);
 }
 
 .moonIcon {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: var(--toggle-moon-icon-color);
+    color: var(--toggle-moon-icon-color, #ffd700);
 }
 
-.toggle-state:checked ~ .indicator {
-    transform: translate3d(25%, 0, 0);
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .toggle {
+        height: 28px;
+        width: 56px;
+        border-radius: 14px;
+    }
+
+    .knob {
+        height: 24px;
+        width: 24px;
+    }
+
+    .toggle-state:checked ~ .knob {
+        transform: translateX(28px);
+    }
+
+    .sunIcon,
+    .moonIcon {
+        font-size: 12px;
+    }
+
+    .label-text {
+        margin-left: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle {
+        height: 26px;
+        width: 52px;
+        border-radius: 13px;
+    }
+
+    .knob {
+        height: 22px;
+        width: 22px;
+    }
+
+    .toggle-state:checked ~ .knob {
+        transform: translateX(26px);
+    }
+
+    .sunIcon,
+    .moonIcon {
+        font-size: 11px;
+    }
+
+    .label-text {
+        margin-left: 10px;
+        font-size: 0.85rem;
+    }
 }
