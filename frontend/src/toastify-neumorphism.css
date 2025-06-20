@@ -10,9 +10,9 @@
 }
 
 body.dark .Toastify__toast {
-    background: #23272f !important;
-    color: #f1f1f1 !important;
-    box-shadow: 8px 8px 16px #181a20, -8px -8px 16px #2c313a !important;
+    background: #4d4d4d !important;
+    color: #e0e0e0 !important;
+    box-shadow: 8px 8px 16px #3c3c3c, -8px -8px 16px #5e5e5e !important;
 }
 
 .Toastify__toast--success {
