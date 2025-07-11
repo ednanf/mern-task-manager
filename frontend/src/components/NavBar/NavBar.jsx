@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { authHeader } from '../../utils/authHeader';
+
 import styles from './NavBar.module.css';
 
 const Navbar = () => {
@@ -10,9 +12,12 @@ const Navbar = () => {
 
   const checkLoginStatus = async () => {
     try {
-      const response = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/check', {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        'https://mern-task-manager-syry.onrender.com/api/v1/auth/check',
+        {
+          headers: authHeader(),
+        },
+      );
       setIsLoggedIn(response.data.loggedIn);
     } catch (error) {
       setIsLoggedIn(false);
@@ -29,9 +34,12 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/logout', {
-        withCredentials: true,
-      });
+      await axios.get(
+        'https://mern-task-manager-syry.onrender.com/api/v1/auth/logout',
+        {
+          headers: authHeader(),
+        },
+      );
       window.dispatchEvent(new Event('authChanged'));
       // window.location.reload();
     } catch (error) {

@@ -20,16 +20,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://mern-task-manager-syry.onrender.com/api/v1/auth/login', form, {
-        withCredentials: true,
-      });
+      await axios.post(
+        'https://mern-task-manager-syry.onrender.com/api/v1/auth/login',
+        form,
+      );
+      // Save token locally
+      localStorage.setItem('token', response.data.token);
       window.dispatchEvent(new Event('authChanged'));
       toast.success('Login successful!');
       setTimeout(() => {
         navigate('/');
       }, 1500);
     } catch (err) {
-      const rawMessage = err.response?.data?.msg || err.response?.data?.data?.message || 'Login failed';
+      const rawMessage =
+        err.response?.data?.msg ||
+        err.response?.data?.data?.message ||
+        'Login failed';
       // Extract only the core error message by taking the last part after the final colon
       const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
@@ -63,7 +69,12 @@ const Login = () => {
               autoComplete='current-password'
             />
           </div>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
             <AuthButton>Login</AuthButton>
           </div>
         </form>

@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { authHeader } from '../../utils/authHeader';
+
 import { FiEdit3, FiDelete, FiSave, FiTrash } from 'react-icons/fi';
 import { TbArrowBack } from 'react-icons/tb';
 
@@ -30,13 +32,15 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       await axios.patch(
         `https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`,
         { completed: newCompleted },
-        { withCredentials: true },
+        { headers: authHeader() },
       );
       toast.success('Task updated!');
     } catch (err) {
       setIsCompleted(!newCompleted); // revert if error
       const rawMessage =
-        err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to update task.';
+        err.response?.data?.data?.message ||
+        err.response?.data?.msg ||
+        'Failed to update task.';
       // Extract only the core error message by taking the last part after the final colon
       const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
@@ -61,13 +65,15 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
       await axios.patch(
         `https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`,
         { title: editTitle },
-        { withCredentials: true },
+        { headers: authHeader() },
       );
       setIsEditing(false);
       toast.success('Title updated!');
     } catch (err) {
       const rawMessage =
-        err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to update title.';
+        err.response?.data?.data?.message ||
+        err.response?.data?.msg ||
+        'Failed to update title.';
       // Extract only the core error message by taking the last part after the final colon
       const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
@@ -86,14 +92,19 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
     setLoadingAction('delete');
     setIsLoading(true);
     try {
-      await axios.delete(`https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `https://mern-task-manager-syry.onrender.com/api/v1/tasks/${_id}`,
+        {
+          headers: authHeader(),
+        },
+      );
       toast.success('Task deleted!');
       if (onTaskChanged) onTaskChanged();
     } catch (err) {
       const rawMessage =
-        err.response?.data?.data?.message || err.response?.data?.msg || 'Failed to delete task.';
+        err.response?.data?.data?.message ||
+        err.response?.data?.msg ||
+        'Failed to delete task.';
       // Extract only the core error message by taking the last part after the final colon
       const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);
@@ -104,7 +115,8 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
   };
 
   return (
-    <div className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}>
+    <div
+      className={`${styles.taskCard} ${isEditing ? `${styles.editing}` : ''}`}>
       <div className={styles.taskBody}>
         <div className={styles.taskContent}>
           <TaskCheckbox
@@ -129,7 +141,11 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
               />
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
-                  <TaskButton className='' onClick={handleSaveClick} disabled={isLoading} ariaLabel='save'>
+                  <TaskButton
+                    className=''
+                    onClick={handleSaveClick}
+                    disabled={isLoading}
+                    ariaLabel='save'>
                     <FiSave size={22} />
                   </TaskButton>
                   <TaskButton
@@ -144,10 +160,19 @@ const Task = ({ _id, title, completed, onTaskChanged }) => {
             </>
           ) : (
             <>
-              <p className={`${styles.taskTitle} ${isCompleted ? styles.completed : ''}`}>{editTitle}</p>
+              <p
+                className={`${styles.taskTitle} ${
+                  isCompleted ? styles.completed : ''
+                }`}>
+                {editTitle}
+              </p>
               {!isLoading && (
                 <div className={styles.taskButtonsRight}>
-                  <TaskButton className='' onClick={handleEditClick} disabled={isLoading} ariaLabel='edit'>
+                  <TaskButton
+                    className=''
+                    onClick={handleEditClick}
+                    disabled={isLoading}
+                    ariaLabel='edit'>
                     <FiEdit3 size={22} />
                   </TaskButton>
                   <TaskButton

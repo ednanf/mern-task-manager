@@ -20,14 +20,21 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://mern-task-manager-syry.onrender.com/api/v1/auth/register', form);
+      await axios.post(
+        'https://mern-task-manager-syry.onrender.com/api/v1/auth/register',
+        form,
+      );
+      // Save the token locally
+      localStorage.setItem('token', reponse.data.token);
       toast.success('Registration successful!');
       setTimeout(() => {
         navigate('/');
       }, 1500);
     } catch (err) {
       const rawMessage =
-        err.response?.data?.msg || err.response?.data?.data?.message || 'Registration failed';
+        err.response?.data?.msg ||
+        err.response?.data?.data?.message ||
+        'Registration failed';
       // Extract only the core error message by taking the last part after the final colon
       const errorMessage = rawMessage.split(': ').pop() || rawMessage;
       toast.error(errorMessage);

@@ -6,6 +6,8 @@ import Task from './components/Task/Task';
 import NewTaskInput from './components/NewTaskInput/NewTaskInput';
 import FetchTasksSpinner from './components/FetchTasksSpinner/FetchTasksSpinner';
 
+import { authHeader } from './utils/authHeader.js';
+
 import styles from './App.module.css';
 
 function App() {
@@ -17,9 +19,10 @@ function App() {
   const fetchTasks = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/tasks', {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        'https://mern-task-manager-syry.onrender.com/api/v1/tasks',
+        { headers: authHeader() },
+      );
       setTasks(res.data.data || []);
       setError('');
     } catch (err) {
@@ -32,9 +35,10 @@ function App() {
 
   const checkLoginStatus = async () => {
     try {
-      const response = await axios.get('https://mern-task-manager-syry.onrender.com/api/v1/auth/check', {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        'https://mern-task-manager-syry.onrender.com/api/v1/auth/check',
+        { headers: authHeader() },
+      );
       setIsLoggedIn(response.data.loggedIn);
     } catch (error) {
       setIsLoggedIn(false);
