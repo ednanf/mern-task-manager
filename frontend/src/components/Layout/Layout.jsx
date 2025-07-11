@@ -11,7 +11,12 @@ import '../../toastify-neumorphism.css';
 
 const Layout = () => {
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
+    const stored = localStorage.getItem('theme');
+    if (stored) return stored === 'dark';
+    return (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
   });
 
   useEffect(() => {
@@ -34,7 +39,11 @@ const Layout = () => {
       <div className={styles.toggleFloat}>
         <Toggle checked={dark} onChange={handleToggle} />
       </div>
-      <ToastContainer autoClose={2000} position='top-right' theme={dark ? 'dark' : 'light'} />
+      <ToastContainer
+        autoClose={2000}
+        position='top-right'
+        theme={dark ? 'dark' : 'light'}
+      />
       <div className={styles.appContainer}>
         <div className={styles.backgroundLayer} />
         <div className={styles.foregroundLayer}>
