@@ -14,6 +14,7 @@
 
 - This project delivers a full-stack application using the MERN stack, following REST API best practices.  
 - The frontend provides a clean, straightforward interface for interacting with the backend, prioritizing simplicity and usability.
+- Currently, the auth token is stored in localStorage instead of cookies to avoid CORS issues, particularly with WebKit on iOS.
 
 ## Application
 
