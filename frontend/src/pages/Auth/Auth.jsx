@@ -20,12 +20,13 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://mern-task-manager-syry.onrender.com/api/v1/auth/register',
         form,
       );
       // Save the token locally
-      localStorage.setItem('token', reponse.data.token);
+      localStorage.setItem('token', response.data.token);
+      window.dispatchEvent(new Event('authChanged'));
       toast.success('Registration successful!');
       setTimeout(() => {
         navigate('/');

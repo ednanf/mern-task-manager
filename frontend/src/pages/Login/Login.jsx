@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://mern-task-manager-syry.onrender.com/api/v1/auth/login',
         form,
       );

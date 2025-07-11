@@ -32,19 +32,10 @@ const Navbar = () => {
     return () => window.removeEventListener('authChanged', handler);
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await axios.get(
-        'https://mern-task-manager-syry.onrender.com/api/v1/auth/logout',
-        {
-          headers: authHeader(),
-        },
-      );
-      window.dispatchEvent(new Event('authChanged'));
-      // window.location.reload();
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.dispatchEvent(new Event('authChanged'));
+    // Optional: navigate to home or login page
   };
 
   return (

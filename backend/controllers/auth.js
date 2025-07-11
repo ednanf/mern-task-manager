@@ -54,15 +54,19 @@ const login = async (req, res) => {
 };
 
 const check = async (req, res) => {
-  const token = req.cookies.token;
+  const authHeader = req.headers.authorization;
 
-  if (!token || !isTokenValid(token)) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({ loggedIn: false });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.json({ loggedIn: false });
   }
 
-  res
-    .status(StatusCodes.OK)
-    .json({ loggedIn: true, user: extractUserInfo(token) });
+  const token = authHeader.split(' ')[1];
+
+  if (!token || !isTokenValid(token)) {
+    return res.json({ loggedIn: false });
+  }
+
+  res.json({ loggedIn: true, user: extractUserInfo(token) });
 };
 
 /**
