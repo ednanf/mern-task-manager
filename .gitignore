@@ -35,3 +35,6 @@ localhost-key.pem
 # Ignore logs in any subfolder
 **/logs
 **/*.log
+
+# Misc
+plan*.md
