@@ -72,8 +72,8 @@ describe('Auth Controller (Unit)', () => {
       expect(fakeUser.createJWT).toHaveBeenCalled();
       expect(res.statusCode).toBe(StatusCodes.CREATED);
       const data = res._getJSONData();
-      expect(data.data.user).toBe('Test');
-      expect(data.data.token).toBe('fake-jwt-token');
+      expect(data.user).toBe('Test');
+      expect(data.token).toBe('fake-jwt-token');
     });
   });
 
@@ -131,8 +131,8 @@ describe('Auth Controller (Unit)', () => {
       expect(fakeUser.createJWT).toHaveBeenCalled();
       expect(res.statusCode).toBe(StatusCodes.OK);
       const data = res._getJSONData();
-      expect(data.data.user).toBe('Test');
-      expect(data.data.token).toBe('fake-jwt-token');
+      expect(data.user).toBe('Test');
+      expect(data.token).toBe('fake-jwt-token');
     });
   });
 });
