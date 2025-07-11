@@ -56,7 +56,7 @@
 /* Mobile responsive design */
 @media (max-width: 768px) {
     .authHeader {
-        margin-top: 0.8rem;
+        margin-top: 4rem;
         font-size: 1.5rem;
     }
 
@@ -82,7 +82,7 @@
 
 @media (max-width: 480px) {
     .authHeader {
-        margin-top: 0.6rem;
+        margin-top: 4rem;
         font-size: 1.3rem;
     }
 
