@@ -12,11 +12,13 @@
     /* App body */
     --backgroundLayer-background: #e0e0e0;
     --foregroundLayer-background: linear-gradient(145deg, #f0f0f0, #cacaca);
-    --foregroundLayer-box-shadow: 19px 19px 38px #bebebe, -19px -19px 38px #ffffff;
+    --foregroundLayer-box-shadow: 19px 19px 38px #bebebe,
+        -19px -19px 38px #ffffff;
     --app-h1-color: #9d9d9d;
     --app-color: #444;
     --link-hover-color: #3fd0ff;
     --link-hover-glow: drop-shadow(0 0 1px #3fd0ff);
+    --footer-color: #9d9d9d;
     /* PAGES ============================================================================================== */
     /* LandingPage */
     --landing-page-p-color: #444;
@@ -24,13 +26,18 @@
     /* AuthButton */
     --auth-button-image-bg: linear-gradient(-45deg, gray 0%, lightgray 100%);
     /* Fetch spinner */
-    --fetchspinner-animation-box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+    --fetchspinner-animation-box-shadow: 8px 8px 14px #c5c5c5,
+        -8px -8px 14px #ffffff;
     /* Navbar */
     --navbar-link: #9d9d9d;
     --navbar-link-hover-bg: rgba(136, 136, 136, 0.12);
     --navbar-link-hover-color: #ffffff;
     /* Round button */
-    --roundbutton-image-background: linear-gradient(-45deg, gray 0%, lightgray 100%);
+    --roundbutton-image-background: linear-gradient(
+        -45deg,
+        gray 0%,
+        lightgray 100%
+    );
     /* Task card buttons */
     --task-card-button-icon-color: #9d9d9d;
     --task-card-button-color: #3fd0ff;
@@ -39,7 +46,8 @@
     --checkmark-bg-color: #ccc;
     --checkmark-bg: #e8e8e8;
     --checkmark-box-shadow: 3px 3px 5px #c5c5c5, -3px -3px 5px #ffffff;
-    --checkmark-container-box-shadow: inset 3px 3px 5px #c5c5c5, inset -3px -3px 5px #ffffff;
+    --checkmark-container-box-shadow: inset 3px 3px 5px #c5c5c5,
+        inset -3px -3px 5px #ffffff;
     --checkmark-container-border-after: solid darkgray;
     /* Task edit input field */
     --task-edit-input-bg: #e8e8e8;
@@ -54,7 +62,8 @@
     --new-task-input-bg: #e1e2e3;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
     --new-task-input-bg-focus: #ffffff;
-    --new-task-input-box-shadow-focus: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+    --new-task-input-box-shadow-focus: 13px 13px 100px #969696,
+        -13px -13px 100px #ffffff;
     --new-task-transition: 300ms ease-in-out;
     /* Task card */
     --taskCard-bg: #e0e0e0;
@@ -62,32 +71,43 @@
     --taskCard-hover-box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
     /* Button & round button */
     --button-bg: #e0e0e0;
-    --button-bg-grad: linear-gradient(45deg, rgb(228, 232, 236) 0%, rgb(234 234 234) 100%);
+    --button-bg-grad: linear-gradient(
+        45deg,
+        rgb(228, 232, 236) 0%,
+        rgb(234 234 234) 100%
+    );
     --button-shadow: -2px -7px 10px #f1f1f1, 4px 6px 10px #d4d7da;
     --button-bg-active: rgb(218, 221, 224);
-    --button-bg-active-grad: linear-gradient(45deg, rgb(218, 221, 224) 0%, rgb(241, 241, 241) 100%);
-    --button-shadow-active: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1, inset -2px -7px 10px #f1f1f1,
-        inset 4px 6px 10px #d4d7da;
+    --button-bg-active-grad: linear-gradient(
+        45deg,
+        rgb(218, 221, 224) 0%,
+        rgb(241, 241, 241) 100%
+    );
+    --button-shadow-active: -2px -7px 10px #d4d7da, 4px 6px 10px #f1f1f1,
+        inset -2px -7px 10px #f1f1f1, inset 4px 6px 10px #d4d7da;
     --button-text: #9d9d9d;
     /* Dark mode toggle */
     --toggle-label-text-color: #394a56;
     --toggle-sun-icon-color: #ffa500;
     --toggle-moon-icon-color: #4a5568;
-    --toggle-box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6, 4px 4px 4px 0px #d1d9e6 inset,
-        -4px -4px 4px 0px #ffffff inset;
+    --toggle-box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6,
+        4px 4px 4px 0px #d1d9e6 inset, -4px -4px 4px 0px #ffffff inset;
     --toggle-indicator-bg: #ecf0f3;
-    --toggle-indicator-box-shadow: -8px -4px 8px 0px #ffffff, 8px 4px 12px 0px #d1d9e6;
+    --toggle-indicator-box-shadow: -8px -4px 8px 0px #ffffff,
+        8px 4px 12px 0px #d1d9e6;
 }
 
 body.dark {
     /* App body */
     --backgroundLayer-background: #4d4d4d;
     --foregroundLayer-background: linear-gradient(145deg, #5d5d5d, #3d3d3d);
-    --foregroundLayer-box-shadow: 19px 19px 38px #3c3c3c, -19px -19px 38px #5e5e5e;
+    --foregroundLayer-box-shadow: 19px 19px 38px #3c3c3c,
+        -19px -19px 38px #5e5e5e;
     --app-h1-color: #b0b0b0;
     --app-color: #e0e0e0;
     --link-hover-color: #6fcfff;
     --link-hover-glow: drop-shadow(0 0 1px #6fcfff);
+    --footer-color: #b0b0b0;
     /* PAGES ============================================================================================== */
     /* LandingPage */
     --landing-page-p-color: #e0e0e0;
@@ -95,13 +115,23 @@ body.dark {
     /* AuthButton */
     --auth-button-image-bg: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
     /* Fetch spinner */
-    --fetchspinner-animation-box-shadow: 8px 8px 14px #3c3c3c, -8px -8px 14px #5e5e5e;
+    --fetchspinner-animation-box-shadow: 8px 8px 14px #3c3c3c,
+        -8px -8px 14px #5e5e5e;
     /* Navbar */
     --navbar-link: #b0b0b0;
-    --navbar-link-hover-bg: rgba(136, 136, 136, 0.12); /* Match light mode background highlight */
+    --navbar-link-hover-bg: rgba(
+        136,
+        136,
+        136,
+        0.12
+    ); /* Match light mode background highlight */
     --navbar-link-hover-color: #e0e0e0;
     /* Round button */
-    --roundbutton-image-background: linear-gradient(-45deg, #4d4d4d 0%, #6d6d6d 100%);
+    --roundbutton-image-background: linear-gradient(
+        -45deg,
+        #4d4d4d 0%,
+        #6d6d6d 100%
+    );
     /* Task card buttons */
     --task-card-button-icon-color: #b0b0b0;
     --task-card-button-color: #6fcfff;
@@ -110,7 +140,8 @@ body.dark {
     --checkmark-bg-color: #5c5c5c;
     --checkmark-bg: #4d4d4d;
     --checkmark-box-shadow: 3px 3px 5px #3c3c3c, -3px -3px 5px #5e5e5e;
-    --checkmark-container-box-shadow: inset 3px 3px 5px #3c3c3c, inset -3px -3px 5px #5e5e5e;
+    --checkmark-container-box-shadow: inset 3px 3px 5px #3c3c3c,
+        inset -3px -3px 5px #5e5e5e;
     --checkmark-container-border-after: solid #6d6d6d;
     /* Task edit input field */
     --task-edit-input-bg: #4d4d4d;
@@ -125,7 +156,8 @@ body.dark {
     --new-task-input-bg: #4d4d4d;
     --new-task-input-box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.5);
     --new-task-input-bg-focus: #3d3d3d;
-    --new-task-input-box-shadow-focus: 13px 13px 100px #3c3c3c, -13px -13px 100px #5e5e5e;
+    --new-task-input-box-shadow-focus: 13px 13px 100px #3c3c3c,
+        -13px -13px 100px #5e5e5e;
     --new-task-transition: 300ms ease-in-out;
     /* Task card */
     --taskCard-bg: #4d4d4d;
@@ -137,17 +169,18 @@ body.dark {
     --button-shadow-active: -2px -7px 10px #3c3c3c, 4px 6px 10px #5e5e5e;
     --button-bg-active: #3d3d3d;
     --button-bg-active-grad: linear-gradient(45deg, #3d3d3d 0%, #5d5d5d 100%);
-    --button-shadow: -2px -7px 10px #5e5e5e, 4px 6px 10px #3c3c3c, inset -2px -7px 10px #3c3c3c,
-        inset 4px 6px 10px #5e5e5e;
+    --button-shadow: -2px -7px 10px #5e5e5e, 4px 6px 10px #3c3c3c,
+        inset -2px -7px 10px #3c3c3c, inset 4px 6px 10px #5e5e5e;
     --button-text: #b0b0b0;
     /* Dark mode toggle */
     --toggle-label-text-color: #394a56;
     --toggle-sun-icon-color: #ffa500;
     --toggle-moon-icon-color: #6037b9;
-    --toggle-box-shadow: -8px -4px 8px 0px #5e5e5e, 8px 4px 12px 0px #3c3c3c, 4px 4px 4px 0px #3c3c3c inset,
-        -4px -4px 4px 0px #5e5e5e inset;
+    --toggle-box-shadow: -8px -4px 8px 0px #5e5e5e, 8px 4px 12px 0px #3c3c3c,
+        4px 4px 4px 0px #3c3c3c inset, -4px -4px 4px 0px #5e5e5e inset;
     --toggle-indicator-bg: #4d4d4d;
-    --toggle-indicator-box-shadow: -8px -4px 8px 0px #3c3c3c, 8px 4px 12px 0px #5e5e5e;
+    --toggle-indicator-box-shadow: -8px -4px 8px 0px #3c3c3c,
+        8px 4px 12px 0px #5e5e5e;
 }
 
 /* Mobile responsive design */

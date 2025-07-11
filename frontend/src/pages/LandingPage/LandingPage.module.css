@@ -52,17 +52,17 @@
     position: absolute;
     bottom: 1.5rem;
     font-size: 1rem;
+    color: var(--footer-color);
 }
 
 .footer a {
-    color: var(--footer-link-color);
     text-decoration: none;
     font-weight: 600;
+    color: var(--footer-color);
 }
 
 .footer a:hover,
 .footer a:focus {
-    color: var(--footer-link-hover-color);
     text-decoration: underline;
 }
 

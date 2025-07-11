@@ -99,6 +99,7 @@ h1 {
     .fixedHeader h1 {
         font-size: 1.5rem;
         margin-bottom: 0.8rem;
+        padding-top: 2rem;
     }
 
     .taskListWrapper {
@@ -115,7 +116,7 @@ h1 {
 
     .fixedHeader {
         padding: 0.6rem 0;
-        padding-top: 3rem; /* Maintain space for navbar on small mobile */
+        padding-top: 1rem; /* Maintain space for navbar on small mobile */
     }
 
     .fixedHeader h1 {
