@@ -85,7 +85,7 @@ const Auth = () => {
         <div className={styles.authFooter}>
           <h4>Already have an account?</h4>
           <Link to='login' className={styles.authLink}>
-            Login
+            Log in
           </Link>
         </div>
         <Outlet />
