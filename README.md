@@ -18,7 +18,7 @@
 
 ## Application
 
-[Access it here](https://mern-task-manager-eight.vercel.app/)
+🚀 **[View Live Demo](https://taskmanager.frizzera.dev/)**
 
 ## API Documentation
 

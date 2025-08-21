@@ -1,7 +1,7 @@
 // Imports
 const express = require('express');
 const app = express();
-const { xss } = require('express-xss-sanitizer');
+const {xss} = require('express-xss-sanitizer');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimiter = require('express-rate-limit');
@@ -20,21 +20,22 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // TODO: add frontend URL to this list
 const allowedOrigins = [
-  'http://localhost:5173',
-  'https://localhost:5173',
-  'https://mern-task-manager-eight.vercel.app',
+    'http://localhost:5173',
+    'https://localhost:5173',
+    'https://mern-task-manager-eight.vercel.app',
+    'https://taskmanager.frizzera.dev/'
 ];
 
 // Middleware
 app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-  }),
+    rateLimiter({
+        windowMs: 15 * 60 * 1000,
+        max: 100,
+    }),
 );
 app.use(xss());
 app.use(helmet());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({origin: allowedOrigins, credentials: true}));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -48,13 +49,13 @@ app.use(errorHandler);
 
 // Server start
 const start = async (uri) => {
-  try {
-    await dbConnect(MONGO_URI);
-    app.listen(PORT, () => console.log(`[system] listening on port ${PORT}...`));
-  } catch (error) {
-    console.error('[ERROR] something went wrong... ');
-    console.error(`[ERROR] ${error.message} `);
-  }
+    try {
+        await dbConnect(MONGO_URI);
+        app.listen(PORT, () => console.log(`[system] listening on port ${PORT}...`));
+    } catch (error) {
+        console.error('[ERROR] something went wrong... ');
+        console.error(`[ERROR] ${error.message} `);
+    }
 };
 
 start();
