@@ -23,7 +23,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'https://localhost:5173',
     'https://mern-task-manager-eight.vercel.app',
-    'https://taskmanager.frizzera.dev/'
+    'https://taskmanager.frizzera.dev'
 ];
 
 // Middleware
