@@ -90,3 +90,9 @@ mern-task-manager-frontend
 ├── eslint-plugin-react-refresh ^0.4.19 (dev)
 ├── globals ^16.0.0 (dev)
 └── vite ^6.3.5 (dev)
+```
+
+## Legal
+
+[![CC BY\-NC\-ND 4\.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+
