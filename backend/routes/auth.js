@@ -1,5 +1,5 @@
 const express = require('express');
-const { xss } = require('express-xss-sanitizer');
+const { xss } = require('../middleware/sanitizer');
 
 const { register, login, check, logout } = require('../controllers/auth');
 

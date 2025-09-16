@@ -1,7 +1,7 @@
 // Imports
 const express = require('express');
 const app = express();
-const {xss} = require('express-xss-sanitizer');
+const {xss} = require('./middleware/sanitizer');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimiter = require('express-rate-limit');
