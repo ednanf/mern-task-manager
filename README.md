@@ -22,7 +22,7 @@
 
 ## API Documentation
 
-[Access it here](https://mern-task-manager.apidocumentation.com/reference)
+[Access it here](https://registry.scalar.com/@ednan-frizzera-dev-team/apis/mern-task-manager-api/latest)
 
 ## Main Technologies
 
