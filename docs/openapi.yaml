@@ -1,0 +1,920 @@
+openapi: 3.0.3
+info:
+  title: MERN Task Manager API
+  description: |
+    A comprehensive RESTful API for managing tasks in a MERN (MongoDB, Express, React, Node.js) stack application.
+    
+    This API provides secure user authentication with JWT tokens and complete CRUD operations for task management.
+    All task endpoints require authentication using a Bearer token obtained through login or registration.
+    
+    ## Features
+    - User registration and authentication
+    - JWT-based authorization
+    - Task CRUD operations (Create, Read, Update, Delete)
+    - User-specific task isolation
+    - XSS protection and input sanitization
+    - Rate limiting
+    - Helmet security headers
+    - CORS support
+    
+    ## Authentication
+    Protected endpoints require a valid JWT token in the Authorization header:
+    ```
+    Authorization: Bearer <your-jwt-token>
+    ```
+    
+    Tokens are obtained through the `/api/v1/auth/register` or `/api/v1/auth/login` endpoints.
+    
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: https://github.com/ednanf/mern-task-manager
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:{port}/api/v1
+    description: Local development server
+    variables:
+      port:
+        default: '3000'
+        description: Port number for the backend server
+  - url: https://taskmanager.frizzera.dev/api/v1
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization endpoints
+  - name: Tasks
+    description: Task management operations (requires authentication)
+
+security:
+  - BearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: |
+        Creates a new user account with the provided credentials.
+        
+        Upon successful registration, returns a JWT token for immediate authentication.
+        The password is automatically hashed before storage using bcrypt.
+        
+        **Validation Rules:**
+        - Name: 3-50 characters
+        - Email: Must be valid email format and unique
+        - Password: Minimum 6 characters
+      operationId: registerUser
+      security: []
+      requestBody:
+        description: User registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+            examples:
+              validRegistration:
+                summary: Valid registration example
+                value:
+                  name: John Doe
+                  email: john.doe@example.com
+                  password: securePass123
+              minimumFields:
+                summary: Minimum required fields
+                value:
+                  name: Jane
+                  email: jane@example.com
+                  password: pass12
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Successful registration
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3Njg3MTksImV4cCI6MTczMzM2MDcxOX0.abc123def456
+                    user: John Doe
+        '400':
+          description: Bad request - Invalid input or duplicate email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                duplicateEmail:
+                  summary: Email already exists
+                  value:
+                    msg: E11000 duplicate key error collection
+                validationError:
+                  summary: Validation error
+                  value:
+                    msg: Please, provide a valid name.
+                shortPassword:
+                  summary: Password too short
+                  value:
+                    msg: Password must be at least 6 characters long.
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: |
+        Authenticates a user with email and password credentials.
+        
+        Returns a JWT token upon successful authentication. The token should be used
+        in the Authorization header for all protected endpoints.
+        
+        **Token Expiration:** Tokens expire after 30 days by default.
+      operationId: loginUser
+      security: []
+      requestBody:
+        description: User login credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+            examples:
+              validLogin:
+                summary: Valid login credentials
+                value:
+                  email: john.doe@example.com
+                  password: securePass123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Successful login
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3Njg3MTksImV4cCI6MTczMzM2MDcxOX0.abc123def456
+                    user: John Doe
+        '400':
+          description: Bad request - Missing credentials or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                missingFields:
+                  summary: Missing email or password
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Please, provide email and password
+                invalidCredentials:
+                  summary: Invalid email or password
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Invalid credentials.
+
+  /auth/check:
+    get:
+      tags:
+        - Authentication
+      summary: Check authentication status
+      description: |
+        Verifies if the provided JWT token is valid and returns the authentication status.
+        
+        This endpoint can be used to check if a user is logged in without requiring
+        full authentication middleware. It validates the token and returns user information
+        if the token is valid.
+        
+        **Note:** Unlike other endpoints, this returns a simple boolean status rather than
+        throwing an error for invalid tokens.
+      operationId: checkAuth
+      security: []
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+            example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          description: Bearer token for authentication verification
+          required: false
+      responses:
+        '200':
+          description: Authentication check result
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/AuthCheckSuccess'
+                  - $ref: '#/components/schemas/AuthCheckFailure'
+              examples:
+                loggedIn:
+                  summary: User is authenticated
+                  value:
+                    loggedIn: true
+                    user:
+                      userId: 672ac34f5f6b789012345678
+                      name: John Doe
+                notLoggedIn:
+                  summary: User is not authenticated
+                  value:
+                    loggedIn: false
+
+  /auth/logout:
+    get:
+      tags:
+        - Authentication
+      summary: Logout user
+      description: |
+        Logs out the user by clearing the authentication token cookie.
+        
+        This endpoint clears the httpOnly cookie that stores the JWT token.
+        The cookie settings respect the environment (production vs development)
+        for proper security configuration.
+        
+        **Note:** While the endpoint clears server-side cookies, clients using
+        Bearer tokens should also remove the token from their storage.
+      operationId: logoutUser
+      security: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates successful logout
+                    example: true
+              examples:
+                success:
+                  summary: Successful logout
+                  value:
+                    success: true
+
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Get all tasks
+      description: |
+        Retrieves all tasks created by the authenticated user.
+        
+        Tasks are returned sorted by creation date (oldest first).
+        Only tasks belonging to the authenticated user are returned,
+        ensuring data isolation between users.
+        
+        **Authentication Required:** Yes
+      operationId: getTasks
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListResponse'
+              examples:
+                withTasks:
+                  summary: User has tasks
+                  value:
+                    status: success
+                    data:
+                      - _id: 672ac34f5f6b789012345678
+                        title: Complete project documentation
+                        completed: false
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T10:30:00.000Z'
+                      - _id: 672ac34f5f6b789012345680
+                        title: Review pull requests
+                        completed: true
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T11:15:00.000Z'
+                        updatedAt: '2024-11-06T14:20:00.000Z'
+                emptyList:
+                  summary: No tasks found
+                  value:
+                    status: success
+                    data: []
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags:
+        - Tasks
+      summary: Create a new task
+      description: |
+        Creates a new task for the authenticated user.
+        
+        The task is automatically associated with the authenticated user.
+        The `completed` field defaults to `false` if not provided.
+        
+        **Validation Rules:**
+        - Title: Required, maximum 25 characters, will be trimmed
+        - Completed: Optional boolean, defaults to false
+        
+        **Authentication Required:** Yes
+      operationId: createTask
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Task details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+            examples:
+              basicTask:
+                summary: Create basic task
+                value:
+                  title: Buy groceries
+              completedTask:
+                summary: Create completed task
+                value:
+                  title: Setup development environment
+                  completed: true
+              maxLengthTitle:
+                summary: Maximum length title
+                value:
+                  title: This is a twenty-five ch
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+              examples:
+                success:
+                  summary: Successful task creation
+                  value:
+                    status: success
+                    data:
+                      _id: 672ac34f5f6b789012345678
+                      title: Buy groceries
+                      completed: false
+                      createdBy: 672ac34f5f6b789012345679
+                      createdAt: '2024-11-06T10:30:00.000Z'
+                      updatedAt: '2024-11-06T10:30:00.000Z'
+        '400':
+          description: Bad request - Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                missingTitle:
+                  summary: Missing required title
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Task title is required.
+                titleTooLong:
+                  summary: Title exceeds maximum length
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Task title must contain a maximum of 25 characters.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /tasks/{id}:
+    get:
+      tags:
+        - Tasks
+      summary: Get a single task
+      description: |
+        Retrieves a specific task by its ID.
+        
+        The task must belong to the authenticated user. If the task doesn't exist
+        or belongs to another user, a 404 error is returned.
+        
+        **Authentication Required:** Yes
+      operationId: getTask
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/TaskIdParam'
+      responses:
+        '200':
+          description: Task retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleTaskResponse'
+              examples:
+                success:
+                  summary: Successful retrieval
+                  value:
+                    status: success
+                    data:
+                      task:
+                        _id: 672ac34f5f6b789012345678
+                        title: Complete project documentation
+                        completed: false
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T10:30:00.000Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                notFound:
+                  summary: Task not found
+                  value:
+                    status: error
+                    data:
+                      code: 404
+                      message: Task with id 672ac34f5f6b789012345678 not found.
+
+    patch:
+      tags:
+        - Tasks
+      summary: Update a task
+      description: |
+        Updates an existing task belonging to the authenticated user.
+        
+        Supports partial updates - only provided fields will be updated.
+        The task must belong to the authenticated user.
+        
+        **Updatable Fields:**
+        - title: String (max 25 characters)
+        - completed: Boolean
+        
+        **Note:** The `createdBy` field cannot be modified.
+        
+        **Authentication Required:** Yes
+      operationId: updateTask
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/TaskIdParam'
+      requestBody:
+        description: Fields to update (partial update supported)
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+            examples:
+              updateTitle:
+                summary: Update only title
+                value:
+                  title: Updated task title
+              markComplete:
+                summary: Mark task as completed
+                value:
+                  completed: true
+              fullUpdate:
+                summary: Update all fields
+                value:
+                  title: Completely updated task
+                  completed: true
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleTaskResponse'
+              examples:
+                success:
+                  summary: Successful update
+                  value:
+                    status: success
+                    data:
+                      task:
+                        _id: 672ac34f5f6b789012345678
+                        title: Updated task title
+                        completed: true
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T15:45:00.000Z'
+        '400':
+          description: Bad request - Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                titleTooLong:
+                  summary: Title exceeds maximum length
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Task title must contain a maximum of 25 characters.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                notFound:
+                  summary: Task not found
+                  value:
+                    status: error
+                    data:
+                      code: 404
+                      message: Task with id 672ac34f5f6b789012345678 not found.
+
+    delete:
+      tags:
+        - Tasks
+      summary: Delete a task
+      description: |
+        Permanently deletes a task belonging to the authenticated user.
+        
+        The task must belong to the authenticated user. Once deleted, the task
+        cannot be recovered.
+        
+        **Authentication Required:** Yes
+      operationId: deleteTask
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/TaskIdParam'
+      responses:
+        '200':
+          description: Task deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [success]
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Task deleted.
+              examples:
+                success:
+                  summary: Successful deletion
+                  value:
+                    status: success
+                    data:
+                      message: Task deleted.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomErrorResponse'
+              examples:
+                notFound:
+                  summary: Task not found
+                  value:
+                    status: error
+                    data:
+                      code: 404
+                      message: Task with id 672ac34f5f6b789012345678 not found.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token-based authentication. Include the token in the Authorization header:
+        ```
+        Authorization: Bearer <your-jwt-token>
+        ```
+        
+        Tokens are obtained through `/api/v1/auth/register` or `/api/v1/auth/login` endpoints.
+        Tokens expire after 30 days.
+
+  parameters:
+    TaskIdParam:
+      name: id
+      in: path
+      description: MongoDB ObjectId of the task (24-character hexadecimal string)
+      required: true
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{24}$'
+        example: 672ac34f5f6b789012345678
+      examples:
+        validId:
+          summary: Valid task ID
+          value: 672ac34f5f6b789012345678
+
+  schemas:
+    UserRegistration:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: User's full name
+          example: John Doe
+        email:
+          type: string
+          format: email
+          description: User's email address (must be unique)
+          example: john.doe@example.com
+        password:
+          type: string
+          format: password
+          minLength: 6
+          description: User's password (will be hashed before storage)
+          example: securePass123
+      description: User registration data
+
+    UserLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john.doe@example.com
+        password:
+          type: string
+          format: password
+          description: User's password
+          example: securePass123
+      description: User login credentials
+
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT authentication token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3Njg3MTksImV4cCI6MTczMzM2MDcxOX0.abc123def456
+        user:
+          type: string
+          description: User's name
+          example: John Doe
+      required:
+        - token
+        - user
+      description: Authentication success response
+
+    AuthCheckSuccess:
+      type: object
+      properties:
+        loggedIn:
+          type: boolean
+          enum: [true]
+          description: Authentication status
+          example: true
+        user:
+          type: object
+          properties:
+            userId:
+              type: string
+              description: MongoDB ObjectId of the user
+              example: 672ac34f5f6b789012345678
+            name:
+              type: string
+              description: User's name
+              example: John Doe
+          required:
+            - userId
+            - name
+      required:
+        - loggedIn
+        - user
+      description: Successful authentication check response
+
+    AuthCheckFailure:
+      type: object
+      properties:
+        loggedIn:
+          type: boolean
+          enum: [false]
+          description: Authentication status
+          example: false
+      required:
+        - loggedIn
+      description: Failed authentication check response
+
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB ObjectId of the task
+          pattern: '^[0-9a-fA-F]{24}$'
+          example: 672ac34f5f6b789012345678
+        title:
+          type: string
+          maxLength: 25
+          description: Task title (trimmed, max 25 characters)
+          example: Complete project documentation
+        completed:
+          type: boolean
+          default: false
+          description: Task completion status
+          example: false
+        createdBy:
+          type: string
+          description: MongoDB ObjectId of the user who created the task
+          pattern: '^[0-9a-fA-F]{24}$'
+          example: 672ac34f5f6b789012345679
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+          example: '2024-11-06T10:30:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+          example: '2024-11-06T10:30:00.000Z'
+      required:
+        - _id
+        - title
+        - completed
+        - createdBy
+        - createdAt
+        - updatedAt
+      description: Task object with all fields
+
+    TaskInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          maxLength: 25
+          description: Task title (will be trimmed)
+          example: Buy groceries
+        completed:
+          type: boolean
+          default: false
+          description: Task completion status (optional, defaults to false)
+          example: false
+      description: Data required to create a new task
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 25
+          description: Updated task title (will be trimmed)
+          example: Updated task title
+        completed:
+          type: boolean
+          description: Updated task completion status
+          example: true
+      description: Data for updating a task (all fields optional for partial updates)
+
+    TaskListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Response status indicator
+          example: success
+        data:
+          type: array
+          description: Array of tasks
+          items:
+            $ref: '#/components/schemas/Task'
+      required:
+        - status
+        - data
+      description: Response containing a list of tasks
+
+    TaskResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Response status indicator
+          example: success
+        data:
+          $ref: '#/components/schemas/Task'
+      required:
+        - status
+        - data
+      description: Response containing a single task (for create operations)
+
+    SingleTaskResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Response status indicator
+          example: success
+        data:
+          type: object
+          properties:
+            task:
+              $ref: '#/components/schemas/Task'
+          required:
+            - task
+      required:
+        - status
+        - data
+      description: Response containing a single task (for get/update operations)
+
+    ErrorResponse:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Error message
+          example: Registration failed
+      required:
+        - msg
+      description: Simple error response (used in auth endpoints)
+
+    CustomErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [error]
+          description: Response status indicator
+          example: error
+        data:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: HTTP status code
+              example: 400
+            message:
+              type: string
+              description: Detailed error message
+              example: Please, provide email and password
+          required:
+            - code
+            - message
+      required:
+        - status
+        - data
+      description: Structured error response (used in task endpoints and custom errors)
+
+  responses:
+    UnauthorizedError:
+      description: Authentication failed - Invalid or missing token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomErrorResponse'
+          examples:
+            noToken:
+              summary: No token provided
+              value:
+                status: error
+                data:
+                  code: 401
+                  message: No token provided
+            invalidToken:
+              summary: Invalid or expired token
+              value:
+                status: error
+                data:
+                  code: 401
+                  message: Authentication failed
