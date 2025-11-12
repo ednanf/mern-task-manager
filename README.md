@@ -18,11 +18,11 @@
 
 ## Application
 
-🚀 **[View Live Demo](https://taskmanager.frizzera.dev/)**
+🚀 [View Live Demo](https://taskmanager.frizzera.dev/)
 
 ## API Documentation
 
-[Access it here](https://registry.scalar.com/@ednan-frizzera-dev-team/apis/mern-task-manager-api/latest)
+📑 [Access it here](https://registry.scalar.com/@ednan-frizzera-dev-team/apis/mern-task-manager-api/latest)
 
 ## Main Technologies
 
