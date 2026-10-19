@@ -6,13 +6,13 @@
 
 ## About Me
 
-- **Author**: Ednan Rogério Frizzera Filho  
-- [GitHub](https://github.com/ednanf) • [LinkedIn](https://www.linkedin.com/in/ednanrff/)  
+- **Author**: Ednan Rogério Frizzera Filho
+- [GitHub](https://github.com/ednanf) • [LinkedIn](https://www.linkedin.com/in/ednanrff/)
 - Contact methods available on my GitHub profile!
 
 ## Objective
 
-- This project delivers a full-stack application using the MERN stack, following REST API best practices.  
+- This project delivers a full-stack application using the MERN stack, following REST API best practices.
 - The frontend provides a clean, straightforward interface for interacting with the backend, prioritizing simplicity and usability.
 - Currently, the auth token is stored in local storage instead of cookies to avoid CORS issues, particularly with WebKit on iOS.
 
@@ -22,23 +22,23 @@
 
 ## API Documentation
 
-📑 [Access it here](https://registry.scalar.com/@ednan-frizzera-dev-team/apis/mern-task-manager-api/latest)
+📑 [Access it here](https://docs.frizzera.dev/api/mern-task-manager)
 
 ## Main Technologies
 
 ### Languages
 
-- JavaScript  
-- HTML  
-- CSS  
+- JavaScript
+- HTML
+- CSS
 
 ### Backend
 
-- Node.js  
-- Express  
-- MongoDB  
-- JWT  
-- bcrypt  
+- Node.js
+- Express
+- MongoDB
+- JWT
+- bcrypt
 
 ### Frontend
 
@@ -94,5 +94,4 @@ mern-task-manager-frontend
 
 ## Legal
 
-[![CC BY\-NC\-ND 4\.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
-
+[![CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
