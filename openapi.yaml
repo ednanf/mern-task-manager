@@ -1,0 +1,1450 @@
+openapi: 3.0.3
+
+info:
+  title: MERN Task Manager API
+  version: 1.0.0
+  description: |
+    RESTful API of the **MERN Task Manager** application (MongoDB + Express + React + Node.js).
+
+    The API exposes user authentication (JWT) and full CRUD operations over tasks, with
+    strict per-user data isolation: every task is owned by the user that created it and
+    is only visible to that user.
+
+    ---
+
+    ## Base URL
+
+    All routes are mounted under the `/api/v1` prefix.
+
+    | Environment | Base URL                                   |
+    | ----------- | ------------------------------------------ |
+    | Local       | `http://localhost:8000/api/v1`             |
+    | Production  | `https://mern-task-manager-syry.onrender.com/api/v1` |
+
+    The local port is defined by the `PORT` environment variable (`backend/.env`).
+
+    ## Authentication flow
+
+    1. Create an account with `POST /auth/register`, or obtain a token with `POST /auth/login`.
+    2. Both endpoints answer with `{ "token": "<jwt>", "user": "<name>" }`.
+    3. Send the token on every protected request:
+
+       ```http
+       Authorization: Bearer <jwt>
+       ```
+
+    4. `GET /auth/check` validates the token and reports the session state.
+
+    The JWT is signed with HS256 using `JWT_SECRET` and expires after `JWT_LIFETIME`
+    (`30d` by default). Its payload is `{ userId, name, iat, exp }`.
+
+    ## Response envelopes
+
+    Successful task responses are wrapped in an envelope:
+
+    ```json
+    { "status": "success", "data": { } }
+    ```
+
+    Errors are **not** uniform — three different shapes exist depending on where the
+    error originated. Clients must handle all of them:
+
+    | Shape                                                        | Produced by                                     | Typical status |
+    | ------------------------------------------------------------ | ----------------------------------------------- | -------------- |
+    | `{ "msg": "..." }`                                            | `POST /auth/register` (own try/catch)           | 400            |
+    | `{ "status": "error", "data": { "code": 400, "message": "…" } }` | Central error handler with an `HttpError`        | 400 / 401 / 404 |
+    | `{ "status": "error", "data": { "message": "…" } }`           | Central error handler with a Mongoose error      | 500            |
+
+    The third shape has **no `code` property** because Mongoose errors do not carry an
+    HTTP status. This is why schema violations (for example a task title longer than
+    25 characters) are reported with HTTP **500** instead of 400.
+
+    ## Security
+
+    * **Helmet** sets the usual hardening headers (`Content-Security-Policy`,
+      `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`,
+      `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: no-referrer`, …) and removes
+      `X-Powered-By`.
+    * **CORS** is restricted to the allowed origins
+      `http://localhost:5173`, `https://localhost:5173`,
+      `https://mern-task-manager-eight.vercel.app` and `https://taskmanager.frizzera.dev`,
+      with `Access-Control-Allow-Credentials: true`.
+    * **XSS sanitization** (`express-xss-sanitizer` v2 / `sanitize-html`) is applied to the
+      request `body`, `params`, `query` and `headers`. `&lt;script&gt;`, `&lt;style&gt;`,
+      `&lt;iframe&gt;`, `&lt;svg&gt;` and `&lt;img&gt;` payloads are removed entirely, safe
+      tags such as `&lt;b&gt;` are kept, and the characters `&`, `<` and `>` are
+      HTML-escaped to `&amp;`, `&lt;` and `&gt;`.
+      Escaping happens **before** validation, so a sanitized string can exceed the
+      25-character title limit even when the original payload did not.
+    * **Rate limiting**: at most **100 requests per 15 minutes per IP**; exceeding it
+      yields HTTP 429 with the plain-text body `Too many requests, please try again later.`
+      Every response exposes `X-RateLimit-Limit`, `X-RateLimit-Remaining` and
+      `X-RateLimit-Reset` (Unix timestamp, in seconds); the 429 response additionally
+      carries `Retry-After`.
+    * Passwords are hashed with **bcrypt** (10 salt rounds) and never returned by the API.
+
+    ## Conventions
+
+    * All identifiers are MongoDB `ObjectId`s, serialized as 24-character hexadecimal strings.
+    * Timestamps are ISO 8601 / RFC 3339 strings in UTC.
+    * Request bodies must be sent as `Content-Type: application/json`; the JSON body
+      parser accepts payloads up to 100 kB by default. A body that is not valid JSON is
+      rejected with HTTP 400 and the standard error envelope.
+    * A request that does not match any route answers with HTTP 404 and
+      `{ "status": "error", "data": { "code": 404, "message": "Route not found" } }`.
+  contact:
+    name: Ednan Rogério Frizzera Filho
+    url: https://github.com/ednanf
+    email: ednan@frizzera.dev
+  license:
+    name: CC BY-NC-ND 4.0
+    url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+externalDocs:
+  description: Project repository and README
+  url: https://github.com/ednanf/mern-task-manager
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server (backend/.env → PORT=8000)
+  - url: https://mern-task-manager-syry.onrender.com/api/v1
+    description: Production server (Render)
+
+tags:
+  - name: Authentication
+    description: |
+      Registration, login, session inspection and logout.
+
+      `POST /auth/register` and `POST /auth/login` are the only ways to obtain a JWT.
+      The token must be sent as `Authorization: Bearer <token>` on every protected request.
+  - name: Tasks
+    description: |
+      CRUD operations over tasks. **Every task endpoint requires a valid Bearer token**
+      and is scoped to the authenticated user: a task is only reachable by the user that
+      created it.
+
+security:
+  - BearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: |
+        Creates a user account and immediately returns a signed JWT, so the client can
+        start using the protected endpoints right away.
+
+        The password is hashed with bcrypt (10 salt rounds) by a Mongoose pre-save hook
+        and is never echoed back — only the user's `name` is returned.
+
+        ### Validation rules
+
+        | Field     | Rules                                                        |
+        | --------- | ------------------------------------------------------------ |
+        | `name`    | required, string, 3–50 characters                            |
+        | `email`   | required, string, must match the e-mail pattern, **unique**  |
+        | `password`| required, string, at least 6 characters                      |
+
+        The e-mail must match
+        `/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`.
+
+        ### Failure modes
+
+        This endpoint handles its own errors and answers with the flat `{ "msg": "..." }`
+        shape and HTTP **400** for every problem: schema validation failures, a duplicate
+        e-mail (MongoDB error code `E11000`) or any unexpected error (`Registration failed`).
+
+        ```bash
+        curl -X POST http://localhost:8000/api/v1/auth/register \
+          -H 'Content-Type: application/json' \
+          -d '{"name":"John Doe","email":"john.doe@example.com","password":"securePass123"}'
+        ```
+      operationId: registerUser
+      security: []
+      requestBody:
+        required: true
+        description: New account credentials.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+            examples:
+              validRegistration:
+                summary: Valid registration
+                value:
+                  name: John Doe
+                  email: john.doe@example.com
+                  password: securePass123
+              minimalValid:
+                summary: Minimum accepted values
+                value:
+                  name: Jane
+                  email: jane@example.com
+                  password: pass12
+              xssPayload:
+                summary: XSS payload — stripped by the sanitizer
+                description: |
+                  The `&lt;script&gt;` block is removed before validation, leaving an empty
+                  string, which then fails the `name` length validation.
+                value:
+                  name: "<script>alert('xss')</script>"
+                  email: xss@example.com
+                  password: pass12
+      responses:
+        '201':
+          description: User created. The `token` can be used immediately as a Bearer token.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Registration successful
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3MDg3MTksImV4cCI6MTczMzMwMDcxOX0.abc123def456
+                    user: John Doe
+        '400':
+          description: |
+            Registration rejected. The body uses the flat `{ "msg": "..." }` shape.
+
+            The only exception is a body that is not valid JSON: it is rejected by the
+            JSON body parser before the controller runs and uses the standard error
+            envelope instead.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/RegistrationError'
+                  - $ref: '#/components/schemas/ErrorEnvelope'
+              examples:
+                validationError:
+                  summary: Schema validation failed
+                  value:
+                    msg: "User validation failed: password: Please, provide a valid password, email: Please, provide an email address., name: Please, provide a valid name."
+                nameTooShort:
+                  summary: "`name` shorter than 3 characters"
+                  value:
+                    msg: "User validation failed: name: Path `name` (`ab`) is shorter than the minimum allowed length (3)."
+                invalidEmail:
+                  summary: "`email` does not match the required pattern"
+                  value:
+                    msg: "User validation failed: email: Please, provide a valid email address."
+                passwordTooShort:
+                  summary: "`password` shorter than 6 characters"
+                  value:
+                    msg: "User validation failed: password: Password must be at least 6 characters long."
+                duplicateEmail:
+                  summary: The e-mail is already registered
+                  value:
+                    msg: 'E11000 duplicate key error collection: tasks.users index: email_1 dup key: { email: "john.doe@example.com" }'
+                genericFailure:
+                  summary: Any other failure
+                  value:
+                    msg: Registration failed
+                malformedJson:
+                  summary: The body is not valid JSON
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: "Expected ',' or '}' after property value in JSON at position 14 (line 1 column 15)"
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Log in
+      description: |
+        Authenticates an existing user with `email` + `password` and returns a fresh JWT.
+
+        The password is compared against the bcrypt hash stored in the database. Both
+        "unknown e-mail" and "wrong password" produce the same generic
+        `Invalid credentials.` message, so the endpoint does not disclose which accounts
+        exist.
+
+        A request whose body carries no password is rejected with
+        `Please, provide email and password`; a request that carries a password but no
+        e-mail falls through to the credential lookup and is rejected with
+        `Invalid credentials.`
+
+        The token expires after `JWT_LIFETIME` (`30d` by default) and must be sent as
+        `Authorization: Bearer <token>` on protected endpoints.
+
+        ```bash
+        curl -X POST http://localhost:8000/api/v1/auth/login \
+          -H 'Content-Type: application/json' \
+          -d '{"email":"john.doe@example.com","password":"securePass123"}'
+        ```
+      operationId: loginUser
+      security: []
+      requestBody:
+        required: true
+        description: Account credentials.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+            examples:
+              validLogin:
+                summary: Valid credentials
+                value:
+                  email: john.doe@example.com
+                  password: securePass123
+      responses:
+        '200':
+          description: Authentication succeeded.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: Login successful
+                  value:
+                    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3MDg3MTksImV4cCI6MTczMzMwMDcxOX0.abc123def456
+                    user: John Doe
+        '400':
+          description: |
+            Missing or invalid credentials. The body uses the standard error envelope
+            `{ "status": "error", "data": { "code": 400, "message": "..." } }`.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorEnvelope'
+              examples:
+                missingCredentials:
+                  summary: The body carries no password
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Please, provide email and password
+                invalidCredentials:
+                  summary: Unknown e-mail or wrong password
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: Invalid credentials.
+                malformedJson:
+                  summary: The body is not valid JSON
+                  value:
+                    status: error
+                    data:
+                      code: 400
+                      message: "Expected ',' or '}' after property value in JSON at position 14 (line 1 column 15)"
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/check:
+    get:
+      tags:
+        - Authentication
+      summary: Check the authentication status
+      description: |
+        Verifies the `Authorization` header and reports whether the session is active.
+
+        This endpoint **never** answers with 401: a missing, malformed, expired or
+        otherwise invalid token simply yields `{ "loggedIn": false }` with HTTP 200.
+        When the token is valid, the decoded JWT payload (`userId`, `name`, `iat`, `exp`)
+        is returned under `user`.
+
+        ```bash
+        curl http://localhost:8000/api/v1/auth/check -H 'Authorization: Bearer <jwt>'
+        ```
+      operationId: checkAuth
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          required: false
+          description: |
+            Optional Bearer token. When omitted or invalid the endpoint answers
+            `{ "loggedIn": false }` instead of an error.
+          schema:
+            type: string
+          example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: The session state was determined.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthCheckResponse'
+              examples:
+                loggedIn:
+                  summary: Valid token
+                  value:
+                    loggedIn: true
+                    user:
+                      userId: 672ac34f5f6b789012345678
+                      name: John Doe
+                      iat: 1792424827
+                      exp: 1792428427
+                notLoggedIn:
+                  summary: Missing or invalid token
+                  value:
+                    loggedIn: false
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/logout:
+    get:
+      tags:
+        - Authentication
+      summary: Log out
+      description: |
+        Clears the `token` cookie by sending an expired `Set-Cookie` header with
+        `Path=/` and `HttpOnly`. The cookie flags depend on `NODE_ENV`:
+
+        | `NODE_ENV`      | `SameSite` | `Secure` |
+        | ---------------- | ---------- | -------- |
+        | `production`     | `None`     | yes      |
+        | anything else    | `Lax`      | no       |
+
+        The endpoint is a `GET` and does not invalidate the JWT itself: clients using
+        Bearer tokens must discard the token from their own storage.
+
+        ```bash
+        curl -i http://localhost:8000/api/v1/auth/logout
+        ```
+      operationId: logoutUser
+      security: []
+      responses:
+        '200':
+          description: The session cookie was cleared.
+          headers:
+            Set-Cookie:
+              description: |
+                An expired `token` cookie, e.g.
+                `token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=None`
+              schema:
+                type: string
+              example: 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=None'
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+              examples:
+                success:
+                  summary: Logout successful
+                  value:
+                    success: true
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: List the tasks of the authenticated user
+      description: |
+        Returns every task created by the authenticated user, sorted by `createdAt`
+        in ascending order (oldest first). Tasks owned by other users are never
+        included, which guarantees data isolation between accounts.
+
+        An empty list is a successful response, not an error.
+
+        ```bash
+        curl http://localhost:8000/api/v1/tasks -H 'Authorization: Bearer <jwt>'
+        ```
+      operationId: getTasks
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: The task list was returned.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListResponse'
+              examples:
+                withTasks:
+                  summary: The user owns two tasks
+                  value:
+                    status: success
+                    data:
+                      - _id: 672ac34f5f6b789012345678
+                        title: Write the documentation
+                        completed: false
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T10:30:00.000Z'
+                        __v: 0
+                      - _id: 672ac34f5f6b789012345680
+                        title: Review pull requests
+                        completed: true
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T11:15:00.000Z'
+                        updatedAt: '2024-11-06T14:20:00.000Z'
+                        __v: 0
+                emptyList:
+                  summary: The user has no tasks
+                  value:
+                    status: success
+                    data: []
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      tags:
+        - Tasks
+      summary: Create a task
+      description: |
+        Creates a task owned by the authenticated user.
+
+        The `createdBy` field is always overwritten with the id taken from the JWT
+        payload, so a client can never create a task on behalf of somebody else.
+        `completed` defaults to `false`.
+
+        ### Validation rules
+
+        | Field       | Rules                                              |
+        | ----------- | -------------------------------------------------- |
+        | `title`     | required, string, trimmed, at most 25 characters    |
+        | `completed` | optional, boolean, defaults to `false`              |
+
+        > **Note:** schema violations are reported by the central error handler with
+        > HTTP **500** and a body without a `code` property, because Mongoose
+        > validation errors do not carry an HTTP status:
+        > `{"status":"error","data":{"message":"Task validation failed: title: Task title is required."}}`
+
+        ```bash
+        curl -X POST http://localhost:8000/api/v1/tasks \
+          -H 'Authorization: Bearer <jwt>' \
+          -H 'Content-Type: application/json' \
+          -d '{"title":"Buy groceries"}'
+        ```
+      operationId: createTask
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        description: The task to create.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+            examples:
+              basicTask:
+                summary: Create a task (completed defaults to false)
+                value:
+                  title: Buy groceries
+              completedTask:
+                summary: Create an already completed task
+                value:
+                  title: Setup dev environment
+                  completed: true
+              maxLengthTitle:
+                summary: Title with the maximum of 25 characters
+                value:
+                  title: Prepare the release notes
+              xssPayload:
+                summary: XSS payload — stripped by the sanitizer
+                description: The `&lt;script&gt;` block is removed, leaving an empty title.
+                value:
+                  title: "<script>alert('xss')</script>"
+      responses:
+        '201':
+          description: The task was created.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+              examples:
+                success:
+                  summary: Task created
+                  value:
+                    status: success
+                    data:
+                      title: Buy groceries
+                      completed: false
+                      createdBy: 672ac34f5f6b789012345679
+                      _id: 672ac34f5f6b789012345678
+                      createdAt: '2024-11-06T10:30:00.000Z'
+                      updatedAt: '2024-11-06T10:30:00.000Z'
+                      __v: 0
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /tasks/{id}:
+    parameters:
+      - $ref: '#/components/parameters/TaskId'
+    get:
+      tags:
+        - Tasks
+      summary: Get a single task
+      description: |
+        Returns one task of the authenticated user.
+
+        The lookup is scoped to the owner: a task that does not exist **or** belongs to
+        another user answers with HTTP 404 and
+        `Task with id <id> not found.`
+
+        > **Note:** an `id` that is not a valid 24-character ObjectId makes Mongoose
+        > raise a `CastError`, which the central error handler reports with HTTP
+        > **500** and a body without a `code` property:
+        > `{"status":"error","data":{"message":"Cast to ObjectId failed for value \"notanid\" (type string) at path \"_id\" for model \"Task\""}}`
+
+        ```bash
+        curl http://localhost:8000/api/v1/tasks/672ac34f5f6b789012345678 \
+          -H 'Authorization: Bearer <jwt>'
+        ```
+      operationId: getTask
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: The task was found.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleTaskResponse'
+              examples:
+                success:
+                  summary: Task found
+                  value:
+                    status: success
+                    data:
+                      task:
+                        _id: 672ac34f5f6b789012345678
+                        title: Write the documentation
+                        completed: false
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T10:30:00.000Z'
+                        __v: 0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/TaskNotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    patch:
+      tags:
+        - Tasks
+      summary: Update a task
+      description: |
+        Performs a partial update of a task owned by the authenticated user. Only the
+        fields present in the body are modified; an empty body is accepted and returns
+        the task unchanged (with a bumped `updatedAt`).
+
+        ### Updatable fields
+
+        | Field       | Rules                                           |
+        | ----------- | ----------------------------------------------- |
+        | `title`     | string, trimmed, at most 25 characters          |
+        | `completed` | boolean                                         |
+        | `createdBy` | ObjectId — reassigned to another user if sent   |
+
+        > **Warning:** the request body is forwarded to MongoDB as-is, so sending
+        > `createdBy` transfers the task to another account. The original owner then
+        > receives 404 for that task. Sending `_id` fails with HTTP **500**
+        > (`Performing an update on the path '_id' would modify the immutable field '_id'`).
+
+        ```bash
+        curl -X PATCH http://localhost:8000/api/v1/tasks/672ac34f5f6b789012345678 \
+          -H 'Authorization: Bearer <jwt>' \
+          -H 'Content-Type: application/json' \
+          -d '{"completed":true}'
+        ```
+      operationId: updateTask
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        description: The fields to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+            examples:
+              updateTitle:
+                summary: Update the title only
+                value:
+                  title: Updated task title
+              markComplete:
+                summary: Mark the task as completed
+                value:
+                  completed: true
+              fullUpdate:
+                summary: Update both fields
+                value:
+                  title: Completely updated task
+                  completed: true
+      responses:
+        '200':
+          description: The task was updated and the new document is returned.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleTaskResponse'
+              examples:
+                success:
+                  summary: Task updated
+                  value:
+                    status: success
+                    data:
+                      task:
+                        _id: 672ac34f5f6b789012345678
+                        title: Updated task title
+                        completed: true
+                        createdBy: 672ac34f5f6b789012345679
+                        createdAt: '2024-11-06T10:30:00.000Z'
+                        updatedAt: '2024-11-06T15:45:00.000Z'
+                        __v: 0
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/TaskNotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - Tasks
+      summary: Delete a task
+      description: |
+        Permanently removes a task owned by the authenticated user. The document is
+        deleted from MongoDB and cannot be recovered; a task owned by another user
+        answers with HTTP 404.
+
+        ```bash
+        curl -X DELETE http://localhost:8000/api/v1/tasks/672ac34f5f6b789012345678 \
+          -H 'Authorization: Bearer <jwt>'
+        ```
+      operationId: deleteTask
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: The task was deleted.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/XRateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/XRateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/XRateLimitReset'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDeletedResponse'
+              examples:
+                success:
+                  summary: Task deleted
+                  value:
+                    status: success
+                    data:
+                      message: Task deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/TaskNotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT issued by `POST /auth/register` or `POST /auth/login`.
+
+        Send it on every protected request:
+
+        ```http
+        Authorization: Bearer <your-jwt-token>
+        ```
+
+        The token is signed with HS256 (`JWT_SECRET`) and carries the payload
+        `{ userId, name, iat, exp }`; it expires after `JWT_LIFETIME` (`30d` by default).
+
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      description: |
+        MongoDB ObjectId of the task — a 24-character hexadecimal string.
+
+        The value is XSS-sanitized, so a payload such as `&lt;script&gt;…&lt;/script&gt;` is
+        reduced to an empty string, which makes Mongoose raise a `CastError` (HTTP 500)
+        instead of returning a task.
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{24}$'
+        minLength: 24
+        maxLength: 24
+      examples:
+        validId:
+          summary: Existing task
+          value: 672ac34f5f6b789012345678
+        unknownId:
+          summary: Well-formed but unknown id (answers 404)
+          value: '000000000000000000000000'
+
+  headers:
+    XRateLimitLimit:
+      description: Maximum number of requests allowed in the current window.
+      schema:
+        type: integer
+        example: 100
+    XRateLimitRemaining:
+      description: Number of requests still available in the current window.
+      schema:
+        type: integer
+        example: 99
+    XRateLimitReset:
+      description: Unix timestamp (in seconds) at which the rate limit window resets.
+      schema:
+        type: integer
+        format: int64
+        example: 1792425695
+
+  schemas:
+    UserRegistration:
+      type: object
+      title: UserRegistration
+      description: Credentials required to create an account.
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: |
+            Display name of the user. Between 3 and 50 characters; it is echoed back
+            by the register/login responses.
+          example: John Doe
+        email:
+          type: string
+          format: email
+          description: |
+            Unique e-mail address, used as the login identifier. Must match the
+            regular expression documented on the endpoint.
+          example: john.doe@example.com
+        password:
+          type: string
+          format: password
+          minLength: 6
+          description: |
+            Plain-text password, at least 6 characters. It is hashed with bcrypt
+            (10 salt rounds) before being stored and is never returned by the API.
+          example: securePass123
+      additionalProperties: true
+
+    UserLogin:
+      type: object
+      title: UserLogin
+      description: Credentials required to obtain a token.
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: The e-mail address registered for the account.
+          example: john.doe@example.com
+        password:
+          type: string
+          format: password
+          description: The account password, compared against the bcrypt hash.
+          example: securePass123
+      additionalProperties: true
+
+    AuthResponse:
+      type: object
+      title: AuthResponse
+      description: Successful authentication payload.
+      required:
+        - token
+        - user
+      properties:
+        token:
+          type: string
+          description: |
+            Signed JWT (HS256) with the payload `{ userId, name, iat, exp }`.
+            Send it as `Authorization: Bearer <token>`.
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzJhYzM0ZjVmNmI3ODkwMTIzNDU2NzgiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE3MzA3MDg3MTksImV4cCI6MTczMzMwMDcxOX0.abc123def456
+        user:
+          type: string
+          description: Name of the authenticated user.
+          example: John Doe
+
+    AuthCheckResponse:
+      title: AuthCheckResponse
+      description: |
+        Result of the session check. `user` is only present when `loggedIn` is `true`.
+      oneOf:
+        - $ref: '#/components/schemas/AuthCheckAuthenticated'
+        - $ref: '#/components/schemas/AuthCheckUnauthenticated'
+
+    AuthCheckAuthenticated:
+      type: object
+      title: AuthCheckAuthenticated
+      required:
+        - loggedIn
+        - user
+      properties:
+        loggedIn:
+          type: boolean
+          enum: [true]
+          description: The token is valid.
+          example: true
+        user:
+          $ref: '#/components/schemas/TokenPayload'
+
+    AuthCheckUnauthenticated:
+      type: object
+      title: AuthCheckUnauthenticated
+      required:
+        - loggedIn
+      properties:
+        loggedIn:
+          type: boolean
+          enum: [false]
+          description: No token was provided, or the token is invalid or expired.
+          example: false
+
+    TokenPayload:
+      type: object
+      title: TokenPayload
+      description: The decoded JWT payload returned by `GET /auth/check`.
+      required:
+        - userId
+        - name
+      properties:
+        userId:
+          type: string
+          pattern: '^[0-9a-fA-F]{24}$'
+          description: MongoDB ObjectId of the user.
+          example: 672ac34f5f6b789012345678
+        name:
+          type: string
+          description: Name of the user, as registered.
+          example: John Doe
+        iat:
+          type: integer
+          format: int64
+          description: 'Issued-at claim: Unix timestamp (seconds) when the token was created.'
+          example: 1792424827
+        exp:
+          type: integer
+          format: int64
+          description: 'Expiry claim: Unix timestamp (seconds) when the token stops being valid.'
+          example: 1792428427
+
+    LogoutResponse:
+      type: object
+      title: LogoutResponse
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Always `true` — the `token` cookie was cleared.
+          example: true
+
+    Task:
+      type: object
+      title: Task
+      description: A task document as stored in MongoDB and returned by the API.
+      required:
+        - _id
+        - title
+        - completed
+        - createdBy
+        - createdAt
+        - updatedAt
+      properties:
+        _id:
+          type: string
+          pattern: '^[0-9a-fA-F]{24}$'
+          description: MongoDB ObjectId of the task.
+          example: 672ac34f5f6b789012345678
+        title:
+          type: string
+          maxLength: 25
+          description: |
+            Task title. Trimmed on write and limited to 25 characters *after* the XSS
+            sanitizer has run.
+          example: Write the documentation
+        completed:
+          type: boolean
+          default: false
+          description: Whether the task has been completed.
+          example: false
+        createdBy:
+          type: string
+          pattern: '^[0-9a-fA-F]{24}$'
+          description: MongoDB ObjectId of the user that owns the task.
+          example: 672ac34f5f6b789012345679
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of the creation of the task.
+          example: '2024-11-06T10:30:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last update of the task.
+          example: '2024-11-06T10:30:00.000Z'
+        __v:
+          type: integer
+          default: 0
+          readOnly: true
+          description: Mongoose document version key.
+          example: 0
+
+    TaskInput:
+      type: object
+      title: TaskInput
+      description: Body accepted when creating a task.
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          maxLength: 25
+          description: Title of the task. Required, trimmed, at most 25 characters.
+          example: Buy groceries
+        completed:
+          type: boolean
+          default: false
+          description: Completion flag. Optional, defaults to `false`.
+          example: false
+      additionalProperties: true
+
+    TaskUpdate:
+      type: object
+      title: TaskUpdate
+      description: |
+        Body accepted when updating a task. Every field is optional — only the fields
+        present in the request are written.
+      properties:
+        title:
+          type: string
+          maxLength: 25
+          description: New title. Trimmed, at most 25 characters.
+          example: Updated task title
+        completed:
+          type: boolean
+          description: New completion flag.
+          example: true
+        createdBy:
+          type: string
+          pattern: '^[0-9a-fA-F]{24}$'
+          description: |
+            Owner of the task. Sending it transfers the task to that user, who becomes
+            the only one able to read, update or delete it.
+          example: 672ac34f5f6b789012345679
+      additionalProperties: true
+
+    TaskListResponse:
+      type: object
+      title: TaskListResponse
+      description: Envelope returned when listing tasks.
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Always `success`.
+          example: success
+        data:
+          type: array
+          description: The tasks of the authenticated user, oldest first.
+          items:
+            $ref: '#/components/schemas/Task'
+
+    TaskResponse:
+      type: object
+      title: TaskResponse
+      description: Envelope returned when a task is created.
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Always `success`.
+          example: success
+        data:
+          $ref: '#/components/schemas/Task'
+
+    SingleTaskResponse:
+      type: object
+      title: SingleTaskResponse
+      description: Envelope returned when a single task is read or updated.
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Always `success`.
+          example: success
+        data:
+          type: object
+          required:
+            - task
+          properties:
+            task:
+              $ref: '#/components/schemas/Task'
+
+    TaskDeletedResponse:
+      type: object
+      title: TaskDeletedResponse
+      description: Envelope returned when a task is deleted.
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [success]
+          description: Always `success`.
+          example: success
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              description: Confirmation message.
+              example: Task deleted.
+
+    ErrorEnvelope:
+      type: object
+      title: ErrorEnvelope
+      description: |
+        Standard error envelope produced by the central error handler when the error
+        carries an HTTP status (`HttpError`).
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [error]
+          description: Always `error`.
+          example: error
+        data:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: integer
+              description: HTTP status code of the error.
+              example: 400
+            message:
+              type: string
+              description: Human-readable description of the error.
+              example: Invalid credentials.
+
+    MongooseErrorEnvelope:
+      type: object
+      title: MongooseErrorEnvelope
+      description: |
+        Error envelope produced when the failure comes from Mongoose (schema validation,
+        ObjectId casting, immutable `_id` updates). Mongoose errors do not expose an HTTP
+        status, so the response code is 500 and the `code` property is **absent**.
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum: [error]
+          description: Always `error`.
+          example: error
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              description: The raw Mongoose error message.
+              example: 'Task validation failed: title: Task title is required.'
+
+    RegistrationError:
+      type: object
+      title: RegistrationError
+      description: |
+        Flat error shape used **only** by `POST /auth/register`, which catches its own
+        errors and answers with HTTP 400.
+      required:
+        - msg
+      properties:
+        msg:
+          type: string
+          description: The error message.
+          example: 'User validation failed: name: Please, provide a valid name.'
+
+  responses:
+    Unauthorized:
+      description: |
+        The request reached a protected route without a usable token
+        (`No token provided` when the header is missing or does not use the `Bearer`
+        scheme, `Authentication failed` when the token is invalid, expired or wrongly
+        signed).
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/XRateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/XRateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/XRateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          examples:
+            noToken:
+              summary: Missing or malformed Authorization header
+              value:
+                status: error
+                data:
+                  code: 401
+                  message: No token provided
+            invalidToken:
+              summary: Invalid, expired or wrongly signed token
+              value:
+                status: error
+                data:
+                  code: 401
+                  message: Authentication failed
+
+    TaskNotFound:
+      description: |
+        No task with that id belongs to the authenticated user. The same answer is
+        returned for an unknown id and for a task owned by somebody else, so the API
+        does not leak the existence of other users' tasks.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/XRateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/XRateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/XRateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          examples:
+            notFound:
+              summary: Task not found
+              value:
+                status: error
+                data:
+                  code: 404
+                  message: Task with id 672ac34f5f6b789012345678 not found.
+
+    BadRequest:
+      description: |
+        The request body could not be parsed as JSON. The same envelope is used for a
+        body that is too large (HTTP 413) or sent with an unsupported content type.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/XRateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/XRateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/XRateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+          examples:
+            malformedJson:
+              summary: Malformed JSON payload
+              value:
+                status: error
+                data:
+                  code: 400
+                  message: "Expected ',' or '}' after property value in JSON at position 14 (line 1 column 15)"
+
+    InternalServerError:
+      description: |
+        Unexpected server failure. The body has no `code` property when the error comes
+        from Mongoose (schema validation, ObjectId casting, immutable `_id` update);
+        otherwise it is a regular error envelope.
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/XRateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/XRateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/XRateLimitReset'
+      content:
+        application/json:
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/MongooseErrorEnvelope'
+              - $ref: '#/components/schemas/ErrorEnvelope'
+          examples:
+            validationError:
+              summary: Mongoose schema validation failed
+              value:
+                status: error
+                data:
+                  message: 'Task validation failed: title: Task title is required.'
+            castError:
+              summary: The path id is not a valid ObjectId
+              value:
+                status: error
+                data:
+                  message: 'Cast to ObjectId failed for value "notanid" (type string) at path "_id" for model "Task"'
+            immutableId:
+              summary: The update tried to change the immutable `_id` field
+              value:
+                status: error
+                data:
+                  message: "Plan executor error during findAndModify :: caused by :: Performing an update on the path '_id' would modify the immutable field '_id'"
+            generic:
+              summary: Any other failure
+              value:
+                status: error
+                data:
+                  code: 500
+                  message: Internal server error.
+
+    RateLimited:
+      description: |
+        The client exceeded the limit of 100 requests per 15 minutes per IP address.
+        The body is the plain-text message sent by the rate limiter (served with the
+        `text/html` content type).
+      headers:
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/XRateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/XRateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/XRateLimitReset'
+        Retry-After:
+          description: |
+            Seconds to wait before the next request is accepted. Only sent on the
+            429 response.
+          schema:
+            type: integer
+          example: 900
+      content:
+        text/html:
+          schema:
+            type: string
+            example: Too many requests, please try again later.
